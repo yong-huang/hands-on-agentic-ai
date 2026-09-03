@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "SSE 流式输出的数据管线",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1020,
+      620
+    ]
+  },
+  "stages": [
+    {
+      "label": "生成端"
+    },
+    {
+      "label": "传输（chunked）"
+    },
+    {
+      "label": "逐行解析"
+    },
+    {
+      "label": "呈现与累积"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "model",
+      "type": "backend",
+      "label": "qwen3.8",
+      "sublabel": "逐 token 生成",
+      "stage": 0,
+      "row": 1,
+      "tag": "stream=True"
+    },
+    {
+      "id": "endpoint",
+      "type": "messagebus",
+      "label": "/api/chat",
+      "sublabel": "chunked 响应",
+      "stage": 1,
+      "row": 1,
+      "tag": "SSE 字节流"
+    },
+    {
+      "id": "lineiter",
+      "type": "backend",
+      "label": "iter_lines()",
+      "sublabel": "requests 流式迭代",
+      "stage": 2,
+      "row": 0,
+      "tag": "按行缓冲"
+    },
+    {
+      "id": "parser",
+      "type": "backend",
+      "label": "JSON 行解析",
+      "sublabel": "剥 data: → json.loads",
+      "stage": 2,
+      "row": 1,
+      "tag": "[DONE] 结束"
+    },
+    {
+      "id": "printer",
+      "type": "frontend",
+      "label": "print(flush=True)",
+      "sublabel": "打字机效果",
+      "stage": 3,
+      "row": 0,
+      "tag": "实时"
+    },
+    {
+      "id": "full",
+      "type": "database",
+      "label": "full_content",
+      "sublabel": "增量拼接完整回复",
+      "stage": 3,
+      "row": 2,
+      "tag": "返回值"
+    }
+  ],
+  "flows": [
+    {
+      "from": "model",
+      "to": "endpoint",
+      "label": "token chunk",
+      "classification": "增量",
+      "variant": "emphasis"
+    },
+    {
+      "from": "endpoint",
+      "to": "lineiter",
+      "label": "原始字节行",
+      "classification": "utf-8 decode",
+      "variant": "emphasis"
+    },
+    {
+      "from": "lineiter",
+      "to": "parser",
+      "label": "SSE 行",
+      "classification": "data: 前缀",
+      "variant": "default",
+      "labelDy": 22
+    },
+    {
+      "from": "parser",
+      "to": "printer",
+      "label": "message.content 增量",
+      "classification": "done=False",
+      "variant": "emphasis"
+    },
+    {
+      "from": "parser",
+      "to": "full",
+      "label": "拼接",
+      "classification": "done=True 终止",
+      "variant": "default",
+      "labelDy": 26
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "流式三要素",
+      "items": [
+        "请求体 stream: true 与 requests stream=True 缺一不可",
+        "iter_lines() 把字节流切成一行一个 JSON",
+        "print(..., flush=True) 立即刷新才有打字机效果"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "代价与取舍",
+      "items": [
+        "流式 overhead 约 2%-5%，体验收益远大于性能损失",
+        "大响应必须流式，否则首字延迟高到不可用",
+        "拼接后的 full_content 与非流式结果等价"
+      ]
+    }
+  ]
+}

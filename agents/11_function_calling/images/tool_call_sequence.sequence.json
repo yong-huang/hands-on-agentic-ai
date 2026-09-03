@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Function Calling 协议时序",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1000,
+      620
+    ],
+    "column_fit": "spread"
+  },
+  "participants": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "用户",
+      "sublabel": "自然语言提问"
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "Agent 循环",
+      "sublabel": "max_rounds=5"
+    },
+    {
+      "id": "ollama",
+      "type": "cloud",
+      "label": "qwen3.8",
+      "sublabel": "tools 参数"
+    },
+    {
+      "id": "tool",
+      "type": "backend",
+      "label": "本地工具",
+      "sublabel": "weather / population"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 215,
+      "label": "提问 + 注册工具"
+    },
+    {
+      "from": 225,
+      "to": 445,
+      "label": "工具轮（可多轮/可并行）"
+    },
+    {
+      "from": 458,
+      "to": 545,
+      "label": "最终回答"
+    }
+  ],
+  "messages": [
+    {
+      "id": "ask",
+      "from": "user",
+      "to": "agent",
+      "y": 185,
+      "label": "北京天气怎么样？",
+      "variant": "default"
+    },
+    {
+      "id": "with-tools",
+      "from": "agent",
+      "to": "ollama",
+      "y": 232,
+      "label": "messages + tools JSON Schema",
+      "variant": "emphasis"
+    },
+    {
+      "id": "tool-calls",
+      "from": "ollama",
+      "to": "agent",
+      "y": 278,
+      "label": "message.tool_calls（结构化 JSON）",
+      "variant": "emphasis"
+    },
+    {
+      "id": "invoke",
+      "from": "agent",
+      "to": "tool",
+      "y": 325,
+      "label": "fn(**arguments)",
+      "variant": "default"
+    },
+    {
+      "id": "result",
+      "from": "tool",
+      "to": "agent",
+      "y": 370,
+      "label": "\"Sunny, 28C\"",
+      "variant": "return"
+    },
+    {
+      "id": "feed-back",
+      "from": "agent",
+      "to": "ollama",
+      "y": 415,
+      "label": "role:\"tool\" 消息回传",
+      "variant": "emphasis"
+    },
+    {
+      "id": "final",
+      "from": "ollama",
+      "to": "agent",
+      "y": 470,
+      "label": "无 tool_calls 的纯文本",
+      "variant": "return"
+    },
+    {
+      "id": "reply",
+      "from": "agent",
+      "to": "user",
+      "y": 525,
+      "label": "北京今天晴，28°C",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "agent",
+      "from": 185,
+      "to": 530,
+      "type": "backend"
+    },
+    {
+      "participant": "ollama",
+      "from": 232,
+      "to": 475,
+      "type": "cloud"
+    },
+    {
+      "participant": "tool",
+      "from": 325,
+      "to": 375,
+      "type": "backend"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "对比文本 ReAct（项目 06）",
+      "items": [
+        "免正则解析：tool_calls 是协议级结构化输出",
+        "JSON Schema 声明参数类型，模型照 schema 传参",
+        "一次响应可携带多个 tool_calls，天然支持并行"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "协议要点",
+      "items": [
+        "工具结果必须以 role:\"tool\" 消息回传再请求一轮",
+        "响应不含 tool_calls 即视为最终答案，循环终止",
+        "未知工具或异常也返回字符串，让模型自行调整"
+      ]
+    }
+  ]
+}

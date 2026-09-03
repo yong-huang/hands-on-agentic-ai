@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "多轮对话的一轮生命周期",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1020,
+      630
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "会话轮次"
+    },
+    {
+      "id": "waiting",
+      "label": "异常恢复"
+    },
+    {
+      "id": "terminal",
+      "label": "退出"
+    }
+  ],
+  "states": [
+    {
+      "id": "idle",
+      "type": "start",
+      "label": "等待输入",
+      "sublabel": "input() 阻塞",
+      "lane": "main",
+      "col": 0,
+      "step": "01"
+    },
+    {
+      "id": "building",
+      "type": "active",
+      "label": "构建 messages",
+      "sublabel": "system + 历史 + 新输入",
+      "lane": "main",
+      "col": 1,
+      "step": "02"
+    },
+    {
+      "id": "calling",
+      "type": "waiting",
+      "label": "等待 API 响应",
+      "sublabel": "POST /api/chat",
+      "lane": "main",
+      "col": 2,
+      "step": "03"
+    },
+    {
+      "id": "replying",
+      "type": "active",
+      "label": "回复并记录",
+      "sublabel": "历史 +2",
+      "lane": "main",
+      "col": 3,
+      "step": "04"
+    },
+    {
+      "id": "rollback",
+      "type": "failure",
+      "label": "无效回复",
+      "sublabel": "messages.pop() 回滚",
+      "lane": "waiting",
+      "col": 0
+    },
+    {
+      "id": "exit",
+      "type": "success",
+      "label": "退出",
+      "sublabel": "/exit · Ctrl+C / Ctrl+D",
+      "lane": "terminal",
+      "col": 1
+    }
+  ],
+  "transitions": [
+    {
+      "id": "idle-building",
+      "from": "idle",
+      "to": "building",
+      "variant": "default"
+    },
+    {
+      "id": "building-calling",
+      "from": "building",
+      "to": "calling",
+      "variant": "emphasis"
+    },
+    {
+      "id": "calling-replying",
+      "from": "calling",
+      "to": "replying",
+      "variant": "emphasis"
+    },
+    {
+      "id": "replying-idle",
+      "from": "replying",
+      "to": "idle",
+      "label": "打印 + 历史摘要",
+      "variant": "default",
+      "fromSide": "top",
+      "toSide": "top",
+      "route": "top-channel"
+    },
+    {
+      "id": "calling-rollback",
+      "from": "calling",
+      "to": "rollback",
+      "label": "空回复/异常",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelAt": [
+        402,
+        202
+      ]
+    },
+    {
+      "id": "rollback-idle",
+      "from": "rollback",
+      "to": "idle",
+      "label": "历史保持一致",
+      "variant": "security",
+      "fromSide": "left",
+      "toSide": "left",
+      "via": [
+        [
+          20,
+          307
+        ],
+        [
+          20,
+          157
+        ]
+      ],
+      "labelAt": [
+        160,
+        307
+      ]
+    },
+    {
+      "id": "replying-exit",
+      "from": "replying",
+      "to": "exit",
+      "label": "退出会话",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelDy": 34
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "多轮的本质",
+      "items": [
+        "模型本身无记忆——每一轮都重发全部历史",
+        "对话状态就是 messages 数组的增长",
+        "回复有效（长度>5）才追加，失败即回滚"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "上下文的代价",
+      "items": [
+        "历史全保留：最简单但 token 随轮次线性增长",
+        "滑动窗口 / 摘要压缩是后续项目的改进方向",
+        "/clear 重建会话是手动止血手段"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "MCP 三阶段握手与工具调用时序",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1020,
+      650
+    ],
+    "column_fit": "spread"
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "backend",
+      "label": "MCPClient",
+      "sublabel": "JSON-RPC · stdio"
+    },
+    {
+      "id": "server",
+      "type": "messagebus",
+      "label": "MCP Server",
+      "sublabel": "stdio 子进程"
+    },
+    {
+      "id": "fs",
+      "type": "database",
+      "label": "workspace/",
+      "sublabel": "允许目录"
+    },
+    {
+      "id": "ollama",
+      "type": "cloud",
+      "label": "qwen3.8",
+      "sublabel": "function calling"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 285,
+      "label": "握手（initialize 三阶段）"
+    },
+    {
+      "from": 300,
+      "to": 470,
+      "label": "工具发现 + schema 转换"
+    },
+    {
+      "from": 482,
+      "to": 588,
+      "label": "工具调用（tools/call）"
+    }
+  ],
+  "messages": [
+    {
+      "id": "init",
+      "from": "client",
+      "to": "server",
+      "y": 182,
+      "label": "initialize (id=1, 协议版本+能力)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "init-resp",
+      "from": "server",
+      "to": "client",
+      "y": 224,
+      "label": "serverInfo + capabilities",
+      "variant": "return"
+    },
+    {
+      "id": "inited",
+      "from": "client",
+      "to": "server",
+      "y": 263,
+      "label": "notifications/initialized（无 id）",
+      "variant": "dashed"
+    },
+    {
+      "id": "list",
+      "from": "client",
+      "to": "server",
+      "y": 316,
+      "label": "tools/list (id=2)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "list-resp",
+      "from": "server",
+      "to": "client",
+      "y": 358,
+      "label": "工具列表 + inputSchema",
+      "variant": "return"
+    },
+    {
+      "id": "convert",
+      "from": "client",
+      "to": "ollama",
+      "y": 404,
+      "label": "tools= 转成 function schema",
+      "variant": "emphasis"
+    },
+    {
+      "id": "calls",
+      "from": "ollama",
+      "to": "client",
+      "y": 446,
+      "label": "tool_calls（模型选好的工具）",
+      "variant": "return"
+    },
+    {
+      "id": "call",
+      "from": "client",
+      "to": "server",
+      "y": 492,
+      "label": "tools/call (id=3, name+arguments)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "fs-op",
+      "from": "server",
+      "to": "fs",
+      "y": 528,
+      "label": "受限文件操作",
+      "variant": "dashed"
+    },
+    {
+      "id": "call-resp",
+      "from": "server",
+      "to": "client",
+      "y": 560,
+      "label": "content[0].text",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "server",
+      "from": 182,
+      "to": 565,
+      "type": "messagebus"
+    },
+    {
+      "participant": "fs",
+      "from": 528,
+      "to": 550,
+      "type": "database"
+    },
+    {
+      "participant": "ollama",
+      "from": 404,
+      "to": 450,
+      "type": "cloud"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "JSON-RPC 2.0 要点",
+      "items": [
+        "请求带 id，通知不带 id——这是 initialize 后要多发一条通知的原因",
+        "stdio 传输：一行一条 JSON，行分隔帧",
+        "握手未完成前调用 tools/* 不合规"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "与项目 12 Registry 的区别",
+      "items": [
+        "工具不硬编码——tools/list 动态发现",
+        "get_tools_schema() 一层转换即可接入既有 Agent 循环",
+        "任何 MCP Server 都用同一套 Client 代码"
+      ]
+    }
+  ]
+}

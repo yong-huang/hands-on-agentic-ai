@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "LangChain Agent 组件栈",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      950,
+      590
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 4,
+    "gapX": 60,
+    "gapY": 70
+  },
+  "components": [
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "create_agent",
+      "sublabel": "LangGraph 状态机托管循环",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "ChatOllama",
+      "sublabel": "qwen3.8 · reasoning=False",
+      "row": 0,
+      "col": 3
+    },
+    {
+      "id": "decorator",
+      "type": "messagebus",
+      "label": "@tool 装饰器",
+      "sublabel": "签名 + docstring → JSON Schema",
+      "row": 1,
+      "col": 0,
+      "size": [
+        176,
+        60
+      ]
+    },
+    {
+      "id": "filetools",
+      "type": "backend",
+      "label": "文件工具 ×4",
+      "sublabel": "read / write / list / search",
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "calc",
+      "type": "backend",
+      "label": "calculator",
+      "sublabel": "白名单正则 + eval",
+      "row": 2,
+      "col": 2
+    },
+    {
+      "id": "guard",
+      "type": "security",
+      "label": "_safe_path",
+      "sublabel": "realpath 前缀校验",
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "workspace",
+      "type": "database",
+      "label": "workspace/",
+      "sublabel": "ALLOWED_DIR 唯一允许目录",
+      "row": 2,
+      "col": 3
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Agent 运行时",
+      "wraps": [
+        "agent",
+        "llm"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "工具层（手写工具，框架托管调度）",
+      "wraps": [
+        "filetools",
+        "calc",
+        "guard",
+        "workspace"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "agent-llm",
+      "from": "agent",
+      "to": "llm",
+      "label": "tool calling 循环",
+      "variant": "emphasis"
+    },
+    {
+      "id": "deco-agent",
+      "from": "decorator",
+      "to": "agent",
+      "label": "自动注册工具 schema",
+      "fromSide": "top",
+      "toSide": "left"
+    },
+    {
+      "id": "agent-file",
+      "from": "agent",
+      "to": "filetools",
+      "labelDy": 18
+    },
+    {
+      "id": "agent-calc",
+      "from": "agent",
+      "to": "calc"
+    },
+    {
+      "id": "file-guard",
+      "from": "filetools",
+      "to": "guard",
+      "label": "路径先校验",
+      "variant": "dashed"
+    },
+    {
+      "id": "file-ws",
+      "from": "filetools",
+      "to": "workspace",
+      "label": "限制在允许目录"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "手动 → 框架",
+      "items": [
+        "手写正则解析 → 框架自动 tool calling",
+        "手写 for 循环 → LangGraph 状态机",
+        "手动管消息 → 框架管 state"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "安全边界",
+      "items": [
+        "_safe_path 用 realpath 防目录穿越（../../../etc/passwd）",
+        "工具内先校验再读写，越界直接返回 ERROR 字符串",
+        "生产环境应换 Docker / chroot 级沙箱"
+      ]
+    }
+  ]
+}

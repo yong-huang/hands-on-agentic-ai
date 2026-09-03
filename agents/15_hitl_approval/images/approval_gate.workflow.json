@@ -1,0 +1,166 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "HITL 审批门：工具调用的分级授权",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1230,
+      600
+    ]
+  },
+  "lanes": [
+    {
+      "id": "agent",
+      "label": "Agent 请求"
+    },
+    {
+      "id": "policy",
+      "label": "策略分级",
+      "variant": "exception"
+    },
+    {
+      "id": "human",
+      "label": "人工确认"
+    }
+  ],
+  "mainPath": [
+    "toolcall",
+    "level",
+    "ask",
+    "execute",
+    "respond"
+  ],
+  "nodes": [
+    {
+      "id": "toolcall",
+      "lane": "agent",
+      "col": 0,
+      "type": "external",
+      "label": "Agent 请求调工具",
+      "sublabel": "check(name, args)",
+      "width": 140
+    },
+    {
+      "id": "level",
+      "lane": "policy",
+      "col": 1,
+      "type": "security",
+      "label": "ApprovalPolicy.get",
+      "sublabel": "auto / confirm / deny",
+      "tag": "未登记默认 confirm",
+      "width": 140
+    },
+    {
+      "id": "ask",
+      "lane": "human",
+      "col": 2,
+      "type": "external",
+      "label": "暂停等人",
+      "sublabel": "终端 y/n 确认",
+      "tag": "confirm 级",
+      "width": 132
+    },
+    {
+      "id": "execute",
+      "lane": "agent",
+      "col": 3,
+      "type": "backend",
+      "label": "执行工具",
+      "sublabel": "返回真实结果",
+      "width": 132
+    },
+    {
+      "id": "denied",
+      "lane": "policy",
+      "col": 2,
+      "type": "security",
+      "label": "拒绝 · 原因回传",
+      "sublabel": "denied / forbidden",
+      "width": 132,
+      "tag": "模型可调整策略"
+    },
+    {
+      "id": "respond",
+      "lane": "agent",
+      "col": 4,
+      "type": "messagebus",
+      "label": "结果或原因 → 模型",
+      "sublabel": "ApprovalLog 全程留痕",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "call-level",
+      "from": "toolcall",
+      "to": "level",
+      "variant": "emphasis"
+    },
+    {
+      "id": "level-ask",
+      "from": "level",
+      "to": "ask",
+      "label": "confirm",
+      "variant": "emphasis"
+    },
+    {
+      "id": "level-denied",
+      "from": "level",
+      "to": "denied",
+      "label": "deny",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "level-execute",
+      "from": "level",
+      "to": "execute",
+      "label": "auto 放行",
+      "variant": "default"
+    },
+    {
+      "id": "ask-execute",
+      "from": "ask",
+      "to": "execute",
+      "label": "y 批准",
+      "variant": "emphasis"
+    },
+    {
+      "id": "ask-denied",
+      "from": "ask",
+      "to": "denied",
+      "label": "n 拒绝",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "execute-respond",
+      "from": "execute",
+      "to": "respond",
+      "label": "正常结果",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "三档策略",
+      "items": [
+        "auto：安全工具（calculator/get_weather）直接放行",
+        "confirm：危险工具（delete_file/execute_command）暂停问人",
+        "deny：毁灭性工具（format_disk）无条件拒绝"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "模型看到什么",
+      "items": [
+        "批准 → 正常工具结果",
+        "拒绝 → \"Tool execution denied by user\"，模型可调整策略",
+        "每次决策都写入 ApprovalLog（时间/参数/等级/结果）"
+      ]
+    }
+  ]
+}

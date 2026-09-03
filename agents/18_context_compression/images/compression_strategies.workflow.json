@@ -1,0 +1,164 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "上下文压缩: 三策略对照实验",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1240,
+      660
+    ]
+  },
+  "lanes": [
+    {
+      "id": "material",
+      "label": "实验材料"
+    },
+    {
+      "id": "s_full",
+      "label": "策略·不压缩"
+    },
+    {
+      "id": "s_window",
+      "label": "策略·截断与评估"
+    },
+    {
+      "id": "s_summary",
+      "label": "策略·摘要"
+    }
+  ],
+  "mainPath": [
+    "conv",
+    "summary",
+    "eval",
+    "report"
+  ],
+  "nodes": [
+    {
+      "id": "conv",
+      "lane": "material",
+      "col": 0,
+      "type": "external",
+      "label": "22 条长对话",
+      "sublabel": "前 5 轮埋事实, 后 12 轮灌水",
+      "width": 150
+    },
+    {
+      "id": "full",
+      "lane": "s_full",
+      "col": 1,
+      "type": "backend",
+      "label": "full 不压缩",
+      "sublabel": "全量重发",
+      "tag": "最保真 / token 无上界",
+      "width": 150
+    },
+    {
+      "id": "window",
+      "lane": "s_window",
+      "col": 1,
+      "type": "database",
+      "label": "window 截断",
+      "sublabel": "预算内放行最近对话",
+      "tag": "最省 / 早期全丢",
+      "width": 150
+    },
+    {
+      "id": "summary",
+      "lane": "s_summary",
+      "col": 1,
+      "type": "messagebus",
+      "label": "summary 摘要",
+      "sublabel": "旧对话 LLM 摘要 + 近 4 条",
+      "tag": "折中最优",
+      "width": 150
+    },
+    {
+      "id": "eval",
+      "lane": "s_window",
+      "col": 2,
+      "type": "backend",
+      "label": "对照评估",
+      "sublabel": "token 计数 + 保留率测验",
+      "width": 150
+    },
+    {
+      "id": "report",
+      "lane": "s_window",
+      "col": 3,
+      "type": "frontend",
+      "label": "结论",
+      "sublabel": "summary 是生产默认折中",
+      "width": 150
+    }
+  ],
+  "edges": [
+    {
+      "id": "conv-full",
+      "from": "conv",
+      "to": "full",
+      "label": "原样重发",
+      "variant": "emphasis"
+    },
+    {
+      "id": "conv-window",
+      "from": "conv",
+      "to": "window",
+      "label": "预算截断"
+    },
+    {
+      "id": "conv-summary",
+      "from": "conv",
+      "to": "summary",
+      "label": "LLM 压缩",
+      "variant": "emphasis"
+    },
+    {
+      "id": "full-eval",
+      "from": "full",
+      "to": "eval",
+      "label": "254 tok · 5/5"
+    },
+    {
+      "id": "window-eval",
+      "from": "window",
+      "to": "eval",
+      "label": "191 tok · 0/5",
+      "variant": "security"
+    },
+    {
+      "id": "summary-eval",
+      "from": "summary",
+      "to": "eval",
+      "label": "188 tok · 5/5",
+      "variant": "emphasis"
+    },
+    {
+      "id": "eval-report",
+      "from": "eval",
+      "to": "report",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "实验设计",
+      "items": [
+        "控制变量: 同一段 22 条对话, 三种压缩产物",
+        "大小指标: 估算 token (CJK 1 字 1 token)",
+        "保留率: 5 个早期事实的关键词测验"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "实测结论 (qwen3.8)",
+      "items": [
+        "window 191 tok 但 5 题全答不知——早期事实全丢",
+        "summary 188 tok 保住 5/5——压缩价值实锤",
+        "摘要提示词要求强制保留事实 (名字/数字/日期)"
+      ]
+    }
+  ]
+}

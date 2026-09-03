@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "Agent Loop 的状态机与终止条件",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1020,
+      630
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "执行主轨"
+    },
+    {
+      "id": "terminal",
+      "label": "终止出口"
+    }
+  ],
+  "states": [
+    {
+      "id": "idle",
+      "type": "start",
+      "label": "接收任务",
+      "sublabel": "AgentLoop.run()",
+      "lane": "main",
+      "col": 0,
+      "step": "01"
+    },
+    {
+      "id": "step",
+      "type": "active",
+      "label": "执行单步",
+      "sublabel": "scratchpad 缓存工具结果",
+      "lane": "main",
+      "col": 1,
+      "step": "02",
+      "tag": "事件流 emit"
+    },
+    {
+      "id": "check",
+      "type": "decision",
+      "label": "终止判定",
+      "sublabel": "Answer 充分？步数上限？",
+      "lane": "main",
+      "col": 2,
+      "step": "03"
+    },
+    {
+      "id": "answer",
+      "type": "active",
+      "label": "组织答案",
+      "sublabel": "AgentResult 结构化返回",
+      "lane": "main",
+      "col": 3,
+      "step": "04"
+    },
+    {
+      "id": "completed",
+      "type": "success",
+      "label": "completed",
+      "sublabel": "reason=completed",
+      "lane": "main",
+      "col": 4,
+      "step": "05"
+    },
+    {
+      "id": "maxed",
+      "type": "failure",
+      "label": "max_steps",
+      "sublabel": "强制停止并如实标注",
+      "lane": "terminal",
+      "col": 0
+    }
+  ],
+  "transitions": [
+    {
+      "id": "idle-step",
+      "from": "idle",
+      "to": "step",
+      "variant": "default"
+    },
+    {
+      "id": "step-check",
+      "from": "step",
+      "to": "check",
+      "variant": "emphasis"
+    },
+    {
+      "id": "check-step",
+      "from": "check",
+      "to": "step",
+      "label": "未终止 → 下一步",
+      "variant": "emphasis",
+      "fromSide": "top",
+      "toSide": "top",
+      "route": "top-channel"
+    },
+    {
+      "id": "check-answer",
+      "from": "check",
+      "to": "answer",
+      "variant": "emphasis"
+    },
+    {
+      "id": "answer-completed",
+      "from": "answer",
+      "to": "completed",
+      "variant": "default"
+    },
+    {
+      "id": "check-maxed",
+      "from": "check",
+      "to": "maxed",
+      "label": "步数 ≥ max_steps",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight",
+      "labelDy": 30
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "比项目 06 多了什么",
+      "items": [
+        "Event/AgentResult：执行轨迹变结构化数据",
+        "scratchpad：按工具+入参缓存，重复查询零成本",
+        "催促机制：工具调了 3 次就提醒模型直接作答"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "三类终止",
+      "items": [
+        "completed：答案长度 ≥10 才算完成，防止敷衍",
+        "max_steps：到上限强制停止并如实标注",
+        "error：API 失败立刻终止，不静默吞掉"
+      ]
+    }
+  ]
+}

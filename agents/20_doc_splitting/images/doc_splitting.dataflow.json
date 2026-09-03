@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "文档加载与递归字符切分",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "stages": [
+    {
+      "label": "原始文件"
+    },
+    {
+      "label": "汇聚"
+    },
+    {
+      "label": "加载器"
+    },
+    {
+      "label": "递归切分"
+    },
+    {
+      "label": "切块产物"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "md",
+      "type": "external",
+      "label": "rag_notes.md",
+      "sublabel": "Markdown 笔记",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "txt",
+      "type": "external",
+      "label": "quick_ref.txt",
+      "sublabel": "纯文本速查",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "pdf",
+      "type": "external",
+      "label": "eval_handbook.pdf",
+      "sublabel": "pypdf 提取 + NFKC 归一化",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "loader",
+      "type": "backend",
+      "label": "load_directory",
+      "sublabel": "按扩展名分派加载器",
+      "stage": 2,
+      "row": 1
+    },
+    {
+      "id": "splitter",
+      "type": "backend",
+      "label": "recursive_split",
+      "sublabel": "段落→句子→字符 降级",
+      "stage": 3,
+      "row": 1,
+      "tag": "语义边界优先"
+    },
+    {
+      "id": "chunks",
+      "type": "database",
+      "label": "chunks",
+      "sublabel": "overlap 衔接 + 来源/序号",
+      "stage": 4,
+      "row": 1,
+      "tag": "通往向量索引"
+    }
+  ],
+  "flows": [
+    {
+      "from": "md",
+      "to": "loader",
+      "label": "笔记",
+      "classification": "去 # 保留标题",
+      "variant": "default",
+      "labelAt": [
+        265,
+        157
+      ]
+    },
+    {
+      "from": "txt",
+      "to": "loader",
+      "label": "文本",
+      "classification": "utf-8",
+      "variant": "default",
+      "labelAt": [
+        265,
+        271
+      ]
+    },
+    {
+      "from": "pdf",
+      "to": "loader",
+      "label": "文档",
+      "classification": "逐页提取",
+      "variant": "security",
+      "labelAt": [
+        265,
+        385
+      ]
+    },
+    {
+      "from": "loader",
+      "to": "splitter",
+      "label": "递归降级",
+      "classification": "分隔符优先级",
+      "variant": "emphasis"
+    },
+    {
+      "from": "splitter",
+      "to": "chunks",
+      "label": "小片合并",
+      "classification": "overlap 回填",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "切分质量三要素",
+      "items": [
+        "递归降级：段落→句子→字符，语义边界优先",
+        "overlap 回填：关键句不被块边界切断",
+        "块带元数据：来源文件 + 序号，答案可溯源"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "真实坑",
+      "items": [
+        "Chrome 系 PDF 的汉字常是兼容形式，必须 NFKC 归一化",
+        "块太大带噪音、块太小缺上下文——120 字符是本实验的折中",
+        "产出将作为项目 21 向量索引的输入"
+      ]
+    }
+  ]
+}

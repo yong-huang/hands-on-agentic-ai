@@ -1,0 +1,187 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "记忆更新的三重决策",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1240,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "flow",
+      "label": "治理流程"
+    },
+    {
+      "id": "store",
+      "label": "记忆库"
+    },
+    {
+      "id": "blocked",
+      "label": "拦截",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "stmt",
+    "importance",
+    "dedup",
+    "add",
+    "store"
+  ],
+  "nodes": [
+    {
+      "id": "stmt",
+      "lane": "flow",
+      "col": 0,
+      "type": "external",
+      "label": "用户新陈述",
+      "sublabel": "待沉淀的事实",
+      "width": 140
+    },
+    {
+      "id": "importance",
+      "lane": "flow",
+      "col": 1,
+      "type": "security",
+      "label": "重要性判定",
+      "sublabel": "LLM 打分 0-10",
+      "width": 140
+    },
+    {
+      "id": "dedup",
+      "lane": "flow",
+      "col": 2,
+      "type": "backend",
+      "label": "向量查重",
+      "sublabel": "余弦最相似旧记忆",
+      "width": 140
+    },
+    {
+      "id": "add",
+      "lane": "store",
+      "col": 3,
+      "type": "database",
+      "label": "新增入库",
+      "sublabel": "sim < 0.70",
+      "width": 140
+    },
+    {
+      "id": "store",
+      "lane": "store",
+      "col": 4,
+      "type": "database",
+      "label": "长期记忆库",
+      "sublabel": "干净、自我更新",
+      "width": 140
+    },
+    {
+      "id": "trivial",
+      "lane": "blocked",
+      "col": 2,
+      "type": "backend",
+      "label": "丢弃",
+      "sublabel": "score < 4 琐碎",
+      "width": 140
+    },
+    {
+      "id": "dup",
+      "lane": "blocked",
+      "col": 3,
+      "type": "backend",
+      "label": "跳过重复",
+      "sublabel": "sim ≥ 0.85",
+      "width": 140
+    },
+    {
+      "id": "merge",
+      "lane": "flow",
+      "col": 3,
+      "type": "messagebus",
+      "label": "LLM 融合",
+      "sublabel": "0.70-0.85 更新旧事实",
+      "width": 150
+    }
+  ],
+  "edges": [
+    {
+      "id": "stmt-importance",
+      "from": "stmt",
+      "to": "importance",
+      "variant": "emphasis"
+    },
+    {
+      "id": "importance-trivial",
+      "from": "importance",
+      "to": "trivial",
+      "label": "score < 4",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "importance-dedup",
+      "from": "importance",
+      "to": "dedup",
+      "label": "score ≥ 4",
+      "variant": "emphasis"
+    },
+    {
+      "id": "dedup-dup",
+      "from": "dedup",
+      "to": "dup",
+      "label": "sim ≥ 0.85",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "dedup-merge",
+      "from": "dedup",
+      "to": "merge",
+      "label": "0.70-0.85",
+      "variant": "emphasis"
+    },
+    {
+      "id": "dedup-add",
+      "from": "dedup",
+      "to": "add",
+      "label": "sim < 0.70"
+    },
+    {
+      "id": "merge-store",
+      "from": "merge",
+      "to": "store",
+      "label": "更新旧条目",
+      "variant": "emphasis"
+    },
+    {
+      "id": "add-store",
+      "from": "add",
+      "to": "store",
+      "label": "新条目",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "三重决策",
+      "items": [
+        "重要性: LLM 打分, 琐碎不入库（实测天气=0）",
+        "查重: 余弦 ≥0.85 跳过重复（实测 0.93）",
+        "融合: 0.70-0.85 交 LLM 更新旧事实（实测 0.82）"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "对照实测",
+      "items": [
+        "同组 5 条陈述: 裸入库 5 条 vs 托管 2 条",
+        "偏好变化被合并: 「更爱吃日料」更新旧事实",
+        "审计日志记录每次决策, 可回溯"
+      ]
+    }
+  ]
+}

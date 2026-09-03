@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "System Prompt 的五段式组装",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "stages": [
+    {
+      "label": "上下文来源"
+    },
+    {
+      "label": "汇聚"
+    },
+    {
+      "label": "组装器"
+    },
+    {
+      "label": "产物"
+    },
+    {
+      "label": "注入与验证"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "identity",
+      "type": "external",
+      "label": "Identity",
+      "sublabel": "角色与语气",
+      "stage": 0,
+      "row": 0,
+      "tag": "最靠前"
+    },
+    {
+      "id": "memory",
+      "type": "database",
+      "label": "MEMORY.md",
+      "sublabel": "跨会话记忆",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "workspace",
+      "type": "backend",
+      "label": "工作区快照",
+      "sublabel": "目录与文件",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "toolrules",
+      "type": "security",
+      "label": "工具与规则",
+      "sublabel": "工具清单 + 行为红线",
+      "stage": 0,
+      "row": 3
+    },
+    {
+      "id": "builder",
+      "type": "backend",
+      "label": "build_system_prompt",
+      "sublabel": "固定顺序拼接",
+      "stage": 2,
+      "row": 1
+    },
+    {
+      "id": "prompt",
+      "type": "database",
+      "label": "System Prompt",
+      "sublabel": "messages[0]",
+      "stage": 3,
+      "row": 1
+    },
+    {
+      "id": "report",
+      "type": "frontend",
+      "label": "占比报告",
+      "sublabel": "字符 / token / 占比",
+      "stage": 3,
+      "row": 3
+    },
+    {
+      "id": "ollama",
+      "type": "cloud",
+      "label": "qwen3.8",
+      "sublabel": "注入生效验证",
+      "stage": 4,
+      "row": 1
+    }
+  ],
+  "flows": [
+    {
+      "from": "identity",
+      "to": "builder",
+      "label": "角色",
+      "classification": "优先级最高",
+      "variant": "emphasis",
+      "labelAt": [
+        205,
+        157
+      ]
+    },
+    {
+      "from": "memory",
+      "to": "builder",
+      "label": "记忆",
+      "classification": "用户画像",
+      "variant": "emphasis",
+      "labelAt": [
+        205,
+        271
+      ]
+    },
+    {
+      "from": "workspace",
+      "to": "builder",
+      "label": "工作区",
+      "classification": "环境快照",
+      "variant": "default",
+      "labelAt": [
+        205,
+        385
+      ]
+    },
+    {
+      "from": "toolrules",
+      "to": "builder",
+      "label": "约束",
+      "classification": "工具 + 红线",
+      "variant": "security",
+      "labelAt": [
+        205,
+        499
+      ]
+    },
+    {
+      "from": "builder",
+      "to": "prompt",
+      "label": "拼接",
+      "classification": "固定顺序",
+      "variant": "emphasis",
+      "route": "straight",
+      "labelAt": [
+        560,
+        322
+      ]
+    },
+    {
+      "from": "builder",
+      "to": "report",
+      "label": "逐段计量",
+      "classification": "组装即计量",
+      "variant": "dashed"
+    },
+    {
+      "from": "prompt",
+      "to": "ollama",
+      "label": "注入请求",
+      "classification": "对照组验证",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "设计要点",
+      "items": [
+        "五类来源独立维护，组装时才汇合",
+        "顺序即优先级：Identity 最靠前",
+        "组装即计量：每段字符数 / 估算 token / 占比"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "注入生效验证",
+      "items": [
+        "问题答案只在注入的 Memory 里",
+        "对照组（裸 Identity）答不出同一问题",
+        "估算仅教学用，生产用 tiktoken"
+      ]
+    }
+  ]
+}

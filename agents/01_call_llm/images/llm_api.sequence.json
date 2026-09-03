@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Raw HTTP 调用 LLM API 时序",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1000,
+      620
+    ],
+    "column_fit": "spread"
+  },
+  "participants": [
+    {
+      "id": "caller",
+      "type": "external",
+      "label": "调用者",
+      "sublabel": "call_llm.py"
+    },
+    {
+      "id": "server",
+      "type": "cloud",
+      "label": "Ollama Server",
+      "sublabel": "localhost:11434"
+    },
+    {
+      "id": "model",
+      "type": "backend",
+      "label": "qwen3.8",
+      "sublabel": "推理引擎"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 275,
+      "label": "组装 payload: model + messages + options"
+    },
+    {
+      "from": 295,
+      "to": 445,
+      "label": "推理"
+    },
+    {
+      "from": 492,
+      "to": 570,
+      "label": "解析响应: message.content"
+    }
+  ],
+  "messages": [
+    {
+      "id": "post-request",
+      "from": "caller",
+      "to": "server",
+      "y": 220,
+      "label": "POST /api/chat  stream=False",
+      "variant": "emphasis"
+    },
+    {
+      "id": "forward",
+      "from": "server",
+      "to": "model",
+      "y": 330,
+      "label": "加载模型并推理"
+    },
+    {
+      "id": "generated",
+      "from": "model",
+      "to": "server",
+      "y": 400,
+      "label": "生成完毕",
+      "variant": "return"
+    },
+    {
+      "id": "json-response",
+      "from": "server",
+      "to": "caller",
+      "y": 508,
+      "label": "200 完整 JSON 响应",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "server",
+      "from": 220,
+      "to": 505,
+      "type": "cloud"
+    },
+    {
+      "participant": "model",
+      "from": 330,
+      "to": 405,
+      "type": "backend"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "最小骨架",
+      "items": [
+        "messages 数组: system 定角色, user 是本轮输入",
+        "options: temperature 控随机性, num_predict 限长",
+        "响应解析路径: message.content"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "与 OpenAI 的差异",
+      "items": [
+        "端点: /api/chat vs /v1/chat/completions",
+        "认证: 本地无 Key vs Bearer sk-xxx",
+        "max_tokens 在 Ollama 中叫 options.num_predict"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "工具注册表（Registry）模式",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1060,
+      620
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 4,
+    "gapX": 60,
+    "gapY": 70
+  },
+  "components": [
+    {
+      "id": "deco",
+      "type": "messagebus",
+      "label": "@tool_def 装饰器",
+      "sublabel": "注解+docstring→schema",
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "registry",
+      "type": "database",
+      "label": "ToolRegistry",
+      "sublabel": "dict: name → ToolDefinition",
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "tools",
+      "type": "backend",
+      "label": "工具函数 ×4",
+      "sublabel": "4 个本地工具函数",
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "Agent 循环",
+      "sublabel": "run_agent · max_rounds=5",
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "ollama",
+      "type": "cloud",
+      "label": "qwen3.8",
+      "sublabel": "tool_calls 输出",
+      "row": 1,
+      "col": 3
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "本地注册表（开闭原则：加工具不改调度）",
+      "wraps": [
+        "deco",
+        "registry",
+        "tools"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "deco-reg",
+      "from": "deco",
+      "to": "registry",
+      "label": "注册 ToolDefinition",
+      "variant": "emphasis",
+      "labelAt": [
+        195,
+        288
+      ]
+    },
+    {
+      "id": "reg-tools",
+      "from": "registry",
+      "to": "tools",
+      "label": "handler() 执行",
+      "variant": "default",
+      "labelDy": 36
+    },
+    {
+      "id": "reg-ollama",
+      "from": "registry",
+      "to": "ollama",
+      "label": "get_tools_schema()",
+      "variant": "emphasis"
+    },
+    {
+      "id": "ollama-agent",
+      "from": "ollama",
+      "to": "agent",
+      "label": "tool_calls",
+      "variant": "emphasis"
+    },
+    {
+      "id": "agent-reg",
+      "from": "agent",
+      "to": "registry",
+      "label": "dispatch(name, args)",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "对比项目 11 的硬编码字典",
+      "items": [
+        "函数 + 字典双份维护 → 装饰器一处声明",
+        "统一 dispatch 接口：模型选谁就调谁",
+        "未知工具不崩溃，返回可用列表让模型重选"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "防御细节",
+      "items": [
+        "dispatch 把异常转成错误字符串回传模型",
+        "calculator 用正则白名单拦 eval 注入",
+        "to_schema() 的 required 自动取全部参数键"
+      ]
+    }
+  ]
+}

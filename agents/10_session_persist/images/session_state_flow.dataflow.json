@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Agent 会话状态的持久化与恢复",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1068,
+      560
+    ]
+  },
+  "stages": [
+    {
+      "label": "运行中"
+    },
+    {
+      "label": "内存态"
+    },
+    {
+      "label": "序列化"
+    },
+    {
+      "label": "磁盘"
+    },
+    {
+      "label": "恢复"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "step",
+      "type": "backend",
+      "label": "agent_step()",
+      "sublabel": "每个 ReAct 单步",
+      "stage": 0,
+      "row": 1,
+      "tag": "边跑边写"
+    },
+    {
+      "id": "session",
+      "type": "database",
+      "label": "AgentSession",
+      "sublabel": "messages/tool_calls/steps",
+      "stage": 1,
+      "row": 1,
+      "tag": "内存态"
+    },
+    {
+      "id": "save",
+      "type": "backend",
+      "label": "to_dict + save()",
+      "sublabel": "/save 或每轮自动",
+      "stage": 2,
+      "row": 1
+    },
+    {
+      "id": "file",
+      "type": "database",
+      "label": "sessions/*.json",
+      "sublabel": "时间戳命名",
+      "stage": 3,
+      "row": 1,
+      "tag": "跨进程"
+    },
+    {
+      "id": "load",
+      "type": "backend",
+      "label": "from_dict / load()",
+      "sublabel": "/resume ID 恢复后继续对话",
+      "stage": 4,
+      "row": 1
+    },
+    {
+      "id": "audit",
+      "type": "messagebus",
+      "label": "tool_calls 审计",
+      "sublabel": "Observation 记这里",
+      "stage": 1,
+      "row": 2,
+      "tag": "可回放"
+    }
+  ],
+  "flows": [
+    {
+      "from": "step",
+      "to": "session",
+      "label": "同步写入",
+      "classification": "user/assistant/observation",
+      "variant": "emphasis",
+      "route": "straight",
+      "labelAt": [
+        208,
+        314
+      ]
+    },
+    {
+      "from": "session",
+      "to": "audit",
+      "label": "Observation 记录",
+      "classification": "发 API 时转 user 角色",
+      "variant": "dashed",
+      "labelDx": 80,
+      "labelAt": [
+        395,
+        314
+      ]
+    },
+    {
+      "from": "session",
+      "to": "save",
+      "label": "JSON 序列化",
+      "variant": "emphasis"
+    },
+    {
+      "from": "save",
+      "to": "file",
+      "label": "原子落盘",
+      "classification": "UTF-8",
+      "variant": "emphasis"
+    },
+    {
+      "from": "file",
+      "to": "load",
+      "label": "重启后加载",
+      "classification": "字段级校验",
+      "variant": "default"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "状态分三层",
+      "items": [
+        "messages：对话历史（发给 API 的内容）",
+        "tool_calls：工具调用审计（内部记录）",
+        "metadata：模型名、步数等元信息"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "角色语义的细节",
+      "items": [
+        "Observation 在审计里是 tool_calls，发 API 时伪装成 user",
+        "API 协议角色与内部记录角色解耦",
+        "恢复后用 assert 逐字段验证一致性"
+      ]
+    }
+  ]
+}

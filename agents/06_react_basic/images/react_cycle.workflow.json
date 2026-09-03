@@ -1,0 +1,181 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "ReAct 循环：Thought → Action → Observation",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      660
+    ]
+  },
+  "lanes": [
+    {
+      "id": "agent",
+      "label": "Agent 主循环"
+    },
+    {
+      "id": "tools",
+      "label": "工具执行"
+    },
+    {
+      "id": "guard",
+      "label": "容错",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "question",
+    "llm",
+    "parse",
+    "answer"
+  ],
+  "nodes": [
+    {
+      "id": "question",
+      "lane": "agent",
+      "col": 0,
+      "type": "external",
+      "label": "用户问题",
+      "sublabel": "成都+深圳人口",
+      "width": 132
+    },
+    {
+      "id": "llm",
+      "lane": "agent",
+      "col": 1,
+      "type": "cloud",
+      "label": "LLM 推理",
+      "sublabel": "ReAct System Prompt",
+      "tag": "Thought",
+      "width": 132
+    },
+    {
+      "id": "parse",
+      "lane": "agent",
+      "col": 2,
+      "type": "backend",
+      "label": "正则解析",
+      "sublabel": "Thought/Action/Answer",
+      "width": 132
+    },
+    {
+      "id": "exec",
+      "lane": "tools",
+      "col": 3,
+      "type": "backend",
+      "label": "execute_tool",
+      "sublabel": "查 TOOLS 注册表",
+      "tag": "Calculator 等",
+      "width": 132
+    },
+    {
+      "id": "obs",
+      "lane": "tools",
+      "col": 4,
+      "type": "messagebus",
+      "label": "Observation",
+      "sublabel": "以 user 角色回喂",
+      "tag": "下一步依据",
+      "width": 132
+    },
+    {
+      "id": "answer",
+      "lane": "agent",
+      "col": 5,
+      "type": "database",
+      "label": "Final Answer",
+      "sublabel": "解析到 Answer 即终止",
+      "width": 132
+    },
+    {
+      "id": "retry",
+      "lane": "guard",
+      "col": 3,
+      "type": "security",
+      "label": "解析失败",
+      "sublabel": "错误信息回喂重试",
+      "width": 132
+    }
+  ],
+  "edges": [
+    {
+      "id": "q-llm",
+      "from": "question",
+      "to": "llm",
+      "variant": "default"
+    },
+    {
+      "id": "llm-parse",
+      "from": "llm",
+      "to": "parse",
+      "label": "文本输出",
+      "variant": "emphasis"
+    },
+    {
+      "id": "parse-exec",
+      "from": "parse",
+      "to": "exec",
+      "label": "Action: 工具(入参)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "exec-obs",
+      "from": "exec",
+      "to": "obs",
+      "label": "执行结果",
+      "variant": "default"
+    },
+    {
+      "id": "obs-llm",
+      "from": "obs",
+      "to": "llm",
+      "label": "继续推理",
+      "variant": "emphasis",
+      "role": "return"
+    },
+    {
+      "id": "parse-answer",
+      "from": "parse",
+      "to": "answer",
+      "label": "Answer: 终止",
+      "variant": "emphasis"
+    },
+    {
+      "id": "parse-retry",
+      "from": "parse",
+      "to": "retry",
+      "label": "格式不符",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "retry-llm",
+      "from": "retry",
+      "to": "llm",
+      "variant": "dashed",
+      "role": "error"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "循环怎么转",
+      "items": [
+        "Thought：模型说下一步做什么",
+        "Action：选工具并入参，本地执行",
+        "Observation：结果回喂，直到模型给出 Answer"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "工程细节",
+      "items": [
+        "qwen3.8 的 <think> 标签要先剥掉再解析",
+        "兼容 Thought/Thinking Process 等变体写法",
+        "max_steps=6 兜底，防止无限循环"
+      ]
+    }
+  ]
+}

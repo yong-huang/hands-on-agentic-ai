@@ -1,0 +1,203 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "工具调用的错误恢复与大结果卸载",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1220,
+      620
+    ]
+  },
+  "lanes": [
+    {
+      "id": "ctx",
+      "label": "上下文保护"
+    },
+    {
+      "id": "exec",
+      "label": "工具执行"
+    },
+    {
+      "id": "policy",
+      "label": "错误分类",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "call",
+    "sizecheck",
+    "done"
+  ],
+  "nodes": [
+    {
+      "id": "call",
+      "lane": "exec",
+      "col": 0,
+      "type": "backend",
+      "label": "SafeExecutor.execute",
+      "sublabel": "包装每次工具调用",
+      "width": 140
+    },
+    {
+      "id": "classify",
+      "lane": "policy",
+      "col": 1,
+      "type": "security",
+      "label": "ToolError 分类",
+      "sublabel": "timeout·invalid·not_found·internal",
+      "width": 170
+    },
+    {
+      "id": "retry",
+      "lane": "policy",
+      "col": 2,
+      "type": "backend",
+      "label": "可重试",
+      "sublabel": "sleep 后重试 ≤ max_retries",
+      "width": 132
+    },
+    {
+      "id": "fatal",
+      "lane": "policy",
+      "col": 3,
+      "type": "security",
+      "label": "不可重试",
+      "sublabel": "立即返回错误",
+      "width": 132
+    },
+    {
+      "id": "feedback",
+      "lane": "exec",
+      "col": 4,
+      "type": "messagebus",
+      "label": "错误回传模型",
+      "sublabel": "Error [category]: detail",
+      "width": 132
+    },
+    {
+      "id": "sizecheck",
+      "lane": "ctx",
+      "col": 2,
+      "type": "backend",
+      "label": "结果 > 200 字符？",
+      "sublabel": "ResultManager.check_size",
+      "width": 140
+    },
+    {
+      "id": "offload",
+      "lane": "ctx",
+      "col": 3,
+      "type": "database",
+      "label": "卸载到临时文件",
+      "sublabel": "替换为 <file:...> 占位符",
+      "width": 140
+    },
+    {
+      "id": "done",
+      "lane": "ctx",
+      "col": 4,
+      "type": "database",
+      "label": "tool 消息 → 模型",
+      "sublabel": "成功结果或引用",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "call-classify",
+      "from": "call",
+      "to": "classify",
+      "label": "抛出 ToolError",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "classify-retry",
+      "from": "classify",
+      "to": "retry",
+      "label": "retryable=True",
+      "variant": "default"
+    },
+    {
+      "id": "classify-fatal",
+      "from": "classify",
+      "to": "fatal",
+      "label": "retryable=False",
+      "variant": "security",
+      "route": "bottom-channel"
+    },
+    {
+      "id": "retry-call",
+      "from": "retry",
+      "to": "call",
+      "label": "再次执行",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "retry-feedback",
+      "from": "retry",
+      "to": "feedback",
+      "label": "重试耗尽",
+      "variant": "dashed",
+      "role": "error"
+    },
+    {
+      "id": "fatal-feedback",
+      "from": "fatal",
+      "to": "feedback",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "call-sizecheck",
+      "from": "call",
+      "to": "sizecheck",
+      "label": "成功返回",
+      "variant": "emphasis"
+    },
+    {
+      "id": "sizecheck-offload",
+      "from": "sizecheck",
+      "to": "offload",
+      "label": "超阈值",
+      "variant": "emphasis"
+    },
+    {
+      "id": "sizecheck-done",
+      "from": "sizecheck",
+      "to": "done",
+      "label": "正常范围",
+      "variant": "emphasis"
+    },
+    {
+      "id": "offload-done",
+      "from": "offload",
+      "to": "done",
+      "label": "占位符引用",
+      "variant": "default"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "错误也要结构化",
+      "items": [
+        "retryable 标志决定要不要消耗重试预算",
+        "timeout/internal 重试，invalid/not_found 直接放弃",
+        "重试预算耗尽后把错误回传模型，而非崩溃"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "大结果卸载",
+      "items": [
+        "demo 阈值 200 字符，生产建议 80000+",
+        "超长结果写入临时文件，上下文只留 <file:...> 引用",
+        "可搭配 read_file 工具按需取回片段"
+      ]
+    }
+  ]
+}

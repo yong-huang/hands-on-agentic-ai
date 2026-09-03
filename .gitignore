@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 实验运行时产物
+agents/*/sessions/
+agents/*/workspace/
+agents/**/agent_result_*/
+chroma/
+*.sqlite3
+
+# 工具会话与构建产物
+.zcode/
+.claude/
+node_modules/
+dist/
+build/
+
+# 早期可视化产物（已被 README + images/ 三件套取代，保留在磁盘但忽略提交）
+agents/*/viz.py
+agents/*/*.png
+agents/*/blog.md
+agents/*/memory_store.json
+agents/*/MEMORY.md
+agents/*/_demo_store.json

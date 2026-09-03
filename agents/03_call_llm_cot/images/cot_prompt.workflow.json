@@ -1,0 +1,163 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "CoT + Few-shot 引导结构化输出",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1040,
+      660
+    ]
+  },
+  "lanes": [
+    {
+      "id": "input",
+      "label": "用户输入"
+    },
+    {
+      "id": "prompt",
+      "label": "Prompt 工程"
+    },
+    {
+      "id": "model",
+      "label": "模型推理"
+    },
+    {
+      "id": "parse",
+      "label": "解析与兜底",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "raw",
+    "sys",
+    "fewshot",
+    "llm",
+    "extract",
+    "result"
+  ],
+  "nodes": [
+    {
+      "id": "raw",
+      "lane": "input",
+      "col": 0,
+      "type": "external",
+      "label": "待分析文本",
+      "sublabel": "情感分析任务",
+      "width": 132
+    },
+    {
+      "id": "sys",
+      "lane": "prompt",
+      "col": 1,
+      "type": "backend",
+      "label": "System Prompt",
+      "sublabel": "角色 + 任务 + 输出格式",
+      "width": 132
+    },
+    {
+      "id": "fewshot",
+      "lane": "prompt",
+      "col": 2,
+      "type": "backend",
+      "label": "Few-shot 示例",
+      "sublabel": "3 个标准样例",
+      "tag": "照着例子输出",
+      "width": 132
+    },
+    {
+      "id": "llm",
+      "lane": "model",
+      "col": 3,
+      "type": "cloud",
+      "label": "qwen3.8 推理",
+      "sublabel": "temperature=0.3",
+      "tag": "<thinking> + <output>",
+      "width": 132
+    },
+    {
+      "id": "extract",
+      "lane": "parse",
+      "col": 4,
+      "type": "backend",
+      "label": "两级回退提取",
+      "sublabel": "标签优先 → 全文兜底",
+      "width": 132
+    },
+    {
+      "id": "result",
+      "lane": "parse",
+      "col": 5,
+      "type": "database",
+      "label": "结构化 JSON",
+      "sublabel": "category/sentiment/keywords",
+      "width": 132
+    }
+  ],
+  "edges": [
+    {
+      "id": "raw-sys",
+      "from": "raw",
+      "to": "sys",
+      "label": "组装 messages",
+      "variant": "default"
+    },
+    {
+      "id": "sys-fewshot",
+      "from": "sys",
+      "to": "fewshot",
+      "variant": "default"
+    },
+    {
+      "id": "fewshot-llm",
+      "from": "fewshot",
+      "to": "llm",
+      "label": "注入示例",
+      "variant": "emphasis"
+    },
+    {
+      "id": "llm-extract",
+      "from": "llm",
+      "to": "extract",
+      "label": "完整响应（含推理）",
+      "variant": "emphasis"
+    },
+    {
+      "id": "extract-result",
+      "from": "extract",
+      "to": "result",
+      "label": "json.loads",
+      "variant": "emphasis"
+    },
+    {
+      "id": "extract-llm",
+      "from": "extract",
+      "to": "llm",
+      "label": "解析失败 → None",
+      "variant": "dashed",
+      "role": "error",
+      "route": "return-left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "为什么这样设计",
+      "items": [
+        "CoT：先在 <thinking> 里展示推理，再给出结论，准确率更高",
+        "Few-shot：示例即格式契约，模型照着样例对齐字段",
+        "低温（0.3）：结构化任务要确定性，不要创造性"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "易错点",
+      "items": [
+        "正则提取必须 DOTALL，否则跨行 JSON 匹配失败",
+        "两级回退：标签提取失败时退回全文找第一个 {...}",
+        "更稳的工程方案是 function calling 服务端强制 schema"
+      ]
+    }
+  ]
+}

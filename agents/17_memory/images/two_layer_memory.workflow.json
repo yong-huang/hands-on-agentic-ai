@@ -1,0 +1,191 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "两层记忆: 滑动窗口与向量检索",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1240,
+      620
+    ]
+  },
+  "lanes": [
+    {
+      "id": "session",
+      "label": "对话层"
+    },
+    {
+      "id": "memory",
+      "label": "记忆层"
+    },
+    {
+      "id": "storage",
+      "label": "沉淀层"
+    }
+  ],
+  "mainPath": [
+    "user",
+    "window",
+    "build",
+    "llm"
+  ],
+  "nodes": [
+    {
+      "id": "user",
+      "lane": "session",
+      "col": 0,
+      "type": "external",
+      "label": "用户输入",
+      "sublabel": "本轮消息",
+      "width": 130
+    },
+    {
+      "id": "window",
+      "lane": "session",
+      "col": 1,
+      "type": "database",
+      "label": "滑动窗口",
+      "sublabel": "messages 预算内放行",
+      "tag": "短期记忆",
+      "width": 140
+    },
+    {
+      "id": "build",
+      "lane": "session",
+      "col": 2,
+      "type": "backend",
+      "label": "build_context",
+      "sublabel": "注入 top-k 记忆",
+      "width": 140
+    },
+    {
+      "id": "llm",
+      "lane": "session",
+      "col": 3,
+      "type": "cloud",
+      "label": "qwen3.8",
+      "sublabel": "基于记忆回答",
+      "width": 130
+    },
+    {
+      "id": "embedder",
+      "lane": "memory",
+      "col": 1,
+      "type": "backend",
+      "label": "nomic-embed-text",
+      "sublabel": "768 维向量",
+      "width": 140
+    },
+    {
+      "id": "vstore",
+      "lane": "memory",
+      "col": 2,
+      "type": "database",
+      "label": "memory_store.json",
+      "sublabel": "余弦相似度检索",
+      "tag": "长期记忆",
+      "width": 150
+    },
+    {
+      "id": "extractor",
+      "lane": "storage",
+      "col": 3,
+      "type": "backend",
+      "label": "事实提取",
+      "sublabel": "LLM 判定值得记",
+      "width": 140
+    },
+    {
+      "id": "mmd",
+      "lane": "storage",
+      "col": 4,
+      "type": "database",
+      "label": "MEMORY.md",
+      "sublabel": "人可读沉淀",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "user-window",
+      "from": "user",
+      "to": "window"
+    },
+    {
+      "id": "window-build",
+      "from": "window",
+      "to": "build",
+      "label": "近期对话",
+      "variant": "emphasis"
+    },
+    {
+      "id": "build-llm",
+      "from": "build",
+      "to": "llm",
+      "label": "messages[0] 含记忆",
+      "variant": "emphasis"
+    },
+    {
+      "id": "user-embedder",
+      "from": "user",
+      "to": "embedder",
+      "label": "查询向量",
+      "variant": "dashed"
+    },
+    {
+      "id": "embedder-vstore",
+      "from": "embedder",
+      "to": "vstore",
+      "label": "相似度检索 top-k"
+    },
+    {
+      "id": "vstore-build",
+      "from": "vstore",
+      "to": "build",
+      "label": "相关记忆",
+      "variant": "emphasis"
+    },
+    {
+      "id": "llm-extractor",
+      "from": "llm",
+      "to": "extractor",
+      "label": "对话结束",
+      "variant": "dashed"
+    },
+    {
+      "id": "extractor-vstore",
+      "from": "extractor",
+      "to": "vstore",
+      "label": "新事实入库",
+      "variant": "security"
+    },
+    {
+      "id": "extractor-mmd",
+      "from": "extractor",
+      "to": "mmd",
+      "label": "沉淀",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "两层分工",
+      "items": [
+        "短期: 逐字保留, 预算外自动淘汰",
+        "长期: 压缩成事实, 跨会话检索注入",
+        "预算 300 token, top-2, 相似度阈值 0.5"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "已知边界",
+      "items": [
+        "事实重复沉淀 → 去重是项目 19 的课题",
+        "向量库为教学实现, 生产换 chromadb",
+        "伪向量仅用于 --demo 管线验证"
+      ]
+    }
+  ]
+}
