@@ -82,16 +82,16 @@ pip install opentelemetry-api opentelemetry-sdk        # 项目 30（可观测�
 | ✅ 18 | [context_compression](agents/18_context_compression/) | 截断 vs 摘要 vs 不压缩对照实验 |
 | ✅ 19 | [memory_update](agents/19_memory_update/) | 重要性判定 + 查重 + LLM 融合 |
 
-### 第五阶段 · RAG 检索增强生成（20 ✅ · 21-23 待实现）
+### 第五阶段 · RAG 检索增强生成 ✅
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
 | 20 | 文档加载与切分 | 加载器 + 语义分块 |
-| 21 | 向量化存储 | Embedding + Chroma 相似度检索 |
-| 22 | Agentic RAG | 检索工具 + 知识库问答 + 拒答 |
+| ✅ 21 | [vector_store](agents/21_vector_store/) | Chroma 向量索引 + 语义检索 |
+| ✅ 22 | [agentic_rag](agents/22_agentic_rag/) | 检索工具 + 自主决策 + 拒答 |
 | 23 | RAG 重排序 | Rerank 模型提升检索精度 |
 
-### 第六阶段 · 多 Agent 协同（待实现）
+### 第六阶段 · 多 Agent 协同（24-25 ✅ · 26-27 待实现）
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
@@ -145,7 +145,7 @@ agents/NN_xxx/
 
 ## 已在真实环境验证过的事
 
-- 20 个已完成实验在本机（Ollama + qwen3.8:latest）全部跑通，交互脚本以
+- 25 个已完成实验在本机（Ollama + qwen3.8:latest）全部跑通，交互脚本以
   管道输入方式回归验证；
 - 修复过的真实 bug：项目 05 的 EOF 死循环、项目 09 的推理模型空答案
   （`reasoning=False`）、项目 14 的 MCP 废弃包名与裸 sleep、项目 15 的

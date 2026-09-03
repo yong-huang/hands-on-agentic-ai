@@ -1,0 +1,153 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "LangGraph 状态图: 写作-评审-修订循环",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "lanes": [
+    {
+      "id": "writing",
+      "label": "写作层"
+    },
+    {
+      "id": "review",
+      "label": "评审层"
+    },
+    {
+      "id": "done",
+      "label": "定稿"
+    }
+  ],
+  "mainPath": [
+    "topic",
+    "outline",
+    "draft",
+    "critique",
+    "finalize"
+  ],
+  "nodes": [
+    {
+      "id": "topic",
+      "lane": "writing",
+      "col": 0,
+      "type": "external",
+      "label": "主题",
+      "sublabel": "State.topic",
+      "width": 130
+    },
+    {
+      "id": "outline",
+      "lane": "writing",
+      "col": 1,
+      "type": "backend",
+      "label": "outline 节点",
+      "sublabel": "LLM 列大纲",
+      "width": 140
+    },
+    {
+      "id": "draft",
+      "lane": "writing",
+      "col": 2,
+      "type": "backend",
+      "label": "draft 节点",
+      "sublabel": "按大纲写初稿",
+      "width": 140
+    },
+    {
+      "id": "revise",
+      "lane": "writing",
+      "col": 3,
+      "type": "backend",
+      "label": "revise 节点",
+      "sublabel": "按意见修订",
+      "tag": "iterations +1",
+      "width": 140
+    },
+    {
+      "id": "critique",
+      "lane": "review",
+      "col": 3,
+      "type": "security",
+      "label": "critique 节点",
+      "sublabel": "评审打分 1-10",
+      "width": 140
+    },
+    {
+      "id": "finalize",
+      "lane": "done",
+      "col": 4,
+      "type": "database",
+      "label": "finalize 节点",
+      "sublabel": "State.final 定稿",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "topic-outline",
+      "from": "topic",
+      "to": "outline"
+    },
+    {
+      "id": "outline-draft",
+      "from": "outline",
+      "to": "draft"
+    },
+    {
+      "id": "draft-critique",
+      "from": "draft",
+      "to": "critique",
+      "label": "提交评审",
+      "variant": "emphasis"
+    },
+    {
+      "id": "critique-revise",
+      "from": "critique",
+      "to": "revise",
+      "label": "score<8 且 次数<2",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "critique-finalize",
+      "from": "critique",
+      "to": "finalize",
+      "label": "score≥8 或 次数用尽",
+      "variant": "emphasis"
+    },
+    {
+      "id": "revise-critique",
+      "from": "revise",
+      "to": "critique",
+      "label": "重新评审",
+      "role": "return",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "LangGraph 三要素",
+      "items": [
+        "State(TypedDict): 全局共享, 节点返回增量",
+        "Node: 读状态→干活→写回",
+        "Conditional Edge: 按状态选下一个节点"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "循环控制",
+      "items": [
+        "评审不通过回炉修订, 计数器防死循环",
+        "真机实测: 首稿 8 分直接定稿(条件边通过支)",
+        "demo 实测: 7 分→修订→9 分(条件边循环支)"
+      ]
+    }
+  ]
+}

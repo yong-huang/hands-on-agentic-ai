@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "向量索引与语义检索",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "stages": [
+    {
+      "label": "输入"
+    },
+    {
+      "label": "向量化"
+    },
+    {
+      "label": "向量库"
+    },
+    {
+      "label": "结果"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "chunks",
+      "type": "external",
+      "label": "项目 20 的 chunks",
+      "sublabel": "9 个文本块",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "query",
+      "type": "external",
+      "label": "查询文本",
+      "sublabel": "用户问题",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "embedder",
+      "type": "backend",
+      "label": "nomic-embed-text",
+      "sublabel": "768 维向量",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "chroma",
+      "type": "database",
+      "label": "Chroma 持久化",
+      "sublabel": "upsert 幂等",
+      "stage": 2,
+      "row": 1,
+      "tag": "元数据过滤"
+    },
+    {
+      "id": "results",
+      "type": "frontend",
+      "label": "top-3 结果",
+      "sublabel": "distance 越小越相关",
+      "stage": 3,
+      "row": 1
+    }
+  ],
+  "flows": [
+    {
+      "from": "chunks",
+      "to": "embedder",
+      "label": "索引",
+      "classification": "逐块向量化",
+      "variant": "emphasis"
+    },
+    {
+      "from": "query",
+      "to": "embedder",
+      "label": "查询向量",
+      "classification": "同一模型",
+      "variant": "default"
+    },
+    {
+      "from": "embedder",
+      "to": "chroma",
+      "label": "upsert",
+      "classification": "幂等写入",
+      "variant": "emphasis"
+    },
+    {
+      "from": "chroma",
+      "to": "results",
+      "label": "最近邻",
+      "classification": "top-3",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "语义检索",
+      "items": [
+        "问'怎么切分'命中'递归降级'块——按意思找",
+        "distance 为平方 L2, 看相对排序不看绝对值",
+        "upsert 幂等: 重复建索引不产生重复"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "工程注意",
+      "items": [
+        "demo(32 维)与真实(768 维)不能共用持久化目录",
+        "换 embedding 模型 = 整库重建",
+        "ids 用 文件#序号 保证稳定"
+      ]
+    }
+  ]
+}

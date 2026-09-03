@@ -1,0 +1,156 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Manager-Worker: 分解、并行、合并",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ],
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "manager",
+      "label": "管理泳道"
+    },
+    {
+      "id": "w_researcher",
+      "label": "Worker·researcher"
+    },
+    {
+      "id": "w_analyst",
+      "label": "Worker·analyst"
+    }
+  ],
+  "mainPath": [
+    "task",
+    "decompose",
+    "wa",
+    "merge",
+    "final"
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "lane": "manager",
+      "col": 0,
+      "type": "external",
+      "label": "用户任务",
+      "sublabel": "复杂任务",
+      "width": 130
+    },
+    {
+      "id": "decompose",
+      "lane": "manager",
+      "col": 1,
+      "type": "backend",
+      "label": "Manager 分解",
+      "sublabel": "JSON 子任务 + 角色",
+      "width": 150
+    },
+    {
+      "id": "wa",
+      "lane": "w_researcher",
+      "col": 2,
+      "type": "cloud",
+      "label": "Worker·researcher",
+      "sublabel": "收集事实与概念",
+      "tag": "并行",
+      "width": 160
+    },
+    {
+      "id": "wb",
+      "lane": "w_analyst",
+      "col": 2,
+      "type": "cloud",
+      "label": "Worker·analyst",
+      "sublabel": "分析优劣与场景",
+      "tag": "并行",
+      "width": 160
+    },
+    {
+      "id": "merge",
+      "lane": "manager",
+      "col": 3,
+      "type": "backend",
+      "label": "Manager 合并",
+      "sublabel": "去重消解冲突",
+      "width": 150
+    },
+    {
+      "id": "final",
+      "lane": "manager",
+      "col": 4,
+      "type": "database",
+      "label": "最终产出",
+      "width": 120
+    }
+  ],
+  "edges": [
+    {
+      "id": "task-decompose",
+      "from": "task",
+      "to": "decompose",
+      "variant": "emphasis"
+    },
+    {
+      "id": "decompose-wa",
+      "from": "decompose",
+      "to": "wa",
+      "label": "子任务 1",
+      "variant": "emphasis"
+    },
+    {
+      "id": "decompose-wb",
+      "from": "decompose",
+      "to": "wb",
+      "label": "子任务 2",
+      "variant": "emphasis"
+    },
+    {
+      "id": "wa-merge",
+      "from": "wa",
+      "to": "merge",
+      "label": "产出",
+      "role": "return"
+    },
+    {
+      "id": "wb-merge",
+      "from": "wb",
+      "to": "merge",
+      "label": "产出",
+      "role": "return"
+    },
+    {
+      "id": "merge-final",
+      "from": "merge",
+      "to": "final",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "编排要点",
+      "items": [
+        "Worker 上下文互相隔离, 角色提示词专职化",
+        "ThreadPoolExecutor: IO 密集即可真并行",
+        "实测: 墙钟 50.8s vs 串行 77.9s"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "已知边界",
+      "items": [
+        "有依赖的子任务不适用, 应退回顺序执行",
+        "合并阶段上下文 = 产出之和, 过大需分段",
+        "本地推理的并发上限限制 Worker 数"
+      ]
+    }
+  ]
+}

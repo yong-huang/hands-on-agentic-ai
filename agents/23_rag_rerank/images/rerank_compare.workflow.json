@@ -1,0 +1,170 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "重排序对照实验: 三策略打平的负结果",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      912
+    ]
+  },
+  "lanes": [
+    {
+      "id": "recall",
+      "label": "召回与基线"
+    },
+    {
+      "id": "s_mmr",
+      "label": "策略·MMR"
+    },
+    {
+      "id": "s_llm",
+      "label": "策略·LLM重排"
+    },
+    {
+      "id": "eval",
+      "label": "标注评估"
+    }
+  ],
+  "mainPath": [
+    "query",
+    "recall",
+    "baseline",
+    "eval",
+    "conclusion"
+  ],
+  "nodes": [
+    {
+      "id": "query",
+      "lane": "recall",
+      "col": 0,
+      "type": "external",
+      "label": "5 个标注查询",
+      "sublabel": "相关块 id 已手工标注",
+      "width": 150
+    },
+    {
+      "id": "recall",
+      "lane": "recall",
+      "col": 1,
+      "type": "database",
+      "label": "向量召回 top-5",
+      "sublabel": "即 baseline 排序",
+      "width": 160
+    },
+    {
+      "id": "baseline",
+      "lane": "recall",
+      "col": 2,
+      "type": "backend",
+      "label": "baseline",
+      "sublabel": "向量原始排序",
+      "tag": "5/15 · MRR 0.667",
+      "width": 150
+    },
+    {
+      "id": "mmr",
+      "lane": "s_mmr",
+      "col": 2,
+      "type": "backend",
+      "label": "MMR",
+      "sublabel": "相关性 λ=0.7 + 多样性",
+      "tag": "4/15 · MRR 0.640",
+      "width": 150
+    },
+    {
+      "id": "llm",
+      "lane": "s_llm",
+      "col": 2,
+      "type": "cloud",
+      "label": "LLM 重排",
+      "sublabel": "qwen3.8 逐候选打分",
+      "tag": "5/15 · MRR 0.667",
+      "width": 150
+    },
+    {
+      "id": "eval",
+      "lane": "eval",
+      "col": 3,
+      "type": "backend",
+      "label": "hit@3 + MRR",
+      "sublabel": "确定性关键词评分",
+      "width": 150
+    },
+    {
+      "id": "conclusion",
+      "lane": "eval",
+      "col": 4,
+      "type": "frontend",
+      "label": "负结果结论",
+      "sublabel": "小语料强基线下三策略打平",
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "query-recall",
+      "from": "query",
+      "to": "recall",
+      "variant": "emphasis"
+    },
+    {
+      "id": "recall-baseline",
+      "from": "recall",
+      "to": "baseline"
+    },
+    {
+      "id": "recall-mmr",
+      "from": "recall",
+      "to": "mmr"
+    },
+    {
+      "id": "recall-llm",
+      "from": "recall",
+      "to": "llm"
+    },
+    {
+      "id": "baseline-eval",
+      "from": "baseline",
+      "to": "eval"
+    },
+    {
+      "id": "mmr-eval",
+      "from": "mmr",
+      "to": "eval"
+    },
+    {
+      "id": "llm-eval",
+      "from": "llm",
+      "to": "eval"
+    },
+    {
+      "id": "eval-conclusion",
+      "from": "eval",
+      "to": "conclusion",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "实验设计",
+      "items": [
+        "易混淆干扰语料: 主题相邻但不回答查询",
+        "双指标: hit@3 与 MRR, 确定性评分",
+        "LLM 重排每候选一次调用, 温度 0"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "负结果归因",
+      "items": [
+        "强 embedding + 小语料: 基线天花板已高",
+        "MMR 多样性目标对精确任务略有损耗",
+        "重排序收益在弱检索器/大语料场景"
+      ]
+    }
+  ]
+}
