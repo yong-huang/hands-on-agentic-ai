@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Agent 安全防护三层防线",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 5,
+    "gapX": 55,
+    "gapY": 70
+  },
+  "components": [
+    {
+      "id": "input",
+      "type": "external",
+      "label": "用户输入",
+      "sublabel": "含潜在攻击",
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "injection",
+      "type": "security",
+      "label": "注入检测",
+      "sublabel": "规则库 + LLM 复核打分",
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "llm",
+      "type": "backend",
+      "label": "业务 LLM",
+      "sublabel": "被保护的模型",
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "whitelist",
+      "type": "security",
+      "label": "工具白名单",
+      "sublabel": "登记外一律拒绝",
+      "row": 2,
+      "col": 2
+    },
+    {
+      "id": "outfilter",
+      "type": "security",
+      "label": "输出过滤",
+      "sublabel": "密钥/危险命令模式",
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "user",
+      "type": "frontend",
+      "label": "安全响应",
+      "sublabel": "统一拦截话术",
+      "row": 1,
+      "col": 4
+    },
+    {
+      "id": "audit",
+      "type": "database",
+      "label": "审计日志",
+      "sublabel": "拦截原因不出站",
+      "row": 2,
+      "col": 1
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "安全防护栈 (防线 1/2/3)",
+      "wraps": [
+        "injection",
+        "whitelist",
+        "outfilter",
+        "audit"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "input-injection",
+      "from": "input",
+      "to": "injection",
+      "label": "防线 1",
+      "variant": "emphasis"
+    },
+    {
+      "id": "injection-llm",
+      "from": "injection",
+      "to": "llm",
+      "label": "防线 1",
+      "labelDy": -18
+    },
+    {
+      "id": "llm-whitelist",
+      "from": "llm",
+      "to": "whitelist",
+      "label": "防线 2",
+      "variant": "emphasis",
+      "labelDy": 18
+    },
+    {
+      "id": "llm-outfilter",
+      "from": "llm",
+      "to": "outfilter",
+      "label": "防线 3",
+      "variant": "emphasis"
+    },
+    {
+      "id": "outfilter-user",
+      "from": "outfilter",
+      "to": "user",
+      "label": "安全出站",
+      "variant": "emphasis"
+    },
+    {
+      "id": "injection-audit",
+      "from": "injection",
+      "to": "audit",
+      "variant": "dashed",
+      "route": "straight"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "三道防线",
+      "items": [
+        "输入: 规则库 + LLM 操纵分复核",
+        "执行: 工具白名单, 登记外拒绝",
+        "输出: 密钥/危险命令模式替换"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "实测 (8 用例)",
+      "items": [
+        "5 拦 3 过, 零误伤零漏拦",
+        "危险命令被 LLM 复核在输入阶段拦下",
+        "拦截话术统一, 详细原因仅入审计"
+      ]
+    }
+  ]
+}

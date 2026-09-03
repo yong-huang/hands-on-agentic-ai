@@ -1,0 +1,195 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "扇出评审 + 反思修订循环",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "hidden"
+    },
+    "viewBox": [
+      1080,
+      786
+    ]
+  },
+  "lanes": [
+    {
+      "id": "writing",
+      "label": "写作层"
+    },
+    {
+      "id": "r_acc",
+      "label": "评审·准确性"
+    },
+    {
+      "id": "r_struct",
+      "label": "评审·结构"
+    },
+    {
+      "id": "r_style",
+      "label": "评审·风格"
+    },
+    {
+      "id": "done",
+      "label": "定稿"
+    }
+  ],
+  "mainPath": [
+    "task",
+    "draft",
+    "r_acc",
+    "revise",
+    "finalize"
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "lane": "writing",
+      "col": 0,
+      "type": "external",
+      "label": "写作任务",
+      "sublabel": "规范短文",
+      "width": 130
+    },
+    {
+      "id": "draft",
+      "lane": "writing",
+      "col": 1,
+      "type": "backend",
+      "label": "生成初稿",
+      "sublabel": "LLM",
+      "width": 140
+    },
+    {
+      "id": "r_acc",
+      "lane": "r_acc",
+      "col": 2,
+      "type": "cloud",
+      "label": "准确性评审",
+      "sublabel": "事实与可执行性",
+      "tag": "并行",
+      "width": 150
+    },
+    {
+      "id": "r_struct",
+      "lane": "r_struct",
+      "col": 2,
+      "type": "cloud",
+      "label": "结构评审",
+      "sublabel": "分层与互斥",
+      "tag": "并行",
+      "width": 150
+    },
+    {
+      "id": "r_style",
+      "lane": "r_style",
+      "col": 2,
+      "type": "cloud",
+      "label": "风格评审",
+      "sublabel": "简洁与可读",
+      "tag": "并行",
+      "width": 150
+    },
+    {
+      "id": "revise",
+      "lane": "writing",
+      "col": 3,
+      "type": "backend",
+      "label": "反思修订",
+      "sublabel": "扇入意见回炉",
+      "width": 150
+    },
+    {
+      "id": "finalize",
+      "lane": "done",
+      "col": 4,
+      "type": "database",
+      "label": "定稿",
+      "sublabel": "均分 ≥ 8 或轮数用尽",
+      "width": 150
+    }
+  ],
+  "edges": [
+    {
+      "id": "task-draft",
+      "from": "task",
+      "to": "draft",
+      "variant": "emphasis"
+    },
+    {
+      "id": "draft-acc",
+      "from": "draft",
+      "to": "r_acc",
+      "label": "扇出"
+    },
+    {
+      "id": "draft-struct",
+      "from": "draft",
+      "to": "r_struct",
+      "label": "扇出"
+    },
+    {
+      "id": "draft-style",
+      "from": "draft",
+      "to": "r_style",
+      "label": "扇出"
+    },
+    {
+      "id": "acc-revise",
+      "from": "r_acc",
+      "to": "revise",
+      "label": "意见+评分",
+      "role": "return"
+    },
+    {
+      "id": "struct-revise",
+      "from": "r_struct",
+      "to": "revise",
+      "label": "意见+评分",
+      "role": "return"
+    },
+    {
+      "id": "style-revise",
+      "from": "r_style",
+      "to": "revise",
+      "label": "意见+评分",
+      "role": "return"
+    },
+    {
+      "id": "revise-finalize",
+      "from": "revise",
+      "to": "finalize",
+      "label": "达标",
+      "variant": "emphasis"
+    },
+    {
+      "id": "revise-racc",
+      "from": "revise",
+      "to": "r_acc",
+      "label": "未达标回炉",
+      "variant": "dashed",
+      "role": "error"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "编排机制",
+      "items": [
+        "Fan-out: 3 个异构视角并行评审 (9.7s 墙钟)",
+        "Fan-in: 意见+评分扇入汇总",
+        "反思循环: 均分 ≥8 定稿, 否则带意见回炉"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "真机实测",
+      "items": [
+        "首轮三评审一致指出'缺 Agent 特有细节'",
+        "实测均分 8.0 一次过定稿",
+        "demo 演示修订支: 6/7/7 → 回炉 → 8/8/9"
+      ]
+    }
+  ]
+}

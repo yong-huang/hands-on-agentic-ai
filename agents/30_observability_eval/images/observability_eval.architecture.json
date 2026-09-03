@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "可观测性与评估框架",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 4,
+    "gapX": 60,
+    "gapY": 70
+  },
+  "components": [
+    {
+      "id": "cases",
+      "type": "external",
+      "label": "评估集 6 用例",
+      "sublabel": "预期关键词判分",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "runner",
+      "type": "backend",
+      "label": "评估运行器",
+      "sublabel": "v1 / v2 各跑一遍",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "被测 Agent",
+      "sublabel": "calculator 工具 + LLM",
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "tracer",
+      "type": "messagebus",
+      "label": "Tracer",
+      "sublabel": "llm_call / tool_call span",
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "traces",
+      "type": "database",
+      "label": "traces/*.json",
+      "sublabel": "可回放执行档案",
+      "row": 2,
+      "col": 2
+    },
+    {
+      "id": "report",
+      "type": "frontend",
+      "label": "对比报告",
+      "sublabel": "通过率 / token / 耗时",
+      "row": 0,
+      "col": 3
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "被测系统",
+      "wraps": [
+        "agent",
+        "tracer",
+        "traces"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "cases-runner",
+      "from": "cases",
+      "to": "runner",
+      "label": "逐用例执行",
+      "variant": "emphasis",
+      "labelDy": -18
+    },
+    {
+      "id": "runner-agent",
+      "from": "runner",
+      "to": "agent",
+      "label": "调用被测 Agent",
+      "variant": "emphasis",
+      "labelDy": 18
+    },
+    {
+      "id": "agent-tracer",
+      "from": "agent",
+      "to": "tracer",
+      "label": "span",
+      "variant": "dashed",
+      "labelDy": 20
+    },
+    {
+      "id": "tracer-traces",
+      "from": "tracer",
+      "to": "traces",
+      "variant": "dashed"
+    },
+    {
+      "id": "runner-report",
+      "from": "runner",
+      "to": "report",
+      "label": "双版本对照",
+      "variant": "emphasis",
+      "labelDy": -18
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "双基础设施",
+      "items": [
+        "Trace 回答'发生了什么'，可回放",
+        "评估集回答'好不好'，可复现",
+        "span 语义对齐 OpenTelemetry"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "真机数据",
+      "items": [
+        "demo: v1 2/6 → v2 5/6 (工具价值显形)",
+        "real: 强模型小任务两版本 6/6",
+        "优化无收益时如实报告成本"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "多智能体辩论与投票",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "hidden"
+    },
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "lanes": [
+    {
+      "id": "moderator",
+      "label": "主持人"
+    },
+    {
+      "id": "debate",
+      "label": "辩论实录"
+    },
+    {
+      "id": "ballot",
+      "label": "投票"
+    }
+  ],
+  "mainPath": [
+    "topic",
+    "round1",
+    "round2",
+    "vote",
+    "winner"
+  ],
+  "nodes": [
+    {
+      "id": "topic",
+      "lane": "moderator",
+      "col": 0,
+      "type": "external",
+      "label": "辩题",
+      "sublabel": "FC vs ReAct",
+      "width": 130
+    },
+    {
+      "id": "round1",
+      "lane": "debate",
+      "col": 1,
+      "type": "cloud",
+      "label": "round 1 立论",
+      "sublabel": "三专家并行/顺序陈述",
+      "width": 160
+    },
+    {
+      "id": "round2",
+      "lane": "debate",
+      "col": 2,
+      "type": "cloud",
+      "label": "round 2 反驳",
+      "sublabel": "可见全部立场",
+      "tag": "transcript 累积",
+      "width": 160
+    },
+    {
+      "id": "vote",
+      "lane": "ballot",
+      "col": 3,
+      "type": "security",
+      "label": "投票",
+      "sublabel": "JSON: vote + reason",
+      "width": 140
+    },
+    {
+      "id": "winner",
+      "lane": "ballot",
+      "col": 4,
+      "type": "database",
+      "label": "多数派结论",
+      "sublabel": "票型即信息",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "topic-r1",
+      "from": "topic",
+      "to": "round1",
+      "variant": "emphasis"
+    },
+    {
+      "id": "r1-r2",
+      "from": "round1",
+      "to": "round2",
+      "label": "transcript",
+      "variant": "emphasis"
+    },
+    {
+      "id": "r2-vote",
+      "from": "round2",
+      "to": "vote",
+      "label": "完整实录",
+      "variant": "emphasis"
+    },
+    {
+      "id": "vote-winner",
+      "from": "vote",
+      "to": "winner",
+      "label": "计票",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "角色设计",
+      "items": [
+        "架构师 bias→FC, 兼容性工程师 bias→ReAct",
+        "求实审计师中立——摇摆票决定结论",
+        "投票 temperature=0, 必须给理由"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "真机实测",
+      "items": [
+        "反驳出现针对性: '通用≠可靠'",
+        "FC 以 2:1 获胜 (审计师倒戈)",
+        "2-3 轮后发言开始重复, 边际收益归零"
+      ]
+    }
+  ]
+}

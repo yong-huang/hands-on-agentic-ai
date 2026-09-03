@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Agent 服务化架构",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 4,
+    "gapX": 60,
+    "gapY": 70
+  },
+  "components": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "客户端",
+      "sublabel": "curl / Web / IDE",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "FastAPI /chat",
+      "sublabel": "SSE 流式端点",
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "sessions",
+      "type": "database",
+      "label": "会话存储",
+      "sublabel": "滑动窗口 400 tok",
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "ollama",
+      "type": "cloud",
+      "label": "Ollama 流式",
+      "sublabel": "qwen3.8 逐 token",
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "guard",
+      "type": "security",
+      "label": "安全防护",
+      "sublabel": "项目 29 预留位",
+      "row": 2,
+      "col": 2
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Agent 服务 (本篇)",
+      "wraps": [
+        "api",
+        "sessions",
+        "guard"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "client-api",
+      "from": "client",
+      "to": "api",
+      "label": "POST /chat (SSE)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "api-sessions",
+      "from": "api",
+      "to": "sessions",
+      "label": "滑动窗口历史"
+    },
+    {
+      "id": "api-ollama",
+      "from": "api",
+      "to": "ollama",
+      "label": "stream=True 请求/响应",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "三要素",
+      "items": [
+        "协议: SSE 事件流 (token/window/done)",
+        "状态: session_id 隔离的滑动窗口",
+        "上游: Ollama 流式, token 逐个中继"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "生产差距",
+      "items": [
+        "内存会话 → Redis 多实例共享",
+        "无鉴权 → API Key + 限流",
+        "安全防护 → 项目 29 的注入检测"
+      ]
+    }
+  ]
+}

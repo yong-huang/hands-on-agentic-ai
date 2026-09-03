@@ -1,4 +1,4 @@
-# hands-on-agentic-ai · 29 个小项目亲手构建 AI Agent
+# hands-on-agentic-ai · 30 个小项目亲手构建 AI Agent
 
 > 通过 29 个小项目（每个 100-500 行 Python）系统掌握 AI Agent 开发：
 > 从裸 HTTP 调用 LLM，到手写 ReAct 循环、Function Calling、MCP、HITL 审批，
@@ -86,27 +86,27 @@ pip install opentelemetry-api opentelemetry-sdk        # 项目 30（可观测�
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
-| 20 | 文档加载与切分 | 加载器 + 语义分块 |
+| ✅ 20 | [doc_splitting](agents/20_doc_splitting/) | 加载器 + 递归字符切分 |
 | ✅ 21 | [vector_store](agents/21_vector_store/) | Chroma 向量索引 + 语义检索 |
 | ✅ 22 | [agentic_rag](agents/22_agentic_rag/) | 检索工具 + 自主决策 + 拒答 |
-| 23 | RAG 重排序 | Rerank 模型提升检索精度 |
+| ✅ 23 | [rag_rerank](agents/23_rag_rerank/) | baseline/MMR/LLM 重排对照评估 |
 
-### 第六阶段 · 多 Agent 协同（24-25 ✅ · 26-27 待实现）
-
-| 编号 | 实验 | 一句话主题 |
-| :--- | :--- | :--- |
-| 24 | LangGraph 状态管理 | StateGraph 有状态工作流 |
-| 25 | 多 Agent 协作 | Manager-Worker 任务分解与委派 |
-| 26 | 工作流编排 | Fan-out/Fan-in + 反思评审迭代 |
-| 27 | 多智能体辩论 | 专家角色讨论 + 投票共识 |
-
-### 第七阶段 · 工程化、安全与可观测性（待实现）
+### 第六阶段 · 多 Agent 协同 ✅
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
-| 28 | Agent HTTP 服务化 | FastAPI + SSE 流式对话服务 |
-| 29 | Agent 安全防护 | 注入检测 + 内容过滤 + 沙箱 |
-| 30 | 可观测性与评估 | OpenTelemetry Trace + 评估集 + 优化闭环 |
+| ✅ 24 | [langgraph_state](agents/24_langgraph_state/) | StateGraph 条件边 + 修订循环 |
+| ✅ 25 | [manager_worker](agents/25_manager_worker/) | Manager 分解 + Worker 真并行 + 合并 |
+| ✅ 26 | [workflow_orchestration](agents/26_workflow_orchestration/) | 扇出评审 + 反思修订循环 |
+| ✅ 27 | [agent_debate](agents/27_agent_debate/) | 三专家两轮辩论 + 投票共识 |
+
+### 第七阶段 · 工程化、安全与可观测性 ✅
+
+| 编号 | 实验 | 一句话主题 |
+| :--- | :--- | :--- |
+| ✅ 28 | [agent_server](agents/28_agent_server/) | FastAPI + SSE + 会话管理 |
+| ✅ 29 | [security_guard](agents/29_security_guard/) | 注入检测 + 白名单 + 输出过滤 |
+| ✅ 30 | [observability_eval](agents/30_observability_eval/) | Trace + 评估集 + 优化对比 |
 
 ## 学习路线
 
@@ -145,8 +145,8 @@ agents/NN_xxx/
 
 ## 已在真实环境验证过的事
 
-- 25 个已完成实验在本机（Ollama + qwen3.8:latest）全部跑通，交互脚本以
-  管道输入方式回归验证；
+- 30 个实验全部在本机（Ollama + qwen3.8:latest）跑通（26-30 为收官批次），
+  交互脚本以管道输入方式回归验证；
 - 修复过的真实 bug：项目 05 的 EOF 死循环、项目 09 的推理模型空答案
   （`reasoning=False`）、项目 14 的 MCP 废弃包名与裸 sleep、项目 15 的
   交互模式缺入口；
