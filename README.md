@@ -40,9 +40,8 @@ pip install opentelemetry-api opentelemetry-sdk        # 项目 30（可观测�
 
 ## 实验列表
 
-编号即学习顺序（已完成 ✅ / 待实现）。**编号 8 已移除**：原"Agent 推理可视化"
-仅覆盖终端渲染与 matplotlib 绘图，Agent 知识点与项目 07 重复，可观测性由
-项目 30 系统承担。
+编号即学习顺序（已完成 ✅ / 待实现）。8 号位现为「Plan-and-Execute」
+（原「Agent 推理可视化」因与项目 07 知识点重复已由本项目替换）。
 
 ### 第一阶段 · LLM 基础与 Prompt 工程
 
@@ -60,6 +59,7 @@ pip install opentelemetry-api opentelemetry-sdk        # 项目 30（可观测�
 | :--- | :--- | :--- |
 | ✅ 06 | [react_basic](agents/06_react_basic/) | 手写 ReAct：Thought→Action→Observation |
 | ✅ 07 | [agent_loop](agents/07_agent_loop/) | 生产级循环：事件流 + scratchpad + 三类终止 |
+| ✅ 08 | [plan_execute](agents/08_plan_execute/) | Plan-and-Execute：JSON 计划 + 步骤引用 |
 | ✅ 09 | [langchain_agent](agents/09_langchain_agent/) | LangChain 托管循环 + 工具沙箱 |
 | ✅ 10 | [session_persist](agents/10_session_persist/) | 会话持久化：保存→恢复→断点续跑 |
 
@@ -145,7 +145,7 @@ agents/NN_xxx/
 
 ## 已在真实环境验证过的事
 
-- 19 个已完成实验在本机（Ollama + qwen3.8:latest）全部跑通，交互脚本以
+- 20 个已完成实验在本机（Ollama + qwen3.8:latest）全部跑通，交互脚本以
   管道输入方式回归验证；
 - 修复过的真实 bug：项目 05 的 EOF 死循环、项目 09 的推理模型空答案
   （`reasoning=False`）、项目 14 的 MCP 废弃包名与裸 sleep、项目 15 的

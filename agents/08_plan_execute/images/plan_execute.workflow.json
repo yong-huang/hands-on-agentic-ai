@@ -1,0 +1,152 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Plan-and-Execute: 先规划后执行",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      620
+    ]
+  },
+  "lanes": [
+    {
+      "id": "plan",
+      "label": "规划层"
+    },
+    {
+      "id": "exec",
+      "label": "执行层"
+    },
+    {
+      "id": "answer",
+      "label": "汇总层"
+    }
+  ],
+  "mainPath": [
+    "question",
+    "planner",
+    "executor",
+    "aggregator",
+    "answer"
+  ],
+  "nodes": [
+    {
+      "id": "question",
+      "lane": "plan",
+      "col": 0,
+      "type": "external",
+      "label": "用户任务",
+      "sublabel": "多步问题",
+      "width": 130
+    },
+    {
+      "id": "planner",
+      "lane": "plan",
+      "col": 1,
+      "type": "backend",
+      "label": "Planner",
+      "sublabel": "LLM 生成 JSON 计划",
+      "tag": "规划 1 次",
+      "width": 150
+    },
+    {
+      "id": "executor",
+      "lane": "exec",
+      "col": 2,
+      "type": "backend",
+      "label": "Executor",
+      "sublabel": "{{N}} 引用替换 + 逐步执行",
+      "width": 160
+    },
+    {
+      "id": "tools",
+      "lane": "exec",
+      "col": 3,
+      "type": "messagebus",
+      "label": "本地工具",
+      "sublabel": "calculator / 查询",
+      "width": 150
+    },
+    {
+      "id": "aggregator",
+      "lane": "answer",
+      "col": 4,
+      "type": "backend",
+      "label": "Aggregator",
+      "sublabel": "LLM 汇总全部结果",
+      "width": 150
+    },
+    {
+      "id": "answer",
+      "lane": "answer",
+      "col": 5,
+      "type": "database",
+      "label": "最终答案",
+      "width": 120
+    }
+  ],
+  "edges": [
+    {
+      "id": "question-planner",
+      "from": "question",
+      "to": "planner",
+      "variant": "emphasis"
+    },
+    {
+      "id": "planner-executor",
+      "from": "planner",
+      "to": "executor",
+      "label": "JSON 计划",
+      "variant": "emphasis"
+    },
+    {
+      "id": "executor-tools",
+      "from": "executor",
+      "to": "tools",
+      "label": "逐步调用"
+    },
+    {
+      "id": "tools-executor",
+      "from": "tools",
+      "to": "executor",
+      "label": "Observation",
+      "role": "return",
+      "variant": "dashed"
+    },
+    {
+      "id": "executor-aggregator",
+      "from": "executor",
+      "to": "aggregator",
+      "label": "全部步骤结果",
+      "variant": "emphasis"
+    },
+    {
+      "id": "aggregator-answer",
+      "from": "aggregator",
+      "to": "answer",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "与 ReAct 的对比",
+      "items": [
+        "ReAct 边想边做, 每步一次 LLM",
+        "Plan-and-Execute 规划 1 次 + 汇总 1 次, 执行零 LLM",
+        "计划是 JSON, 可审计可并行"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "关键机制",
+      "items": [
+        "{{N}} 引用: 步骤间数据依赖自动替换",
+        "calculator 引用只取数值, 文本引用原样替换",
+        "JSON 提取两级回退: 代码围栏 → 全文花括号"
+      ]
+    }
+  ]
+}
