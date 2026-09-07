@@ -7,8 +7,11 @@
     "quality_profile": "showcase",
     "viewBox": [
       1020,
-      630
-    ]
+      780
+    ],
+    "legend": {
+      "mode": "hidden"
+    }
   },
   "lanes": [
     {
@@ -75,7 +78,7 @@
       "label": "退出",
       "sublabel": "/exit · Ctrl+C / Ctrl+D",
       "lane": "terminal",
-      "col": 1
+      "col": 2
     }
   ],
   "transitions": [
@@ -150,9 +153,6 @@
       "to": "exit",
       "label": "退出会话",
       "variant": "dashed",
-      "fromSide": "bottom",
-      "toSide": "top",
-      "route": "straight",
       "labelDy": 34
     }
   ],
