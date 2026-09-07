@@ -5004,7 +5004,7 @@
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / 图版 04">
-      <svg viewBox="16 -8 1123 442" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
+      <svg viewBox="16 14 1111 420" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
         <title id="archify-diagram-title">ReAct 循环: Thought → Action → Observation</title>
         <desc id="archify-diagram-description">由 Archify 生成的工作流图。</desc>
         <!-- Definitions -->
@@ -5027,7 +5027,7 @@
         </defs>
 
         <!-- Background Grid -->
-        <rect x="16" y="-8" width="100%" height="100%" fill="url(#grid)" />
+        <rect x="16" y="14" width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Swimlanes -->
         <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-0" x="40" y="52" width="1063" height="106" rx="10" class="c-lane" stroke-width="1"/>
@@ -5046,11 +5046,11 @@
 
 
         <!-- Edge paths -->
-        <path data-edge-from="exec" data-edge-to="llm" data-edge-label="Observation 回喂 (循环)" data-edge-key="0" data-edge-id="exec-llm" data-composition-points="804.1999999999999,154;804.1999999999999,170;281,170;281,154" d="M 804.1999999999999 154 L 804.1999999999999 170 L 281 170 L 281 154" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="llm" data-edge-to="parse" data-edge-label="Thought + Action 文本" data-edge-key="1" data-edge-id="llm-parse" data-composition-points="281,86;281,36;549.8,36;549.8,94" d="M 281 86 L 281 36 L 549.8 36 L 549.8 94" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="parse" data-edge-to="answer" data-edge-label="Answer: 终止" data-edge-key="2" data-edge-id="parse-answer" data-composition-points="549.8,94;549.8,36;924.1999999999999,36;924.1999999999999,346" d="M 549.8 94 L 549.8 36 L 924.1999999999999 36 L 924.1999999999999 346" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="parse" data-edge-to="exec" data-edge-label="Action: 工具(入参)" data-edge-key="3" data-edge-id="parse-exec" data-composition-points="549.8,94;549.8,78;677,78;677,170;804.1999999999999,170;804.1999999999999,154" d="M 549.8 94 L 549.8 78 L 677 78 L 677 170 L 804.1999999999999 170 L 804.1999999999999 154" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="parse" data-edge-to="retry" data-edge-label="格式不符" data-edge-key="4" data-edge-id="parse-retry" data-composition-points="549.8,94;549.8,78;1115,78;1115,246;624.8,246" d="M 549.8 94 L 549.8 78 L 1115 78 L 1115 246 L 624.8 246" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
+        <path data-edge-from="exec" data-edge-to="llm" data-edge-label="Observation 回喂 (循环)" data-edge-key="0" data-edge-id="exec-llm" data-composition-points="804.1999999999999,86;804.1999999999999,58;281,58;281,86" d="M 804.1999999999999 86 L 804.1999999999999 58 L 281 58 L 281 86" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="llm" data-edge-to="parse" data-edge-label="Thought + Action 文本" data-edge-key="1" data-edge-id="llm-parse" data-composition-points="356,120;474.79999999999995,120" d="M 356 120 L 474.79999999999995 120" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="parse" data-edge-to="answer" data-edge-label="Answer: 终止" data-edge-key="2" data-edge-id="parse-answer" data-composition-points="624.8,120;640.8,120;640.8,231;924.1999999999999,231;924.1999999999999,346" d="M 624.8 120 L 640.8 120 L 640.8 231 L 924.1999999999999 231 L 924.1999999999999 346" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="parse" data-edge-to="exec" data-edge-label="Action: 工具(入参)" data-edge-key="3" data-edge-id="parse-exec" data-composition-points="624.8,120;640.8,120;640.8,174;804.1999999999999,174;804.1999999999999,154" d="M 624.8 120 L 640.8 120 L 640.8 174 L 804.1999999999999 174 L 804.1999999999999 154" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="parse" data-edge-to="retry" data-edge-label="格式不符" data-edge-key="4" data-edge-id="parse-retry" data-composition-points="624.8,120;640.8,120;640.8,168;549.8,168;549.8,220" d="M 624.8 120 L 640.8 120 L 640.8 168 L 549.8 168 L 549.8 220" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
         <path data-edge-from="question" data-edge-to="llm" data-edge-key="5" data-edge-id="question-llm" data-composition-points="178,120;206,120" d="M 178 120 L 206 120" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <path data-edge-from="retry" data-edge-to="llm" data-edge-label="带回错误重试" data-edge-key="6" data-edge-id="retry-llm" data-composition-points="474.79999999999995,246;281,246;281,154" d="M 474.79999999999995 246 L 281 246 L 281 154" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
 
@@ -5128,24 +5128,24 @@
 
         <!-- Edge labels -->
         <g data-detail="context" data-edge-from="exec" data-edge-to="llm" data-edge-label="Observation 回喂 (循环)" data-edge-key="0" data-edge-id="exec-llm">
-          <rect x="482.3999999999999" y="150" width="120.39999999999999" height="14" rx="3" class="c-mask"/>
-          <text x="542.5999999999999" y="160" class="t-backend" font-size="8" text-anchor="middle">Observation 回喂 (循环)</text>
+          <rect x="482.3999999999999" y="38" width="120.39999999999999" height="14" rx="3" class="c-mask"/>
+          <text x="542.5999999999999" y="48" class="t-backend" font-size="8" text-anchor="middle">Observation 回喂 (循环)</text>
         </g>
         <g data-detail="context" data-edge-from="llm" data-edge-to="parse" data-edge-label="Thought + Action 文本" data-edge-key="1" data-edge-id="llm-parse">
-          <rect x="360" y="16" width="110.8" height="14" rx="3" class="c-mask"/>
-          <text x="415.4" y="26" class="t-backend" font-size="8" text-anchor="middle">Thought + Action 文本</text>
+          <rect x="360" y="100" width="110.8" height="14" rx="3" class="c-mask"/>
+          <text x="415.4" y="110" class="t-backend" font-size="8" text-anchor="middle">Thought + Action 文本</text>
         </g>
         <g data-detail="context" data-edge-from="parse" data-edge-to="answer" data-edge-label="Answer: 终止" data-edge-key="2" data-edge-id="parse-answer">
-          <rect x="703.2" y="16" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="737" y="26" class="t-backend" font-size="8" text-anchor="middle">Answer: 终止</text>
+          <rect x="748.7" y="211" width="67.6" height="14" rx="3" class="c-mask"/>
+          <text x="782.5" y="221" class="t-backend" font-size="8" text-anchor="middle">Answer: 终止</text>
         </g>
         <g data-detail="context" data-edge-from="parse" data-edge-to="exec" data-edge-label="Action: 工具(入参)" data-edge-key="3" data-edge-id="parse-exec">
-          <rect x="565.1999999999999" y="58" width="96.39999999999999" height="14" rx="3" class="c-mask"/>
-          <text x="613.4" y="68" class="t-backend" font-size="8" text-anchor="middle">Action: 工具(入参)</text>
+          <rect x="674.3" y="154" width="96.39999999999999" height="14" rx="3" class="c-mask"/>
+          <text x="722.5" y="164" class="t-backend" font-size="8" text-anchor="middle">Action: 工具(入参)</text>
         </g>
         <g data-detail="context" data-edge-from="parse" data-edge-to="retry" data-edge-label="格式不符" data-edge-key="4" data-edge-id="parse-retry">
-          <rect x="808.1999999999999" y="58" width="48.4" height="14" rx="3" class="c-mask"/>
-          <text x="832.4" y="68" class="t-security" font-size="8" text-anchor="middle">格式不符</text>
+          <rect x="571.0999999999999" y="148" width="48.4" height="14" rx="3" class="c-mask"/>
+          <text x="595.3" y="158" class="t-security" font-size="8" text-anchor="middle">格式不符</text>
         </g>
 
         <g data-detail="context" data-edge-from="retry" data-edge-to="llm" data-edge-label="带回错误重试" data-edge-key="6" data-edge-id="retry-llm">

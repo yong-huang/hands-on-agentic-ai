@@ -117,7 +117,10 @@
       "to": "llm",
       "label": "Observation 回喂 (循环)",
       "role": "return",
-      "variant": "emphasis"
+      "variant": "emphasis",
+      "route": "up-channel",
+      "fromSide": "top",
+      "toSide": "top"
     },
     {
       "id": "parse-answer",
