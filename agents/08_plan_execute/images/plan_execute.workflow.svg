@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase" width="1006" height="451.6" viewBox="-4 28 1006 451.6">
+<svg xmlns="http://www.w3.org/2000/svg" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase" width="1140" height="235.7" viewBox="-4 -8 1140 235.7">
 <style>
 @font-face { font-family: 'JetBrains Mono'; font-weight: 400; src: local('JetBrains Mono'), local('JetBrainsMono-Regular'); }
 @font-face { font-family: 'JetBrains Mono'; font-weight: 500; src: local('JetBrains Mono'), local('JetBrainsMono-Regular'); }
@@ -936,7 +936,7 @@ svg[data-theme="dark"] {
 rect.c-bg-rect { fill: var(--bg); }
 
 </style>
-<rect x="-4" y="28" class="c-bg-rect" width="100%" height="100%" />
+<rect x="-4" y="-8" class="c-bg-rect" width="100%" height="100%" />
 
         <title id="archify-diagram-title">Plan-and-Execute: 先规划后执行</title>
         <desc id="archify-diagram-description">由 Archify 生成的工作流图。</desc>
@@ -960,17 +960,11 @@ rect.c-bg-rect { fill: var(--bg); }
         </defs>
 
         <!-- Background Grid -->
-        <rect x="-4" y="28" width="100%" height="100%" fill="url(#grid)" />
+        <rect x="-4" y="-8" width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Swimlanes -->
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-0" x="40" y="52" width="938" height="106" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="54" y="74" class="t-dim" font-size="10" font-weight="600">01 / 规划层</text>
-
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-1" x="40" y="178" width="938" height="106" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="54" y="200" class="t-dim" font-size="10" font-weight="600">02 / 执行层</text>
-
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-2" x="40" y="304" width="938" height="106" rx="10" class="c-lane" stroke-width="1"/>
-        <text x="54" y="326" class="t-dim" font-size="10" font-weight="600">03 / 汇总层</text>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-0" x="40" y="52" width="1072" height="106" rx="10" class="c-lane" stroke-width="1"/>
+        <text x="54" y="74" class="t-dim" font-size="10" font-weight="600">01 / Plan-and-Execute 主流程</text>
 
         <!-- Phase headers -->
 
@@ -979,16 +973,16 @@ rect.c-bg-rect { fill: var(--bg); }
 
 
         <!-- Edge paths -->
-        <path data-edge-from="aggregator" data-edge-to="answer" data-edge-key="0" data-edge-id="aggregator-answer" data-composition-points="821.8,372;849.8,372" d="M 821.8 372 L 849.8 372" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="executor" data-edge-to="aggregator" data-edge-label="全部步骤结果" data-edge-key="1" data-edge-id="executor-aggregator" data-composition-points="401,272;401,372;671.8,372" d="M 401 272 L 401 372 L 671.8 372" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="executor" data-edge-to="tools" data-edge-label="逐步调用" data-edge-key="2" data-edge-id="executor-tools" data-composition-points="481,239;551.8,239" d="M 481 239 L 551.8 239" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="planner" data-edge-to="executor" data-edge-label="JSON 计划" data-edge-key="3" data-edge-id="planner-executor" data-composition-points="281,154;281,300;401,300;401,272" d="M 281 154 L 281 300 L 401 300 L 401 272" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="aggregator" data-edge-to="answer" data-edge-key="0" data-edge-id="aggregator-answer" data-composition-points="956,120;984,120" d="M 956 120 L 984 120" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="executor" data-edge-to="aggregator" data-edge-label="全部步骤结果" data-edge-key="1" data-edge-id="executor-aggregator" data-composition-points="497.2,154;497.2,170;881,170;881,154" d="M 497.2 154 L 497.2 170 L 881 170 L 881 154" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="executor" data-edge-to="tools" data-edge-label="逐步调用" data-edge-key="2" data-edge-id="executor-tools" data-composition-points="577.2,113;648,113" d="M 577.2 113 L 648 113" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="planner" data-edge-to="executor" data-edge-label="JSON 计划" data-edge-key="3" data-edge-id="planner-executor" data-composition-points="356,120;417.2,120" d="M 356 120 L 417.2 120" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path data-edge-from="question" data-edge-to="planner" data-edge-key="4" data-edge-id="question-planner" data-composition-points="178,120;206,120" d="M 178 120 L 206 120" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="tools" data-edge-to="executor" data-edge-label="Observation" data-edge-key="5" data-edge-id="tools-executor" data-composition-points="626.8,272;626.8,288;401,288;401,272" d="M 626.8 272 L 626.8 288 L 401 288 L 401 272" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
+        <path data-edge-from="tools" data-edge-to="executor" data-edge-label="Observation" data-edge-key="5" data-edge-id="tools-executor" data-composition-points="723,94;723,36;497.2,36;497.2,86" d="M 723 94 L 723 36 L 497.2 36 L 497.2 86" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
 
         <!-- Nodes -->
-        <g id="node-question" data-node-id="question" data-node-label="用户任务" tabindex="0" role="button" aria-label="聚焦用户任务，多步问题, 规划层" aria-pressed="false" data-node-kind="external" data-node-sublabel="多步问题" data-node-context="规划层">
-          <title>用户任务 · 多步问题 · 规划层</title>
+        <g id="node-question" data-node-id="question" data-node-label="用户任务" tabindex="0" role="button" aria-label="聚焦用户任务，多步问题, Plan-and-Execute 主流程" aria-pressed="false" data-node-kind="external" data-node-sublabel="多步问题" data-node-context="Plan-and-Execute 主流程">
+          <title>用户任务 · 多步问题 · Plan-and-Execute 主流程</title>
           <rect x="48" y="94" width="130" height="52" rx="6" class="c-mask"/>
           <rect x="48" y="94" width="130" height="52" rx="6" class="c-external" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(54 100) scale(0.6875)">
@@ -999,8 +993,8 @@ rect.c-bg-rect { fill: var(--bg); }
           <text data-detail="context" x="113" y="132" class="t-muted" font-size="8" text-anchor="middle">多步问题</text>
         </g>
 
-        <g id="node-planner" data-node-id="planner" data-node-label="Planner" tabindex="0" role="button" aria-label="聚焦Planner，LLM 生成 JSON 计划, 规划层" aria-pressed="false" data-node-kind="backend" data-node-sublabel="LLM 生成 JSON 计划" data-node-tag="规划 1 次" data-node-context="规划层">
-          <title>Planner · LLM 生成 JSON 计划 · 规划层 · 规划 1 次</title>
+        <g id="node-planner" data-node-id="planner" data-node-label="Planner" tabindex="0" role="button" aria-label="聚焦Planner，LLM 生成 JSON 计划, Plan-and-Execute 主流程" aria-pressed="false" data-node-kind="backend" data-node-sublabel="LLM 生成 JSON 计划" data-node-tag="阶段 1 · 规划" data-node-context="Plan-and-Execute 主流程">
+          <title>Planner · LLM 生成 JSON 计划 · Plan-and-Execute 主流程 · 阶段 1 · 规划</title>
           <rect x="206" y="86" width="150" height="68" rx="6" class="c-mask"/>
           <rect x="206" y="86" width="150" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(212 92) scale(0.6875)">
@@ -1008,94 +1002,96 @@ rect.c-bg-rect { fill: var(--bg); }
           </g>
           <text data-node-label="" data-detail-anchor="" x="281" y="107" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Planner</text>
           <text data-detail="context" x="281" y="124" class="t-muted" font-size="8" text-anchor="middle">LLM 生成 JSON 计划</text>
-        <text data-detail="fine" x="281" y="142" class="t-backend" font-size="7" text-anchor="middle">规划 1 次</text>
+        <text data-detail="fine" x="281" y="142" class="t-backend" font-size="7" text-anchor="middle">阶段 1 · 规划</text>
         </g>
 
-        <g id="node-executor" data-node-id="executor" data-node-label="Executor" tabindex="0" role="button" aria-label="聚焦Executor，{{N}} 引用替换 + 逐步执行, 执行层" aria-pressed="false" data-node-kind="backend" data-node-sublabel="{{N}} 引用替换 + 逐步执行" data-node-context="执行层">
-          <title>Executor · {{N}} 引用替换 + 逐步执行 · 执行层</title>
-          <rect x="321" y="220" width="160" height="52" rx="6" class="c-mask"/>
-          <rect x="321" y="220" width="160" height="52" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(327 226) scale(0.6875)">
+        <g id="node-executor" data-node-id="executor" data-node-label="Executor" tabindex="0" role="button" aria-label="聚焦Executor，{{N}} 引用替换 + 逐步执行, Plan-and-Execute 主流程" aria-pressed="false" data-node-kind="backend" data-node-sublabel="{{N}} 引用替换 + 逐步执行" data-node-tag="阶段 2 · 执行" data-node-context="Plan-and-Execute 主流程">
+          <title>Executor · {{N}} 引用替换 + 逐步执行 · Plan-and-Execute 主流程 · 阶段 2 · 执行</title>
+          <rect x="417.2" y="86" width="160" height="68" rx="6" class="c-mask"/>
+          <rect x="417.2" y="86" width="160" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(423.2 92) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="401" y="241" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Executor</text>
-          <text data-detail="context" x="401" y="258" class="t-muted" font-size="8" text-anchor="middle">{{N}} 引用替换 + 逐步执行</text>
+          <text data-node-label="" data-detail-anchor="" x="497.2" y="107" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Executor</text>
+          <text data-detail="context" x="497.2" y="124" class="t-muted" font-size="8" text-anchor="middle">{{N}} 引用替换 + 逐步执行</text>
+        <text data-detail="fine" x="497.2" y="142" class="t-backend" font-size="7" text-anchor="middle">阶段 2 · 执行</text>
         </g>
 
-        <g id="node-tools" data-node-id="tools" data-node-label="本地工具" tabindex="0" role="button" aria-label="聚焦本地工具，calculator / 查询, 执行层" aria-pressed="false" data-node-kind="messagebus" data-node-sublabel="calculator / 查询" data-node-context="执行层">
-          <title>本地工具 · calculator / 查询 · 执行层</title>
-          <rect x="551.8" y="220" width="150" height="52" rx="6" class="c-mask"/>
-          <rect x="551.8" y="220" width="150" height="52" rx="6" class="c-messagebus" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="messagebus" class="semantic-sigil s-messagebus" transform="translate(557.8 226) scale(0.6875)">
+        <g id="node-tools" data-node-id="tools" data-node-label="本地工具" tabindex="0" role="button" aria-label="聚焦本地工具，calculator / 查询, Plan-and-Execute 主流程" aria-pressed="false" data-node-kind="messagebus" data-node-sublabel="calculator / 查询" data-node-context="Plan-and-Execute 主流程">
+          <title>本地工具 · calculator / 查询 · Plan-and-Execute 主流程</title>
+          <rect x="648" y="94" width="150" height="52" rx="6" class="c-mask"/>
+          <rect x="648" y="94" width="150" height="52" rx="6" class="c-messagebus" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="messagebus" class="semantic-sigil s-messagebus" transform="translate(654 100) scale(0.6875)">
             <path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/>
             <circle cx="5" cy="4.5" r="1" class="sigil-fill"/>
             <circle cx="10.5" cy="8" r="1" class="sigil-fill"/>
             <circle cx="7" cy="11.5" r="1" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="626.8" y="241" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">本地工具</text>
-          <text data-detail="context" x="626.8" y="258" class="t-muted" font-size="8" text-anchor="middle">calculator / 查询</text>
+          <text data-node-label="" data-detail-anchor="" x="723" y="115" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">本地工具</text>
+          <text data-detail="context" x="723" y="132" class="t-muted" font-size="8" text-anchor="middle">calculator / 查询</text>
         </g>
 
-        <g id="node-aggregator" data-node-id="aggregator" data-node-label="Aggregator" tabindex="0" role="button" aria-label="聚焦Aggregator，LLM 汇总全部结果, 汇总层" aria-pressed="false" data-node-kind="backend" data-node-sublabel="LLM 汇总全部结果" data-node-context="汇总层">
-          <title>Aggregator · LLM 汇总全部结果 · 汇总层</title>
-          <rect x="671.8" y="346" width="150" height="52" rx="6" class="c-mask"/>
-          <rect x="671.8" y="346" width="150" height="52" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(677.8 352) scale(0.6875)">
+        <g id="node-aggregator" data-node-id="aggregator" data-node-label="Aggregator" tabindex="0" role="button" aria-label="聚焦Aggregator，LLM 汇总全部结果, Plan-and-Execute 主流程" aria-pressed="false" data-node-kind="backend" data-node-sublabel="LLM 汇总全部结果" data-node-tag="阶段 3 · 汇总" data-node-context="Plan-and-Execute 主流程">
+          <title>Aggregator · LLM 汇总全部结果 · Plan-and-Execute 主流程 · 阶段 3 · 汇总</title>
+          <rect x="806" y="86" width="150" height="68" rx="6" class="c-mask"/>
+          <rect x="806" y="86" width="150" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(812 92) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="746.8" y="367" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Aggregator</text>
-          <text data-detail="context" x="746.8" y="384" class="t-muted" font-size="8" text-anchor="middle">LLM 汇总全部结果</text>
+          <text data-node-label="" data-detail-anchor="" x="881" y="107" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Aggregator</text>
+          <text data-detail="context" x="881" y="124" class="t-muted" font-size="8" text-anchor="middle">LLM 汇总全部结果</text>
+        <text data-detail="fine" x="881" y="142" class="t-backend" font-size="7" text-anchor="middle">阶段 3 · 汇总</text>
         </g>
 
-        <g id="node-answer" data-node-id="answer" data-node-label="最终答案" tabindex="0" role="button" aria-label="聚焦最终答案，汇总层" aria-pressed="false" data-node-kind="database" data-node-context="汇总层">
-          <title>最终答案 · 汇总层</title>
-          <rect x="849.8" y="346" width="120" height="52" rx="6" class="c-mask"/>
-          <rect x="849.8" y="346" width="120" height="52" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(855.8 352) scale(0.6875)">
+        <g id="node-answer" data-node-id="answer" data-node-label="最终答案" tabindex="0" role="button" aria-label="聚焦最终答案，Plan-and-Execute 主流程" aria-pressed="false" data-node-kind="database" data-node-context="Plan-and-Execute 主流程">
+          <title>最终答案 · Plan-and-Execute 主流程</title>
+          <rect x="984" y="94" width="120" height="52" rx="6" class="c-mask"/>
+          <rect x="984" y="94" width="120" height="52" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(990 100) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" x="909.8" y="367" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">最终答案</text>
+          <text data-node-label="" x="1044" y="115" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">最终答案</text>
         </g>
 
         <!-- Edge labels -->
 
         <g data-detail="context" data-edge-from="executor" data-edge-to="aggregator" data-edge-label="全部步骤结果" data-edge-key="1" data-edge-id="executor-aggregator">
-          <rect x="502.59999999999997" y="352" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="536.4" y="362" class="t-backend" font-size="8" text-anchor="middle">全部步骤结果</text>
+          <rect x="655.3000000000001" y="150" width="67.6" height="14" rx="3" class="c-mask"/>
+          <text x="689.1" y="160" class="t-backend" font-size="8" text-anchor="middle">全部步骤结果</text>
         </g>
         <g data-detail="context" data-edge-from="executor" data-edge-to="tools" data-edge-label="逐步调用" data-edge-key="2" data-edge-id="executor-tools">
-          <rect x="492.2" y="219" width="48.4" height="14" rx="3" class="c-mask"/>
-          <text x="516.4" y="229" class="t-muted" font-size="8" text-anchor="middle">逐步调用</text>
+          <rect x="588.4" y="93" width="48.4" height="14" rx="3" class="c-mask"/>
+          <text x="612.6" y="103" class="t-muted" font-size="8" text-anchor="middle">逐步调用</text>
         </g>
         <g data-detail="context" data-edge-from="planner" data-edge-to="executor" data-edge-label="JSON 计划" data-edge-key="3" data-edge-id="planner-executor">
-          <rect x="314.4" y="280" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
-          <text x="341" y="290" class="t-backend" font-size="8" text-anchor="middle">JSON 计划</text>
+          <rect x="360" y="100" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+          <text x="386.6" y="110" class="t-backend" font-size="8" text-anchor="middle">JSON 计划</text>
         </g>
 
         <g data-detail="context" data-edge-from="tools" data-edge-to="executor" data-edge-label="Observation" data-edge-key="5" data-edge-id="tools-executor">
-          <rect x="482.5" y="268" width="62.8" height="14" rx="3" class="c-mask"/>
-          <text x="513.9" y="278" class="t-database" font-size="8" text-anchor="middle">Observation</text>
+          <rect x="578.7" y="16" width="62.8" height="14" rx="3" class="c-mask"/>
+          <text x="610.1" y="26" class="t-database" font-size="8" text-anchor="middle">Observation</text>
         </g>
 
         <!-- Legend -->
         <g data-legend="" data-legend-bridge="">
-          <text x="20" y="434" class="t-primary" font-size="12" font-weight="650">图例</text>
-          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="Agent 逻辑" data-legend-x="20" data-legend-baseline="454" data-legend-width="87">
-            <rect x="20" y="446" width="14" height="9" rx="2" class="c-backend" stroke-width="1"/>
-            <text x="42" y="454" class="t-muted" font-size="7.5" font-weight="500">Agent 逻辑</text>
+          <text x="20" y="182" class="t-primary" font-size="12" font-weight="650">图例</text>
+          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="Agent 逻辑" data-legend-x="20" data-legend-baseline="202" data-legend-width="87">
+            <rect x="20" y="194" width="14" height="9" rx="2" class="c-backend" stroke-width="1"/>
+            <text x="42" y="202" class="t-muted" font-size="7.5" font-weight="500">Agent 逻辑</text>
           </g>
-          <g data-legend-semantic-kind="messagebus" data-legend-kind="messagebus" data-legend-label="工具操作" data-legend-x="114" data-legend-baseline="454" data-legend-width="78">
-            <rect x="114" y="446" width="14" height="9" rx="2" class="c-messagebus" stroke-width="1"/>
-            <text x="136" y="454" class="t-muted" font-size="7.5" font-weight="500">工具操作</text>
+          <g data-legend-semantic-kind="messagebus" data-legend-kind="messagebus" data-legend-label="工具操作" data-legend-x="114" data-legend-baseline="202" data-legend-width="78">
+            <rect x="114" y="194" width="14" height="9" rx="2" class="c-messagebus" stroke-width="1"/>
+            <text x="136" y="202" class="t-muted" font-size="7.5" font-weight="500">工具操作</text>
           </g>
-          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="上下文 / 追踪" data-legend-x="199" data-legend-baseline="454" data-legend-width="100">
-            <rect x="199" y="446" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
-            <text x="221" y="454" class="t-muted" font-size="7.5" font-weight="500">上下文 / 追踪</text>
+          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="上下文 / 追踪" data-legend-x="199" data-legend-baseline="202" data-legend-width="100">
+            <rect x="199" y="194" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
+            <text x="221" y="202" class="t-muted" font-size="7.5" font-weight="500">上下文 / 追踪</text>
           </g>
-          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="外部系统" data-legend-x="306" data-legend-baseline="454" data-legend-width="78">
-            <rect x="306" y="446" width="14" height="9" rx="2" class="c-external" stroke-width="1"/>
-            <text x="328" y="454" class="t-muted" font-size="7.5" font-weight="500">外部系统</text>
+          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="外部系统" data-legend-x="306" data-legend-baseline="202" data-legend-width="78">
+            <rect x="306" y="194" width="14" height="9" rx="2" class="c-external" stroke-width="1"/>
+            <text x="328" y="202" class="t-muted" font-size="7.5" font-weight="500">外部系统</text>
           </g>
         </g>
       </svg>

@@ -6,22 +6,14 @@
     "locale": "zh-CN",
     "quality_profile": "showcase",
     "viewBox": [
-      1080,
-      620
+      1240,
+      400
     ]
   },
   "lanes": [
     {
-      "id": "plan",
-      "label": "规划层"
-    },
-    {
-      "id": "exec",
-      "label": "执行层"
-    },
-    {
-      "id": "answer",
-      "label": "汇总层"
+      "id": "main",
+      "label": "Plan-and-Execute 主流程"
     }
   ],
   "mainPath": [
@@ -34,7 +26,7 @@
   "nodes": [
     {
       "id": "question",
-      "lane": "plan",
+      "lane": "main",
       "col": 0,
       "type": "external",
       "label": "用户任务",
@@ -43,26 +35,27 @@
     },
     {
       "id": "planner",
-      "lane": "plan",
+      "lane": "main",
       "col": 1,
       "type": "backend",
       "label": "Planner",
       "sublabel": "LLM 生成 JSON 计划",
-      "tag": "规划 1 次",
+      "tag": "阶段 1 · 规划",
       "width": 150
     },
     {
       "id": "executor",
-      "lane": "exec",
+      "lane": "main",
       "col": 2,
       "type": "backend",
       "label": "Executor",
       "sublabel": "{{N}} 引用替换 + 逐步执行",
-      "width": 160
+      "width": 160,
+      "tag": "阶段 2 · 执行"
     },
     {
       "id": "tools",
-      "lane": "exec",
+      "lane": "main",
       "col": 3,
       "type": "messagebus",
       "label": "本地工具",
@@ -71,16 +64,17 @@
     },
     {
       "id": "aggregator",
-      "lane": "answer",
+      "lane": "main",
       "col": 4,
       "type": "backend",
       "label": "Aggregator",
       "sublabel": "LLM 汇总全部结果",
-      "width": 150
+      "width": 150,
+      "tag": "阶段 3 · 汇总"
     },
     {
       "id": "answer",
-      "lane": "answer",
+      "lane": "main",
       "col": 5,
       "type": "database",
       "label": "最终答案",
