@@ -5053,7 +5053,7 @@
         <path data-edge-from="extract" data-edge-to="llm" data-edge-label="解析失败 → None" data-edge-key="0" data-edge-id="extract-llm" data-composition-points="568,498;552,498;552,552;514,552;514,406" d="M 568 498 L 552 498 L 552 552 L 514 552 L 514 406" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
         <path data-edge-from="extract" data-edge-to="result" data-edge-label="json.loads" data-edge-key="1" data-edge-id="extract-result" data-composition-points="700,498;766,498" d="M 700 498 L 766 498" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path data-edge-from="fewshot" data-edge-to="llm" data-edge-label="注入示例" data-edge-key="2" data-edge-id="fewshot-llm" data-composition-points="394,280;394,372;448,372" d="M 394 280 L 394 372 L 448 372" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="llm" data-edge-to="extract" data-edge-label="完整响应（含推理）" data-edge-key="3" data-edge-id="llm-extract" data-composition-points="580,372;596,372;596,288;634,288;634,472" d="M 580 372 L 596 372 L 596 288 L 634 288 L 634 472" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="llm" data-edge-to="extract" data-edge-label="完整响应（含推理）" data-edge-key="3" data-edge-id="llm-extract" data-composition-points="580,372;634,372;634,472" d="M 580 372 L 634 372 L 634 472" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <path data-edge-from="raw" data-edge-to="sys" data-edge-label="组装 messages" data-edge-key="4" data-edge-id="raw-sys" data-composition-points="114,146;114,168;234,168;234,220" d="M 114 146 L 114 168 L 234 168 L 234 220" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <path data-edge-from="sys" data-edge-to="fewshot" data-edge-key="5" data-edge-id="sys-fewshot" data-composition-points="300,246;328,246" d="M 300 246 L 328 246" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
 
@@ -5142,8 +5142,8 @@
           <text x="421" y="362" class="t-backend" font-size="8" text-anchor="middle">注入示例</text>
         </g>
         <g data-detail="context" data-edge-from="llm" data-edge-to="extract" data-edge-label="完整响应（含推理）" data-edge-key="3" data-edge-id="llm-extract">
-          <rect x="566.8" y="268" width="96.39999999999999" height="14" rx="3" class="c-mask"/>
-          <text x="615" y="278" class="t-backend" font-size="8" text-anchor="middle">完整响应（含推理）</text>
+          <rect x="591.8" y="362" width="96.39999999999999" height="14" rx="3" class="c-mask"/>
+          <text x="640" y="372" class="t-backend" font-size="8" text-anchor="middle">完整响应（含推理）</text>
         </g>
         <g data-detail="context" data-edge-from="raw" data-edge-to="sys" data-edge-label="组装 messages" data-edge-key="4" data-edge-id="raw-sys">
           <rect x="137.8" y="148" width="72.4" height="14" rx="3" class="c-mask"/>

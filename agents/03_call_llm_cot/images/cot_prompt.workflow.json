@@ -123,7 +123,17 @@
       "label": "完整响应（含推理）",
       "variant": "emphasis",
       "fromSide": "right",
-      "toSide": "top"
+      "toSide": "top",
+      "via": [
+        [
+          634,
+          372
+        ]
+      ],
+      "labelAt": [
+        640,
+        372
+      ]
     },
     {
       "id": "extract-result",
