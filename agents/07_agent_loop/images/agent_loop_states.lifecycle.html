@@ -5004,7 +5004,7 @@
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / 图版 04">
-      <svg viewBox="11 53 961 567.8" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
+      <svg viewBox="-142.5 53 1148 717.5" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
         <title id="archify-diagram-title">Agent Loop 的状态机与终止条件</title>
         <desc id="archify-diagram-description">由 Archify 生成的生命周期图。</desc>
         <!-- Definitions -->
@@ -5027,15 +5027,15 @@
         </defs>
 
         <!-- Background Grid -->
-        <rect x="11" y="53" width="100%" height="100%" fill="url(#grid)" />
+        <rect x="-142.5" y="53" width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Lifecycle bands -->
-        <path d="M 72 112 L 948 112" class="a-default" stroke-width="0.8" stroke-dasharray="3,8"/>
+        <path d="M 72 112 L 828 112" class="a-default" stroke-width="0.8" stroke-dasharray="3,8"/>
         <text x="72" y="100" class="t-dim" font-size="10" font-weight="600">01 / 执行主轨</text>
-        <path d="M 72 264 L 948 264" class="a-default" stroke-width="0.8" stroke-dasharray="3,8"/>
-        <text x="72" y="252" class="t-dim" font-size="10" font-weight="600">02 / Interruptions + recovery</text>
-        <path d="M 72 436 L 948 436" class="a-default" stroke-width="0.8" stroke-dasharray="3,8"/>
-        <text x="72" y="424" class="t-dim" font-size="10" font-weight="600">03 / 终止出口</text>
+        <path d="M 72 264 L 828 264" class="a-default" stroke-width="0.8" stroke-dasharray="3,8"/>
+        <text x="72" y="252" class="t-dim" font-size="10" font-weight="600">02 / 异常出口</text>
+        <path d="M 72 436 L 828 436" class="a-default" stroke-width="0.8" stroke-dasharray="3,8"/>
+        <text x="72" y="424" class="t-dim" font-size="10" font-weight="600">03 / Outcomes</text>
 
         <!-- Primary lifecycle rail -->
         <path d="M 154 157 L 748 157" class="a-emphasis" stroke-width="2.2" marker-end="url(#arrowhead-emphasis)"/>
@@ -5046,7 +5046,7 @@
         <path data-edge-from="check" data-edge-to="step" data-edge-label="未终止 → 下一步" data-edge-key="2" data-edge-id="check-step" data-composition-points="402,126;402,98;248,98;248,126" d="M 402 126 L 402 108 Q 402 98 392 98 L 258 98 Q 248 98 248 108 L 248 126" class="a-emphasis" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
         <path data-edge-from="check" data-edge-to="answer" data-edge-key="3" data-edge-id="check-answer" data-composition-points="461,157;497,157" d="M 461 157 L 497 157" class="a-emphasis" stroke-width="2" marker-end="url(#arrowhead-emphasis)"/>
         <path data-edge-from="answer" data-edge-to="completed" data-edge-key="4" data-edge-id="answer-completed" data-composition-points="615,157;651,157" d="M 615 157 L 651 157" class="a-default" stroke-width="1.1" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="check" data-edge-to="maxed" data-edge-label="步数 ≥ max_steps" data-edge-key="5" data-edge-id="check-maxed" data-composition-points="402,188;402,450" d="M 402 188 L 402 450" class="a-security" stroke-width="1.1" marker-end="url(#arrowhead-security)"/>
+        <path data-edge-from="check" data-edge-to="maxed" data-edge-label="步数 ≥ max_steps" data-edge-key="5" data-edge-id="check-maxed" data-composition-points="402,188;402,278" d="M 402 188 L 402 278" class="a-security" stroke-width="1.1" marker-end="url(#arrowhead-security)"/>
 
         <!-- States -->
         <g id="node-idle" data-node-id="idle" data-node-label="接收任务" tabindex="0" role="button" aria-label="聚焦接收任务，AgentLoop.run(), 执行主轨" aria-pressed="false" data-node-kind="start" data-node-sublabel="AgentLoop.run()" data-node-context="执行主轨">
@@ -5113,16 +5113,16 @@
           <text data-detail="context" x="710" y="163" class="t-muted" font-size="7" text-anchor="middle">reason=completed</text>
         </g>
 
-        <g id="node-maxed" data-node-id="maxed" data-node-label="max_steps" tabindex="0" role="button" aria-label="聚焦max_steps，强制停止并如实标注, 终止出口" aria-pressed="false" data-node-kind="failure" data-node-sublabel="强制停止并如实标注" data-node-context="终止出口">
-          <title>max_steps · 强制停止并如实标注 · 终止出口</title>
-          <rect x="343" y="450" width="118" height="58" rx="7" class="c-mask"/>
-          <rect x="343" y="450" width="118" height="58" rx="7" class="c-security" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="failure" class="semantic-sigil s-security" transform="translate(444 456) scale(0.6875)">
+        <g id="node-maxed" data-node-id="maxed" data-node-label="max_steps" tabindex="0" role="button" aria-label="聚焦max_steps，步数 ≥ max_steps，强制停止, 异常出口" aria-pressed="false" data-node-kind="failure" data-node-sublabel="步数 ≥ max_steps，强制停止" data-node-context="异常出口">
+          <title>max_steps · 步数 ≥ max_steps，强制停止 · 异常出口</title>
+          <rect x="339" y="278" width="126" height="58" rx="7" class="c-mask"/>
+          <rect x="339" y="278" width="126" height="58" rx="7" class="c-security" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="failure" class="semantic-sigil s-security" transform="translate(448 284) scale(0.6875)">
             <circle cx="8" cy="8" r="5.3"/>
             <path d="m5.7 5.7 4.6 4.6m0-4.6-4.6 4.6"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="402" y="471" class="t-primary" font-size="10" font-weight="600" text-anchor="middle">max_steps</text>
-          <text data-detail="context" x="402" y="487" class="t-muted" font-size="7" text-anchor="middle">强制停止并如实标注</text>
+          <text data-node-label="" data-detail-anchor="" x="402" y="299" class="t-primary" font-size="10" font-weight="600" text-anchor="middle">max_steps</text>
+          <text data-detail="context" x="402" y="315" class="t-muted" font-size="7" text-anchor="middle">步数 ≥ max_steps，强制停止</text>
         </g>
 
         <!-- Transition labels -->
@@ -5141,26 +5141,26 @@
 
         <!-- Legend -->
         <g data-legend="" data-legend-bridge="">
-          <text x="40" y="574" class="t-primary" font-size="12" font-weight="650">图例</text>
-          <g data-legend-semantic-kind="start" data-legend-kind="start" data-legend-label="开始" data-legend-x="40" data-legend-baseline="594" data-legend-width="63">
-            <rect x="40" y="586" width="14" height="9" rx="2" class="c-frontend" stroke-width="1"/>
-            <text x="62" y="594" class="t-muted" font-size="10" font-weight="500">开始</text>
+          <text x="40" y="724" class="t-primary" font-size="12" font-weight="650">图例</text>
+          <g data-legend-semantic-kind="start" data-legend-kind="start" data-legend-label="开始" data-legend-x="40" data-legend-baseline="744" data-legend-width="63">
+            <rect x="40" y="736" width="14" height="9" rx="2" class="c-frontend" stroke-width="1"/>
+            <text x="62" y="744" class="t-muted" font-size="10" font-weight="500">开始</text>
           </g>
-          <g data-legend-semantic-kind="active" data-legend-kind="active" data-legend-label="活动状态" data-legend-x="125" data-legend-baseline="594" data-legend-width="83">
-            <rect x="125" y="586" width="14" height="9" rx="2" class="c-backend" stroke-width="1"/>
-            <text x="147" y="594" class="t-muted" font-size="10" font-weight="500">活动状态</text>
+          <g data-legend-semantic-kind="active" data-legend-kind="active" data-legend-label="活动状态" data-legend-x="125" data-legend-baseline="744" data-legend-width="83">
+            <rect x="125" y="736" width="14" height="9" rx="2" class="c-backend" stroke-width="1"/>
+            <text x="147" y="744" class="t-muted" font-size="10" font-weight="500">活动状态</text>
           </g>
-          <g data-legend-semantic-kind="decision" data-legend-kind="decision" data-legend-label="决策" data-legend-x="230" data-legend-baseline="594" data-legend-width="63">
-            <rect x="230" y="586" width="14" height="9" rx="2" class="c-security" stroke-width="1"/>
-            <text x="252" y="594" class="t-muted" font-size="10" font-weight="500">决策</text>
+          <g data-legend-semantic-kind="decision" data-legend-kind="decision" data-legend-label="决策" data-legend-x="230" data-legend-baseline="744" data-legend-width="63">
+            <rect x="230" y="736" width="14" height="9" rx="2" class="c-security" stroke-width="1"/>
+            <text x="252" y="744" class="t-muted" font-size="10" font-weight="500">决策</text>
           </g>
-          <g data-legend-semantic-kind="success" data-legend-kind="success" data-legend-label="成功终态" data-legend-x="315" data-legend-baseline="594" data-legend-width="83">
-            <rect x="315" y="586" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
-            <text x="337" y="594" class="t-muted" font-size="10" font-weight="500">成功终态</text>
+          <g data-legend-semantic-kind="success" data-legend-kind="success" data-legend-label="成功终态" data-legend-x="315" data-legend-baseline="744" data-legend-width="83">
+            <rect x="315" y="736" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
+            <text x="337" y="744" class="t-muted" font-size="10" font-weight="500">成功终态</text>
           </g>
-          <g data-legend-semantic-kind="failure" data-legend-kind="failure" data-legend-label="失败 / 退出" data-legend-x="420" data-legend-baseline="594" data-legend-width="98">
-            <rect x="420" y="586" width="14" height="9" rx="2" class="c-security" stroke-width="1"/>
-            <text x="442" y="594" class="t-muted" font-size="10" font-weight="500">失败 / 退出</text>
+          <g data-legend-semantic-kind="failure" data-legend-kind="failure" data-legend-label="失败 / 退出" data-legend-x="420" data-legend-baseline="744" data-legend-width="98">
+            <rect x="420" y="736" width="14" height="9" rx="2" class="c-security" stroke-width="1"/>
+            <text x="442" y="744" class="t-muted" font-size="10" font-weight="500">失败 / 退出</text>
           </g>
         </g>
       </svg>

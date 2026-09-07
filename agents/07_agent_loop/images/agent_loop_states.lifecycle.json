@@ -6,8 +6,8 @@
     "locale": "zh-CN",
     "quality_profile": "showcase",
     "viewBox": [
-      1020,
-      630
+      900,
+      780
     ]
   },
   "lanes": [
@@ -16,8 +16,8 @@
       "label": "执行主轨"
     },
     {
-      "id": "terminal",
-      "label": "终止出口"
+      "id": "events",
+      "label": "异常出口"
     }
   ],
   "states": [
@@ -71,8 +71,8 @@
       "id": "maxed",
       "type": "failure",
       "label": "max_steps",
-      "sublabel": "强制停止并如实标注",
-      "lane": "terminal",
+      "sublabel": "步数 ≥ max_steps，强制停止",
+      "lane": "events",
       "col": 0
     }
   ],
@@ -117,10 +117,10 @@
       "to": "maxed",
       "label": "步数 ≥ max_steps",
       "variant": "security",
+      "labelDy": 30,
       "fromSide": "bottom",
       "toSide": "top",
-      "route": "straight",
-      "labelDy": 30
+      "route": "straight"
     }
   ],
   "cards": [
