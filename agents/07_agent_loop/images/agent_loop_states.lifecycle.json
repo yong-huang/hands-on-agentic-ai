@@ -18,6 +18,10 @@
     {
       "id": "events",
       "label": "异常出口"
+    },
+    {
+      "id": "terminal",
+      "label": "成功出口"
     }
   ],
   "states": [
@@ -63,8 +67,8 @@
       "type": "success",
       "label": "completed",
       "sublabel": "reason=completed",
-      "lane": "main",
-      "col": 4,
+      "lane": "terminal",
+      "col": 2,
       "step": "05"
     },
     {
@@ -73,7 +77,7 @@
       "label": "max_steps",
       "sublabel": "步数 ≥ max_steps，强制停止",
       "lane": "events",
-      "col": 0
+      "col": 1
     }
   ],
   "transitions": [
@@ -103,7 +107,8 @@
       "id": "check-answer",
       "from": "check",
       "to": "answer",
-      "variant": "emphasis"
+      "variant": "emphasis",
+      "route": "straight"
     },
     {
       "id": "answer-completed",
@@ -118,9 +123,8 @@
       "label": "步数 ≥ max_steps",
       "variant": "security",
       "labelDy": 30,
-      "fromSide": "bottom",
-      "toSide": "top",
-      "route": "straight"
+      "fromSide": "right",
+      "toSide": "left"
     }
   ],
   "cards": [
