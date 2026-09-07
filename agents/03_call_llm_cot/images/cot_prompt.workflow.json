@@ -7,7 +7,7 @@
     "quality_profile": "showcase",
     "viewBox": [
       1040,
-      660
+      700
     ]
   },
   "lanes": [
@@ -121,7 +121,9 @@
       "from": "llm",
       "to": "extract",
       "label": "完整响应（含推理）",
-      "variant": "emphasis"
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "top"
     },
     {
       "id": "extract-result",
@@ -137,7 +139,8 @@
       "label": "解析失败 → None",
       "variant": "dashed",
       "role": "error",
-      "route": "return-left"
+      "fromSide": "left",
+      "toSide": "bottom"
     }
   ],
   "cards": [
