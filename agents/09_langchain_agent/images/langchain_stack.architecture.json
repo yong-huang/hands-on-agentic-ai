@@ -6,15 +6,15 @@
     "locale": "zh-CN",
     "quality_profile": "showcase",
     "viewBox": [
-      950,
-      590
+      820,
+      480
     ]
   },
   "layout": {
     "mode": "grid",
     "cols": 4,
     "gapX": 60,
-    "gapY": 70
+    "gapY": 40
   },
   "components": [
     {

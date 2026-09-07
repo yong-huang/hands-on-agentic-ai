@@ -5004,7 +5004,7 @@
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / 图版 04">
-      <svg viewBox="-59.7 26 919.4 574.6" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
+      <svg viewBox="16 26 768 464.3" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
         <title id="archify-diagram-title">LangChain Agent 组件栈</title>
         <desc id="archify-diagram-description">由 Archify 生成的架构图。</desc>
         <!-- Definitions -->
@@ -5027,20 +5027,20 @@
         </defs>
 
         <!-- Background Grid -->
-        <rect x="-59.7" y="26" width="100%" height="100%" fill="url(#grid)" />
+        <rect x="16" y="26" width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Boundaries (behind everything) -->
         <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="0" data-composition-frame-label="Agent 运行时" x="200" y="50" width="560" height="110" rx="12" class="c-region" stroke-width="1"/>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="1" data-composition-frame-label="工具层（手写工具，框架托管调度）" x="390" y="184" width="370" height="244" rx="12" class="c-region" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="1" data-composition-frame-label="工具层（手写工具，框架托管调度）" x="390" y="154" width="370" height="214" rx="12" class="c-region" stroke-width="1"/>
 
         <!-- Connection paths (before components for correct z-order) -->
         <path data-edge-from="agent" data-edge-to="llm" data-edge-label="tool calling 循环" data-edge-key="0" data-edge-id="agent-llm" data-composition-points="350,96;610,96" d="M 350 96 L 610 96" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-        <path data-edge-from="decorator" data-edge-to="agent" data-edge-label="自动注册工具 schema" data-edge-key="1" data-edge-id="deco-agent" data-composition-points="128,214;128,190;206,190;206,110;230,110" d="M 128 214 L 128 198 Q 128 190 136 190 L 198 190 Q 206 190 206 182 L 206 118 Q 206 110 214 110 L 230 110" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="agent" data-edge-to="filetools" data-edge-key="2" data-edge-id="agent-file" data-composition-points="350,110;385,110;385,244;420,244" d="M 350 110 L 377 110 Q 385 110 385 118 L 385 236 Q 385 244 393 244 L 420 244" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="agent" data-edge-to="calc" data-edge-key="3" data-edge-id="agent-calc" data-composition-points="350,124;385,124;385,378;420,378" d="M 350 124 L 377 124 Q 385 124 385 132 L 385 370 Q 385 378 393 378 L 420 378" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="filetools" data-edge-to="guard" data-edge-label="路径先校验" data-edge-key="4" data-edge-id="file-guard" data-composition-points="540,237;610,237" d="M 540 237 L 610 237" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
-        <path data-edge-from="filetools" data-edge-to="workspace" data-edge-label="限制在允许目录" data-edge-key="5" data-edge-id="file-ws" data-composition-points="540,251;575,251;575,378;610,378" d="M 540 251 L 567 251 Q 575 251 575 259 L 575 370 Q 575 378 583 378 L 610 378" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="decorator" data-edge-to="agent" data-edge-label="自动注册工具 schema" data-edge-key="1" data-edge-id="deco-agent" data-composition-points="128,184;128,160;206,160;206,110;230,110" d="M 128 184 L 128 168 Q 128 160 136 160 L 198 160 Q 206 160 206 152 L 206 118 Q 206 110 214 110 L 230 110" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="agent" data-edge-to="filetools" data-edge-key="2" data-edge-id="agent-file" data-composition-points="350,110;385,110;385,214;420,214" d="M 350 110 L 377 110 Q 385 110 385 118 L 385 206 Q 385 214 393 214 L 420 214" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="agent" data-edge-to="calc" data-edge-key="3" data-edge-id="agent-calc" data-composition-points="350,124;385,124;385,318;420,318" d="M 350 124 L 377 124 Q 385 124 385 132 L 385 310 Q 385 318 393 318 L 420 318" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="filetools" data-edge-to="guard" data-edge-label="路径先校验" data-edge-key="4" data-edge-id="file-guard" data-composition-points="540,207;610,207" d="M 540 207 L 610 207" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
+        <path data-edge-from="filetools" data-edge-to="workspace" data-edge-label="限制在允许目录" data-edge-key="5" data-edge-id="file-ws" data-composition-points="540,221;575,221;575,318;610,318" d="M 540 221 L 567 221 Q 575 221 575 229 L 575 310 Q 575 318 583 318 L 610 318" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
         <!-- Components -->
         <g id="node-agent" data-node-id="agent" data-node-label="create_agent" tabindex="0" role="button" aria-label="聚焦create_agent，LangGraph 状态机托管循环, Agent 运行时" aria-pressed="false" data-node-kind="backend" data-node-sublabel="LangGraph 状态机托管循环" data-node-context="Agent 运行时">
@@ -5067,62 +5067,62 @@
 
         <g id="node-decorator" data-node-id="decorator" data-node-label="@tool 装饰器" tabindex="0" role="button" aria-label="聚焦@tool 装饰器，签名 + docstring → JSON Schema, 架构组件" aria-pressed="false" data-node-kind="messagebus" data-node-sublabel="签名 + docstring → JSON Schema" data-node-context="架构组件">
           <title>@tool 装饰器 · 签名 + docstring → JSON Schema · 架构组件</title>
-          <rect x="40" y="214" width="176" height="60" rx="6" class="c-mask"/>
-          <rect x="40" y="214" width="176" height="60" rx="6" class="c-messagebus" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="messagebus" class="semantic-sigil s-messagebus" transform="translate(46 220) scale(0.6875)">
+          <rect x="40" y="184" width="176" height="60" rx="6" class="c-mask"/>
+          <rect x="40" y="184" width="176" height="60" rx="6" class="c-messagebus" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="messagebus" class="semantic-sigil s-messagebus" transform="translate(46 190) scale(0.6875)">
             <path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/>
             <circle cx="5" cy="4.5" r="1" class="sigil-fill"/>
             <circle cx="10.5" cy="8" r="1" class="sigil-fill"/>
             <circle cx="7" cy="11.5" r="1" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="128" y="242" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">@tool 装饰器</text>
-        <text data-detail="context" x="128" y="258" class="t-muted" font-size="9" text-anchor="middle">签名 + docstring → JSON Schema</text>
+          <text data-node-label="" data-detail-anchor="" x="128" y="212" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">@tool 装饰器</text>
+        <text data-detail="context" x="128" y="228" class="t-muted" font-size="9" text-anchor="middle">签名 + docstring → JSON Schema</text>
         </g>
 
         <g id="node-filetools" data-node-id="filetools" data-node-label="文件工具 ×4" tabindex="0" role="button" aria-label="聚焦文件工具 ×4，read / write / list / search, 工具层（手写工具，框架托管调度）" aria-pressed="false" data-node-kind="backend" data-node-sublabel="read / write / list / search" data-node-context="工具层（手写工具，框架托管调度）">
           <title>文件工具 ×4 · read / write / list / search · 工具层（手写工具，框架托管调度）</title>
-          <rect x="420" y="214" width="120" height="60" rx="6" class="c-mask"/>
-          <rect x="420" y="214" width="120" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(426 220) scale(0.6875)">
+          <rect x="420" y="184" width="120" height="60" rx="6" class="c-mask"/>
+          <rect x="420" y="184" width="120" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(426 190) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="480" y="242" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">文件工具 ×4</text>
-        <text data-detail="context" x="480" y="258" class="t-muted" font-size="6.6" text-anchor="middle">read / write / list / search</text>
+          <text data-node-label="" data-detail-anchor="" x="480" y="212" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">文件工具 ×4</text>
+        <text data-detail="context" x="480" y="228" class="t-muted" font-size="6.6" text-anchor="middle">read / write / list / search</text>
         </g>
 
         <g id="node-calc" data-node-id="calc" data-node-label="calculator" tabindex="0" role="button" aria-label="聚焦calculator，白名单正则 + eval, 工具层（手写工具，框架托管调度）" aria-pressed="false" data-node-kind="backend" data-node-sublabel="白名单正则 + eval" data-node-context="工具层（手写工具，框架托管调度）">
           <title>calculator · 白名单正则 + eval · 工具层（手写工具，框架托管调度）</title>
-          <rect x="420" y="348" width="120" height="60" rx="6" class="c-mask"/>
-          <rect x="420" y="348" width="120" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(426 354) scale(0.6875)">
+          <rect x="420" y="288" width="120" height="60" rx="6" class="c-mask"/>
+          <rect x="420" y="288" width="120" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(426 294) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="480" y="376" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">calculator</text>
-        <text data-detail="context" x="480" y="392" class="t-muted" font-size="9" text-anchor="middle">白名单正则 + eval</text>
+          <text data-node-label="" data-detail-anchor="" x="480" y="316" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">calculator</text>
+        <text data-detail="context" x="480" y="332" class="t-muted" font-size="9" text-anchor="middle">白名单正则 + eval</text>
         </g>
 
         <g id="node-guard" data-node-id="guard" data-node-label="_safe_path" tabindex="0" role="button" aria-label="聚焦_safe_path，realpath 前缀校验, 工具层（手写工具，框架托管调度）" aria-pressed="false" data-node-kind="security" data-node-sublabel="realpath 前缀校验" data-node-context="工具层（手写工具，框架托管调度）">
           <title>_safe_path · realpath 前缀校验 · 工具层（手写工具，框架托管调度）</title>
-          <rect x="610" y="214" width="120" height="60" rx="6" class="c-mask"/>
-          <rect x="610" y="214" width="120" height="60" rx="6" class="c-security" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(616 220) scale(0.6875)">
+          <rect x="610" y="184" width="120" height="60" rx="6" class="c-mask"/>
+          <rect x="610" y="184" width="120" height="60" rx="6" class="c-security" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(616 190) scale(0.6875)">
             <path d="M8 2.2 13 4v3.5c0 3.1-1.8 5.4-5 6.5-3.2-1.1-5-3.4-5-6.5V4Z"/>
             <path d="m5.8 8 1.5 1.5 3-3"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="670" y="242" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">_safe_path</text>
-        <text data-detail="context" x="670" y="258" class="t-muted" font-size="9" text-anchor="middle">realpath 前缀校验</text>
+          <text data-node-label="" data-detail-anchor="" x="670" y="212" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">_safe_path</text>
+        <text data-detail="context" x="670" y="228" class="t-muted" font-size="9" text-anchor="middle">realpath 前缀校验</text>
         </g>
 
         <g id="node-workspace" data-node-id="workspace" data-node-label="workspace/" tabindex="0" role="button" aria-label="聚焦workspace/，ALLOWED_DIR 唯一允许目录, 工具层（手写工具，框架托管调度）" aria-pressed="false" data-node-kind="database" data-node-sublabel="ALLOWED_DIR 唯一允许目录" data-node-context="工具层（手写工具，框架托管调度）">
           <title>workspace/ · ALLOWED_DIR 唯一允许目录 · 工具层（手写工具，框架托管调度）</title>
-          <rect x="610" y="348" width="120" height="60" rx="6" class="c-mask"/>
-          <rect x="610" y="348" width="120" height="60" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(616 354) scale(0.6875)">
+          <rect x="610" y="288" width="120" height="60" rx="6" class="c-mask"/>
+          <rect x="610" y="288" width="120" height="60" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(616 294) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="670" y="376" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">workspace/</text>
-        <text data-detail="context" x="670" y="392" class="t-muted" font-size="7.7" text-anchor="middle">ALLOWED_DIR 唯一允许目录</text>
+          <text data-node-label="" data-detail-anchor="" x="670" y="316" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">workspace/</text>
+        <text data-detail="context" x="670" y="332" class="t-muted" font-size="7.7" text-anchor="middle">ALLOWED_DIR 唯一允许目录</text>
         </g>
 
         <!-- Connection labels -->
@@ -5131,18 +5131,18 @@
           <text x="480" y="86" class="t-backend" font-size="8" text-anchor="middle">tool calling 循环</text>
         </g>
         <g data-detail="context" data-edge-from="decorator" data-edge-to="agent" data-edge-label="自动注册工具 schema" data-edge-key="1" data-edge-id="deco-agent">
-          <rect x="116.4" y="170" width="101.2" height="14" rx="3" class="c-mask"/>
-          <text x="167" y="180" class="t-muted" font-size="8" text-anchor="middle">自动注册工具 schema</text>
+          <rect x="116.4" y="140" width="101.2" height="14" rx="3" class="c-mask"/>
+          <text x="167" y="150" class="t-muted" font-size="8" text-anchor="middle">自动注册工具 schema</text>
         </g>
 
 
         <g data-detail="context" data-edge-from="filetools" data-edge-to="guard" data-edge-label="路径先校验" data-edge-key="4" data-edge-id="file-guard">
-          <rect x="546" y="217" width="58" height="14" rx="3" class="c-mask"/>
-          <text x="575" y="227" class="t-messagebus" font-size="8" text-anchor="middle">路径先校验</text>
+          <rect x="546" y="187" width="58" height="14" rx="3" class="c-mask"/>
+          <text x="575" y="197" class="t-messagebus" font-size="8" text-anchor="middle">路径先校验</text>
         </g>
         <g data-detail="context" data-edge-from="filetools" data-edge-to="workspace" data-edge-label="限制在允许目录" data-edge-key="5" data-edge-id="file-ws">
-          <rect x="536.4" y="294.5" width="77.2" height="14" rx="3" class="c-mask"/>
-          <text x="575" y="304.5" class="t-muted" font-size="8" text-anchor="middle">限制在允许目录</text>
+          <rect x="536.4" y="249.5" width="77.2" height="14" rx="3" class="c-mask"/>
+          <text x="575" y="259.5" class="t-muted" font-size="8" text-anchor="middle">限制在允许目录</text>
         </g>
 
         <!-- Boundary labels (foreground masks keep routes out of titles) -->
@@ -5152,32 +5152,32 @@
         </g>
 
         <g data-graph-role="structural-frame-label" data-composition-frame-id="1" data-composition-frame-kind="region" data-composition-frame-label="工具层（手写工具，框架托管调度）">
-          <rect data-graph-role="structural-frame-label-mask" x="394" y="194" width="182.79999999999998" height="16" rx="3" class="c-mask"/>
-          <text data-boundary-label="" x="398" y="207" class="t-cloud" font-size="9" font-weight="600">工具层（手写工具，框架托管调度）</text>
+          <rect data-graph-role="structural-frame-label-mask" x="394" y="164" width="182.79999999999998" height="16" rx="3" class="c-mask"/>
+          <text data-boundary-label="" x="398" y="177" class="t-cloud" font-size="9" font-weight="600">工具层（手写工具，框架托管调度）</text>
         </g>
 
         <!-- Legend -->
         <g data-legend="" data-legend-bridge="">
-          <text x="40" y="554" class="t-primary" font-size="12" font-weight="650">图例</text>
-          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="后端" data-legend-x="40" data-legend-baseline="574" data-legend-width="63">
-            <rect x="40" y="565" width="16" height="10" rx="2.5" class="c-backend" stroke-width="1"/>
-            <text x="62" y="574" class="t-muted" font-size="10" font-weight="500">后端</text>
+          <text x="40" y="444" class="t-primary" font-size="12" font-weight="650">图例</text>
+          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="后端" data-legend-x="40" data-legend-baseline="464" data-legend-width="63">
+            <rect x="40" y="455" width="16" height="10" rx="2.5" class="c-backend" stroke-width="1"/>
+            <text x="62" y="464" class="t-muted" font-size="10" font-weight="500">后端</text>
           </g>
-          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="数据库" data-legend-x="125" data-legend-baseline="574" data-legend-width="73">
-            <rect x="125" y="565" width="16" height="10" rx="2.5" class="c-database" stroke-width="1"/>
-            <text x="147" y="574" class="t-muted" font-size="10" font-weight="500">数据库</text>
+          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="数据库" data-legend-x="125" data-legend-baseline="464" data-legend-width="73">
+            <rect x="125" y="455" width="16" height="10" rx="2.5" class="c-database" stroke-width="1"/>
+            <text x="147" y="464" class="t-muted" font-size="10" font-weight="500">数据库</text>
           </g>
-          <g data-legend-semantic-kind="cloud" data-legend-kind="cloud" data-legend-label="云服务" data-legend-x="220" data-legend-baseline="574" data-legend-width="73">
-            <rect x="220" y="565" width="16" height="10" rx="2.5" class="c-cloud" stroke-width="1"/>
-            <text x="242" y="574" class="t-muted" font-size="10" font-weight="500">云服务</text>
+          <g data-legend-semantic-kind="cloud" data-legend-kind="cloud" data-legend-label="云服务" data-legend-x="220" data-legend-baseline="464" data-legend-width="73">
+            <rect x="220" y="455" width="16" height="10" rx="2.5" class="c-cloud" stroke-width="1"/>
+            <text x="242" y="464" class="t-muted" font-size="10" font-weight="500">云服务</text>
           </g>
-          <g data-legend-semantic-kind="security" data-legend-kind="security" data-legend-label="安全" data-legend-x="315" data-legend-baseline="574" data-legend-width="63">
-            <rect x="315" y="565" width="16" height="10" rx="2.5" class="c-security" stroke-width="1"/>
-            <text x="337" y="574" class="t-muted" font-size="10" font-weight="500">安全</text>
+          <g data-legend-semantic-kind="security" data-legend-kind="security" data-legend-label="安全" data-legend-x="315" data-legend-baseline="464" data-legend-width="63">
+            <rect x="315" y="455" width="16" height="10" rx="2.5" class="c-security" stroke-width="1"/>
+            <text x="337" y="464" class="t-muted" font-size="10" font-weight="500">安全</text>
           </g>
-          <g data-legend-semantic-kind="messagebus" data-legend-kind="messagebus" data-legend-label="消息总线" data-legend-x="400" data-legend-baseline="574" data-legend-width="83">
-            <rect x="400" y="565" width="16" height="10" rx="2.5" class="c-messagebus" stroke-width="1"/>
-            <text x="422" y="574" class="t-muted" font-size="10" font-weight="500">消息总线</text>
+          <g data-legend-semantic-kind="messagebus" data-legend-kind="messagebus" data-legend-label="消息总线" data-legend-x="400" data-legend-baseline="464" data-legend-width="83">
+            <rect x="400" y="455" width="16" height="10" rx="2.5" class="c-messagebus" stroke-width="1"/>
+            <text x="422" y="464" class="t-muted" font-size="10" font-weight="500">消息总线</text>
           </g>
         </g>
       </svg>
