@@ -1,0 +1,175 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Code Execution vs 标准工具调用",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "hidden"
+    },
+    "viewBox": [
+      1000,
+      528
+    ]
+  },
+  "lanes": [
+    {
+      "id": "v1",
+      "label": "v1 标准调用"
+    },
+    {
+      "id": "sandbox",
+      "label": "v2 Code Mode"
+    },
+    {
+      "id": "result",
+      "label": "结果"
+    }
+  ],
+  "mainPath": [
+    "task",
+    "v2_llm",
+    "sandbox",
+    "v2_result"
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "lane": "v1",
+      "col": 0,
+      "type": "external",
+      "label": "用户任务",
+      "sublabel": "多工具数据分析",
+      "width": 140
+    },
+    {
+      "id": "v1_llm",
+      "lane": "v1",
+      "col": 1,
+      "type": "cloud",
+      "label": "LLM",
+      "sublabel": "每工具 1 次调用",
+      "width": 120
+    },
+    {
+      "id": "v1_t1",
+      "lane": "v1",
+      "col": 2,
+      "type": "messagebus",
+      "label": "工具 1",
+      "width": 100
+    },
+    {
+      "id": "v1_t2",
+      "lane": "v1",
+      "col": 3,
+      "type": "messagebus",
+      "label": "工具 N",
+      "width": 100
+    },
+    {
+      "id": "v1_result",
+      "lane": "v1",
+      "col": 4,
+      "type": "database",
+      "label": "回答",
+      "width": 120
+    },
+    {
+      "id": "v2_llm",
+      "lane": "sandbox",
+      "col": 1,
+      "type": "cloud",
+      "label": "LLM 写代码",
+      "sublabel": "调沙箱函数",
+      "width": 140
+    },
+    {
+      "id": "sandbox",
+      "lane": "sandbox",
+      "col": 2,
+      "type": "backend",
+      "label": "沙箱 exec",
+      "sublabel": "中间结果不出站",
+      "width": 150
+    },
+    {
+      "id": "v2_result",
+      "lane": "result",
+      "col": 3,
+      "type": "database",
+      "label": "最终回答",
+      "width": 120
+    },
+    {
+      "id": "metrics",
+      "lane": "result",
+      "col": 1,
+      "type": "frontend",
+      "label": "LLM 8→2 · 上下文 -20%",
+      "width": 180
+    }
+  ],
+  "edges": [
+    {
+      "id": "task-v1llm",
+      "from": "task",
+      "to": "v1_llm",
+      "variant": "dashed"
+    },
+    {
+      "id": "v1llm-t1",
+      "from": "v1_llm",
+      "to": "v1_t1",
+      "variant": "dashed"
+    },
+    {
+      "id": "v1llm-t2",
+      "from": "v1_llm",
+      "to": "v1_t2",
+      "variant": "dashed"
+    },
+    {
+      "id": "task-v2llm",
+      "from": "task",
+      "to": "v2_llm",
+      "label": "任务描述",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v2llm-sandbox",
+      "from": "v2_llm",
+      "to": "sandbox",
+      "label": "代码",
+      "variant": "emphasis"
+    },
+    {
+      "id": "sandbox-v2result",
+      "from": "sandbox",
+      "to": "v2_result",
+      "label": "result",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Code Mode 核心",
+      "items": [
+        "工具函数预载到沙箱，Agent 写代码调用",
+        "中间结果留在沙箱不过上下文",
+        "LLM 调用从 8 次降到 2 次"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "安全边界",
+      "items": [
+        "教学沙箱用受控命名空间",
+        "生产必须容器隔离 (Docker/gVisor)",
+        "代码来自 LLM 输出，永不可信"
+      ]
+    }
+  ]
+}
