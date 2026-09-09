@@ -32,3 +32,11 @@ agents/*/_demo_store.json
 chroma_db*/
 agents/30_observability_eval/traces/
 interview/**/checkpoint.json
+
+# interview 真机运行产物
+interview/**/real_run.log
+interview/**/audit.jsonl
+interview/**/traces.jsonl
+interview/**/memory.json
+interview/**/trace.jsonl
+interview/batch_real*.log
