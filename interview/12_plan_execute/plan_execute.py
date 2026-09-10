@@ -158,8 +158,10 @@ def plan(task_text, budget):
     return r if isinstance(r, list) and r else None
 
 
-def topological_exec(plan_list, budget):
-    """按依赖拓扑执行; verify_budget 汇总依赖结果。"""
+def topological_exec(plan_list, budget, context=None):
+    """按依赖拓扑执行; verify_budget 汇总依赖结果。
+    context: 任务级参数补全源 (LLM 规划漏参数时从这里取, 如城市)。"""
+    context = context or {}
     done, results, trace = set(), {}, []
     plan_list = sorted(plan_list, key=lambda s: len(s.get("depends", [])))
     budget_val = None
@@ -169,6 +171,22 @@ def topological_exec(plan_list, budget):
             if s["id"] in done or any(d not in done for d in s.get("depends", [])):
                 continue
             tool = s["tool"]
+            if tool in TOOLS:
+                # 工具签名过滤: LLM 规划可能发明不存在的参数 (如 start_date)
+                import inspect
+                params = inspect.signature(TOOLS[tool]).parameters
+                dropped = [k for k in s["args"] if k not in params]
+                if dropped:
+                    s["args"] = {k: v for k, v in s["args"].items()
+                                 if k in params}
+                    trace.append("    [{}] 丢弃规划器发明的参数 {}".format(
+                        s["id"], dropped))
+                for pname, p in params.items():
+                    if pname not in s["args"] and p.default is p.empty \
+                            and pname in context:
+                        s["args"][pname] = context[pname]
+                        trace.append("    [{}] 从任务上下文补全参数 {}={}".format(
+                            s["id"], pname, context[pname]))
             if tool == "verify_budget":
                 deps_res = {str(d): results[d] for d in s.get("depends", [])}
                 b = s.get("args", {}).get("budget") or budget
@@ -204,7 +222,8 @@ def run_pe(t):
     for s in plan_list:
         dep = f" <-{s.get('depends', [])}" if s.get("depends") else ""
         print(f"    ({s['id']}) {s['desc']} [{s['tool']}]{dep}")
-    ok, trace = topological_exec(plan_list, t["budget"])
+    ok, trace = topological_exec(plan_list, t["budget"],
+                                 context={"city": t["city"], "budget": t["budget"]})
     for line in trace:
         print(line)
     tokens = 0 if MOCK else int(len(json.dumps(plan_list, ensure_ascii=False)) * 0.8) + 350
