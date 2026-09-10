@@ -15,7 +15,7 @@
   python rag_quality.py           # 真实: nomic + qwen3.8
 """
 
-import json, math, os, re, sys, urllib.request
+import json, math, os, re, sys, time, urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from llm import BASE_URL, MODEL, API_KEY
@@ -30,12 +30,19 @@ def embed(text):
     if MOCK:
         return None
     body = {"model": EMBED_MODEL, "input": text}
-    req = urllib.request.Request(
-        "{}/embeddings".format(BASE_URL), data=json.dumps(body).encode(),
-        headers={"Content-Type": "application/json",
-                 "Authorization": "Bearer {}".format(API_KEY)})
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        return json.loads(resp.read().decode())["data"][0]["embedding"]
+    last_err = None
+    for attempt in range(4):                      # Ollama 偶发 502, 指数退避重试
+        req = urllib.request.Request(
+            "{}/embeddings".format(BASE_URL), data=json.dumps(body).encode(),
+            headers={"Content-Type": "application/json",
+                     "Authorization": "Bearer {}".format(API_KEY)})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                return json.loads(resp.read().decode())["data"][0]["embedding"]
+        except Exception as e:
+            last_err = e
+            time.sleep(1.5 * (attempt + 1))
+    raise last_err
 
 
 def http_chat(messages, num_predict=700):
