@@ -109,7 +109,7 @@ def substitute(arg, results, tool):
     └── plan_execute.workflow.svg        # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Plan-and-Execute 与 ReAct 的本质区别是什么？**
   A: 推理与执行的耦合方式——ReAct 每步交错推理（N 步 N 次 LLM），P&E 先

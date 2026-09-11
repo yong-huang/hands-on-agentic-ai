@@ -34,7 +34,7 @@ python skills_disclosure.py          # 真实: qwen3.8 选技能
 - **与上下文工程的关系**：渐进式披露 = 上下文工程的 Skills 版，
   同思想见项目 18（上下文压缩）与 interview/11（Reflection 的分层记忆）。
 
-## 4. 面试要点
+## 4. 深入要点
 
 - "Agent 技能多了上下文怎么办"——标准答案就是渐进式披露：索引常驻、
   正文按需，再配 LLM/embedding 做技能路由。

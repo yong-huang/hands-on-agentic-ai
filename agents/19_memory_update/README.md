@@ -116,7 +116,7 @@ def remember(self, statement):
     └── memory_update.workflow.svg       # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Agent 长期记忆为什么需要更新策略？**
   A: 只进不出会导致重复、过时与噪音三类污染，检索注入的上下文质量随之劣化；

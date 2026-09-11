@@ -102,7 +102,7 @@ def worker_execute(subtask):
     └── manager_worker.workflow.svg      # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Manager-Worker 模式的核心收益是什么？**
   A: 上下文隔离（每个 Worker 上下文干净且专注）+ 真并行（IO 密集的 LLM

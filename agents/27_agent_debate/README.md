@@ -102,7 +102,7 @@ def vote(agent, transcript):
     └── agent_debate.workflow.svg        # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 多 Agent 辩论为什么能提升结论质量？**
   A: 角色对立制造认知压力，逼出真实的权衡分析；研究（Du et al. 2023）显示

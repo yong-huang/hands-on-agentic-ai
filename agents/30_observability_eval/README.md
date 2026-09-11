@@ -108,7 +108,7 @@ def agent_answer(version, question, tracer):
     └── observability_eval.architecture.svg      # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Agent 的可观测性要记录什么？**
   A: 结构化 trace/span（LLM 调用、工具调用、耗时、输入输出摘要）+ 业务指标

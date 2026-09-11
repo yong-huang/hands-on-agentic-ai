@@ -125,7 +125,7 @@ class SafeExecutor:
     └── error_recovery.workflow.svg      # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 工具错误为什么要分类？**
   A: 分类决定策略——retryable 划出"值得重试"的子集，避免对确定性失败

@@ -9,7 +9,7 @@
 5 个多步任务全部正确，含一条"失败→自愈"轨迹（计算器故意传非法表达式，
 Agent 读取错误后自行调整）。`MOCK=1` 离线走完整循环含解析失败重试。
 
-## 2. 面试要点
+## 2. 深入要点
 
 - ReAct 的本质：Thought/Action/Observation 循环 + Answer 终止条件
 - Action 失败处理：错误作为 Observation 回喂，不崩溃、不静默

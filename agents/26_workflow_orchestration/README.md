@@ -103,7 +103,7 @@ def review_once(reviewers, draft, round_no):
     └── workflow_orchestration.workflow.svg      # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Reflection 模式为什么有效？**
   A: 批评比生成容易——模型判断"哪里不好"的准确率高于"一次写好"。多维

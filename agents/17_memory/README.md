@@ -110,7 +110,7 @@ def recall(user_msg, store):
     └── two_layer_memory.workflow.svg    # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Agent 的记忆为什么要分短期和长期两层？**
   A: 短期保真（逐字）但受上下文预算限制、会淘汰；长期压缩成事实、可跨会话

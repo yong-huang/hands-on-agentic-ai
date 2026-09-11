@@ -116,7 +116,7 @@ class ApprovalGate:
     └── approval_gate.workflow.svg     # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: HITL 审批层应该放在 Agent 架构的哪一层？**
   A: 工具执行之前、模型决策之后——以纯决策组件（check 返回 allowed/reason）

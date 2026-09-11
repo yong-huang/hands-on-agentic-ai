@@ -31,7 +31,7 @@ python rag_quality.py           # 真实: nomic + qwen3.8
    证据越准"的预期一致；Faithfulness 三者接近（qwen 回答抽象度高，
    字面支撑天然低）。
 
-## 2. 面试要点
+## 2. 深入要点
 
 - 两个指标分开看：Relevance 管"检索得准不准"，Faithfulness 管
   "说得对不对"——分别归因检索问题与生成问题。

@@ -105,7 +105,7 @@ def build_index(collection, docs_root=DOCS_DIR):
     └── vector_index.dataflow.svg      # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 向量数据库解决什么问题？**
   A: 高维向量的存储与最近邻检索——把"语义相似"变成"几何最近"，支撑

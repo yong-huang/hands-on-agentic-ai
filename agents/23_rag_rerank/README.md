@@ -121,7 +121,7 @@ def rerank_mmr(query_vec, candidates, embeddings, lam=LAMBDA, top_k=None):
     └── rerank_compare.workflow.svg              # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 重排序在 RAG 里解决什么问题？什么时候值得上？**
   A: 向量召回是"几何最近"而非"语义最相关"，重排用额外成本修正排序。值得

@@ -95,7 +95,7 @@ def run_v2(task):
     └── code_execution.workflow.svg              # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Code Mode 为什么能大幅节省 token？**
   A: 标准调用每工具一次 LLM 往返、中间结果全过上下文；Code Mode 让 Agent

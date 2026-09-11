@@ -32,7 +32,7 @@ python agent_card.py    # 全离线: 模拟卡片 + 确定性路由
 - **MCP vs A2A**：MCP 是 Agent↔工具的垂直协议；A2A 是 Agent↔Agent
   的水平协议。一个 Agent 对下用 MCP 接工具，对上用 A2A 暴露能力。
 
-## 4. 面试要点
+## 4. 深入要点
 
 - A2A 与 MCP 的区别必考：**一个管 Agent 接工具，一个管 Agent 间协作**，
   互补而非竞争。

@@ -124,7 +124,7 @@ def process_stream(response):
     └── sse_pipeline.dataflow.svg  # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: SSE 是什么？和 WebSocket 的区别？**
   A: SSE 是单向服务器推送（基于 HTTP，文本行协议），WebSocket 是全双工。

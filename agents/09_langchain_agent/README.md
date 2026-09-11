@@ -118,7 +118,7 @@ print(f"Tool calls: {len(tool_msgs)}")                # 工具调用统计
     └── langchain_stack.architecture.svg   # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: LangChain 的 create_agent 底层是什么？**
   A: LangGraph 状态机：模型节点 ↔ 工具节点循环，以 tool_calls 有无判定

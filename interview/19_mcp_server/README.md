@@ -28,7 +28,7 @@ python mcp_server.py test     # 连通测试: 子进程拉起 server + ClientSes
 | Resources | 应用决定拉取 | 只读数据视图 | 库存表 |
 | Prompts | 用户/应用选择 | 可复用话术模板 | 订单处理模板 |
 
-## 3. 面试要点
+## 3. 深入要点
 
 - MCP 解决的问题：M×N 集成变 M+N——工具方实现一次 Server，任何
   支持 MCP 的模型/客户端都能用；发现(list)、调用、传输全有协议约定。

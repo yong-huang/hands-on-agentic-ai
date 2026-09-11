@@ -114,7 +114,7 @@ def build_graph(nodes):
     └── langgraph_state.workflow.svg     # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: LangGraph 的核心抽象是什么？**
   A: State（TypedDict 共享状态）+ Node（读写状态的函数，返回增量）+

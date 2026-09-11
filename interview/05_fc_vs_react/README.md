@@ -47,7 +47,7 @@ tool_calls(Action) = [('get_weather', '{"city":"广州"}')]
 ReAct 的 Thought→Action→Observation 语义原样成立，只是 Action 从"文本里的 JSON"
 换成"API 结构化字段"。生产系统通常两者叠加：ReAct 语义 + FC 传输 + max_steps 兜底。
 
-## 4. 面试要点
+## 4. 深入要点
 
 - **一句话关系**：FC 解决"Action 怎么传"（传输层），ReAct 解决"Agent 怎么想"
   （提示词循环）——不互斥，可叠加，答案是"结合使用"。

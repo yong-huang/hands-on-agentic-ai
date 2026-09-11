@@ -108,7 +108,7 @@ def agentic_answer(collection, question, llm, max_rounds=3):
     └── agentic_rag.workflow.svg         # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Agentic RAG 与普通 RAG 管线的区别？**
   A: 检索从固定步骤变成模型可自主调用的工具——是否检索、检索词怎么写、

@@ -121,7 +121,7 @@ def build_system_prompt(identity, memory, workspace, tools, rules):
     └── context_assembly.dataflow.svg    # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Agent 的 System Prompt 通常由哪几部分组成？**
   A: Identity（角色）、Memory（记忆）、Workspace（环境/工作区）、Tools（工具

@@ -127,7 +127,7 @@ def call_tool(self, name, arguments):
     └── mcp_handshake.sequence.svg       # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: MCP 解决了什么问题？**
   A: 工具与 Agent 的耦合。协议化后工具可跨语言、跨进程复用，第三方 Server

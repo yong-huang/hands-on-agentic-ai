@@ -121,7 +121,7 @@ def call_llm(prompt, temperature=0.7, max_tokens=2048):
     └── llm_api.sequence.svg   # 双主题矢量图（README 内嵌，跟随系统深浅色）
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 不用 SDK 直接调 LLM API，最小需要哪些字段？**
   A: `model` + `messages`，其余（`options`/`stream`）都有默认值。

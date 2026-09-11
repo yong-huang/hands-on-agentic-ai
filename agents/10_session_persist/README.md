@@ -112,7 +112,7 @@ class AgentSession:
     └── session_state_flow.dataflow.svg   # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 一个 Agent 会话应该持久化哪些状态？**
   A: 对话历史（发模型的）、工具调用审计（可回溯的）、元信息（模型/步数/

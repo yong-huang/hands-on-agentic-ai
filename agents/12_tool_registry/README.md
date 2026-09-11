@@ -127,7 +127,7 @@ class ToolRegistry:
     └── registry.architecture.svg    # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Registry 模式解决了 Agent 工具系统的什么问题？**
   A: 定义分散导致的漂移与高维护成本；把声明/描述/分发收敛到单一对象，

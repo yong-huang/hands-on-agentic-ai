@@ -106,7 +106,7 @@ def chat(req: ChatRequest):
     └── agent_server.architecture.svg    # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: SSE 与 WebSocket 在 Agent 服务里如何选型？**
   A: 请求-响应式对话用 SSE（单向推送、HTTP 原生、断线语义清晰）；需要服务端

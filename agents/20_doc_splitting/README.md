@@ -111,7 +111,7 @@ def recursive_split(text, separators=SEPARATORS, chunk_size=CHUNK_SIZE):
     └── doc_splitting.dataflow.svg       # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 为什么 RAG 要先切分文档？块大小的权衡是什么？**
   A: 检索与注入都以 chunk 为单位。太大：一块多主题，检索带噪音；太小：上下文

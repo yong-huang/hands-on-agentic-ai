@@ -105,7 +105,7 @@ def extract_content(response_data):
     └── temperature_fanout.dataflow.svg   # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: temperature 的数学作用是什么？**
   A: 对 logits 除以 T 再 softmax。T<1 放大差异使分布更尖，T>1 压平分布使

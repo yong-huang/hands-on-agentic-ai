@@ -118,7 +118,7 @@ messages.append({"role": "user",
     └── react_cycle.workflow.svg   # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: ReAct 的核心思想是什么？**
   A: 让推理（Reason）与行动（Act）交替进行：模型生成 Thought 与 Action，

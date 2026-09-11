@@ -25,7 +25,7 @@ python agent_card.py           # 真实: qwen3.8 技能匹配
 
 发现→匹配→调用闭环全程走通；新 Agent 零改动接入 ✓。
 
-## 2. 面试要点
+## 2. 深入要点
 
 - MCP 是 Agent 接工具的协议（垂直：Agent↔工具/资源）；A2A 是 Agent
   之间协作的协议（水平：Agent↔Agent）——互补而非竞争。

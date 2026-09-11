@@ -25,7 +25,7 @@ python mcp_guard.py serve     # 亦可作为加固版 MCP Server 被 stdio 拉�
 **拦截 5/5，正常调用 3/3 不受影响，审计日志 8 条**（每条含
 client/tool/verdict/layer/args）。
 
-## 2. 面试要点
+## 2. 深入要点
 
 - 服务端是唯一可信边界：客户端/模型侧的约束都能被注入绕过；白名单、
   权限、限速必须在 server 侧强制执行。

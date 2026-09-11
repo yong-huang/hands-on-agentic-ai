@@ -134,7 +134,7 @@ def run_agent(question, max_rounds=5):
     └── tool_call_sequence.sequence.svg    # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: Function Calling 的完整消息流是什么？**
   A: user 提问 → assistant 携带 tool_calls → tool 消息回传结果 → assistant

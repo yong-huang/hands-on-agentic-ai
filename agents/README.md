@@ -140,7 +140,7 @@ pip install opentelemetry-api opentelemetry-sdk        # 项目 30（可观测�
 
 ```
 agents/NN_xxx/
-├── README.md          # 教程：为什么 / 一图看懂 / 快速开始 / 核心概念 / 面试要点
+├── README.md          # 教程：为什么 / 一图看懂 / 快速开始 / 核心概念 / 深入要点
 ├── xxx.py             # 主脚本 = 学习重点，逐行读脚本就是在学这个主题
 └── images/            # 架构图三件套
     ├── xxx.<type>.json  # 图源（Typed JSON，可 diff、可复现）

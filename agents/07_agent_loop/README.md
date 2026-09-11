@@ -120,7 +120,7 @@ def run(self, question):
     └── agent_loop_states.lifecycle.svg  # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 生产级 Agent Loop 相比最小 ReAct 需要增加什么？**
   A: 结构化事件流（可观测）、中间结果缓存（scratchpad）、明确的终止判定

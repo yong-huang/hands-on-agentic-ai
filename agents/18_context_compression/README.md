@@ -120,7 +120,7 @@ def compress_summary(messages, system_prompt, keep_recent=KEEP_RECENT):
     └── compression_strategies.workflow.svg      # 双主题矢量图
 ```
 
-## 7. 面试要点
+## 7. 深入要点
 
 - **Q: 长对话的上下文压缩有哪些策略？如何选择？**
   A: 不压缩（保真/无上界）、滑动窗口（省/失忆）、LLM 摘要（折中/有损+额外
