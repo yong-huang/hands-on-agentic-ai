@@ -3,7 +3,7 @@
 > 以**真实面试真题**为纲：每道高频题对应一个能跑通的小项目，做完即"能讲+能写"。
 > 三条面试主线贯穿：**ReAct 循环能手写** · **记忆系统+RAG 能讲清** · **系统设计能画架构图**。
 > 语言 Python 3.10+；LLM 走本地 Ollama（qwen3.8，OpenAI 兼容接口），全部支持
-> `MOCK=1` 离线模式。完整题单、AI 提示词与踩坑日志见 [../agent_interview.md](../agent_interview.md)。
+> `MOCK=1` 离线模式。完整题单、AI 提示词与踩坑日志见 [../docs/agent_interview.md](../docs/agent_interview.md)。
 > 工程化渐进学习路线（LangChain 视角）见 [../agents/](../agents/README.md)。
 
 ## 运行方式

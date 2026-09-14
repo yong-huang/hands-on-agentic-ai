@@ -4,7 +4,7 @@
 > 从裸 HTTP 调用 LLM，到手写 ReAct 循环、Function Calling、MCP、HITL 审批，
 > 再到记忆系统、RAG、多 Agent 协同与可观测性。
 > 每个实验四件套：**README 教程 + 主脚本 + 真实可跑 + 架构图三件套**。
-> 完整学习清单与 AI 提示词见 [../agent.md](../agent.md)。
+> 完整学习清单与 AI 提示词见 [../docs/agent.md](../docs/agent.md)。
 > 面试导向的 31 个项目见 [../interview/](../interview/README.md)。
 
 ## 环境要求

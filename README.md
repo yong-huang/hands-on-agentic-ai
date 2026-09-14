@@ -21,8 +21,9 @@ hands-on-agentic-ai/
 │   ├── 01_cot_compare ... 31_checkpoint_resume
 │   ├── run_all.sh       # 全量测试跑批器 (mock/real 双模式)
 │   └── llm.py           # 两线共用的 OpenAI 兼容客户端 (本地 Ollama)
-├── agent.md             # agents 线学习清单 (15/30 进度)
-├── agent_interview.md   # interview 线题单 (31/31 完成, 含全部踩坑记录)
+├── docs/                # 两线的题单/清单文档
+│   ├── agent.md             # agents 线学习清单 (15/30 进度)
+│   └── agent_interview.md   # interview 线题单 (31/31 完成, 含全部踩坑记录)
 └── scripts/             # 公共脚本 (模型预载等)
 ```
 
@@ -63,6 +64,6 @@ bash interview/run_all.sh real                        # 全量真机 (需 Ollama
   [interview/README.md](interview/README.md) 的考点→项目速查表，
   按面试主线三段（ReAct 手写 / 记忆+RAG / 系统设计）切入。
 - **两条线的关系**：interview 的题单文档
-  [agent_interview.md](docs/agent_interview.md) 里有与 agent.md（agents 线
+  [agent_interview.md](docs/agent_interview.md) 里有与 docs/agent.md（agents 线
   清单）的详细对照——重叠考点以 interview 的实证为准，LangChain 专属
   内容回 agents 线补。
