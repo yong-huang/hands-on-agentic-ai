@@ -63,6 +63,6 @@ bash interview/run_all.sh real                        # 全量真机 (需 Ollama
   [interview/README.md](interview/README.md) 的考点→项目速查表，
   按面试主线三段（ReAct 手写 / 记忆+RAG / 系统设计）切入。
 - **两条线的关系**：interview 的题单文档
-  [agent_interview.md](agent_interview.md) 里有与 agent.md（agents 线
+  [agent_interview.md](docs/agent_interview.md) 里有与 agent.md（agents 线
   清单）的详细对照——重叠考点以 interview 的实证为准，LangChain 专属
   内容回 agents 线补。
