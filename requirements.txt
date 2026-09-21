@@ -1,0 +1,19 @@
+# 仓库全部实验脚本（agents/ 与 interview/）的第三方依赖，由 AST 扫描 import 得出。
+# scripts/load_resources.sh 会自动幂等安装本文件；手动安装：pip install -r requirements.txt
+
+requests                      # 裸 HTTP 调 LLM：01-08, 16-19, 21-31 等
+prompt_toolkit                # 交互实验的中文输入：修复 macOS input() 删中文留残影
+
+langchain                     # 09 (LangChain Agent)
+langchain-ollama              # 09
+langgraph                     # 24 (StateGraph)
+
+pypdf                         # 20 (文档切分)
+chromadb                      # 21-23 (向量库 / RAG)
+
+fastapi                       # 28 (服务化)
+uvicorn                       # 28
+pydantic                      # 28
+
+mcp                           # interview/ (MCP 客户端)
+jsonschema                    # interview/

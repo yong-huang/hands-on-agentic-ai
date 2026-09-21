@@ -10,7 +10,8 @@
 ## 环境要求
 
 **一键预载（推荐）**：安装 [Ollama](https://ollama.com/download) 后，先跑公共脚本——
-幂等，自动启动服务并预拉本系列依赖的两个本地模型（无 API Key）：
+幂等，自动安装 requirements.txt 中的 Python 依赖、启动服务并预拉本系列依赖的
+两个本地模型（无 API Key）：
 
 ```bash
 bash scripts/load_resources.sh
@@ -28,12 +29,8 @@ ollama serve                        # 默认监听 http://localhost:11434
 # 2) Python 3.11+
 conda create -n agent_dev python=3.11 && conda activate agent_dev
 
-# 3) 依赖（多数项目仅需 requests）
-pip install requests                                   # 项目 01-08, 10-15
-pip install langchain langchain-ollama                 # 项目 09
-pip install chromadb faiss-cpu tiktoken                # 项目 16-19（记忆/压缩）
-pip install fastapi uvicorn sse-starlette              # 项目 28（服务化）
-pip install opentelemetry-api opentelemetry-sdk        # 项目 30（可观测性）
+# 3) 依赖（与 load_resources.sh 第 1 步等价，覆盖 agents/ 与 interview/ 全部脚本）
+pip install -r requirements.txt
 ```
 
 网络受限时：`npx` 首次拉取 MCP Server（项目 14）可能较慢属预期行为，

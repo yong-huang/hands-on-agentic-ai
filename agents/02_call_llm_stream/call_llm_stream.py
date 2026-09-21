@@ -121,8 +121,19 @@ def print_metadata(response):
     print("📊 流式输出完成")
 
 
+def ask(msg: str = "") -> str:
+    # 内置 input() 的回显由终端按"列"擦除, 不认识 CJK 宽字符 (一个汉字占 2 列),
+    # 退格删除中文会残留半个字。prompt_toolkit 用 raw 模式自绘输入行, 按字符宽度
+    # 正确擦除; 未安装时自动回退到内置 input()。
+    try:
+        from prompt_toolkit import prompt
+        return prompt(msg)
+    except ImportError:
+        return input(msg)
+
+
 def main():
-    user_prompt = input("🧑 请输入提示词: ").strip()
+    user_prompt = ask("🧑 请输入提示词: ").strip()
     if not user_prompt:
         user_prompt = "用一句话解释什么是人工智能。"
         print(f"使用默认提示: {user_prompt}\n")

@@ -6,7 +6,10 @@
 #   qwen3.8:latest         对话/推理 (所有实验)
 #   nomic-embed-text:latest 向量嵌入 (17/18/19 的记忆与检索)
 #
-# 幂等: 已运行的服务不重复启动, 已拉取的模型不重复下载。
+# 同时幂等安装 requirements.txt 中的 Python 依赖 (装入当前 Python 环境,
+# 建议先激活虚拟环境/conda 环境再运行本脚本)。
+#
+# 幂等: 已装好的依赖不重复下载, 已运行的服务不重复启动, 已拉取的模型不重复下载。
 # 被各实验 README 的"环境要求"引用; clone 后先跑一遍本脚本即可开始学习。
 # =============================================================================
 set -euo pipefail
@@ -26,7 +29,25 @@ wait_api() {
     return 1
 }
 
-# ---------- 1) 确保 Ollama 服务在运行 ----------
+# ---------- 1) 确保实验所需的 Python 依赖已安装 ----------
+echo "=====> [python] 检查 Python 依赖"
+PY="${PYTHON:-python3}"
+if ! command -v "$PY" > /dev/null 2>&1; then
+    echo "错误: 未找到 python3, 请先安装 Python 3.11+。" >&2
+    exit 1
+fi
+echo "  安装目标环境: $("$PY" -c 'import sys; print(sys.executable)')"
+REQ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/requirements.txt"
+if "$PY" -m pip install -q -r "$REQ"; then
+    echo "  依赖已就绪 (缺失的已自动安装)"
+else
+    echo "错误: pip 安装失败 (详见上方 pip 输出)。" >&2
+    echo "  若提示 externally-managed-environment, 请先激活虚拟环境后重试," >&2
+    echo "  或手动执行: $PY -m pip install -r $REQ" >&2
+    exit 1
+fi
+
+# ---------- 2) 确保 Ollama 服务在运行 ----------
 echo "=====> [service] 检查 Ollama 服务"
 if curl -s --max-time 2 "$API/api/tags" > /dev/null 2>&1; then
     echo "  已在运行: $API"
@@ -44,7 +65,7 @@ else
     echo "  服务已就绪"
 fi
 
-# ---------- 2) 确保所需模型已拉取 ----------
+# ---------- 3) 确保所需模型已拉取 ----------
 echo "=====> [models] 检查并预拉模型"
 existing="$(ollama list 2>/dev/null | awk '{print $1}')"
 for model in "${MODELS[@]}"; do
@@ -56,7 +77,7 @@ for model in "${MODELS[@]}"; do
     fi
 done
 
-# ---------- 3) 验证 ----------
+# ---------- 4) 验证 ----------
 echo "=====> [verify] 冒烟验证"
 qwen_ok="$(curl -s --max-time 120 "$API/api/chat" -d \
     '{"model":"qwen3.8:latest","messages":[{"role":"user","content":"回复 OK"}],"stream":false,"think":false,"options":{"num_predict":5}}' \

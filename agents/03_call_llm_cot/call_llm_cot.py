@@ -213,8 +213,19 @@ def print_structured_result(result):
     print("-" * 40)
 
 
+def ask(msg: str = "") -> str:
+    # 内置 input() 的回显由终端按"列"擦除, 不认识 CJK 宽字符 (一个汉字占 2 列),
+    # 退格删除中文会残留半个字。prompt_toolkit 用 raw 模式自绘输入行, 按字符宽度
+    # 正确擦除; 未安装时自动回退到内置 input()。
+    try:
+        from prompt_toolkit import prompt
+        return prompt(msg)
+    except ImportError:
+        return input(msg)
+
+
 def main():
-    user_input = input("🧑 请输入需要分析的文本: ").strip()
+    user_input = ask("🧑 请输入需要分析的文本: ").strip()
     if not user_input:
         user_input = "这个产品很好用，质量也很棒！"
         print(f"使用默认文本: {user_input}\n")
