@@ -45,3 +45,7 @@ interview/batch_real*.log
 harness/**/results/
 harness/**/batch.log
 harness/**/sandbox/
+
+# harness 线其余跑批产物
+harness/**/batch*.log
+harness/**/rows.json
