@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "mh.loop 主循环时序：一次任务的完整回合",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1000,
+      760
+    ],
+    "column_fit": "spread"
+  },
+  "participants": [
+    {
+      "id": "caller",
+      "type": "external",
+      "label": "调用方",
+      "sublabel": "04_min_loop/demo.py"
+    },
+    {
+      "id": "loop",
+      "type": "frontend",
+      "label": "mh.loop",
+      "sublabel": "while 主循环"
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM",
+      "sublabel": "qwen3.8 · /api/chat"
+    },
+    {
+      "id": "tools",
+      "type": "backend",
+      "label": "工具执行",
+      "sublabel": "run_bash(cwd=沙箱)"
+    }
+  ],
+  "messages": [
+    {
+      "id": "start",
+      "from": "caller",
+      "to": "loop",
+      "y": 200,
+      "label": "run_agent(task, tools)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "ask",
+      "from": "loop",
+      "to": "llm",
+      "y": 280,
+      "label": "messages + tools schema"
+    },
+    {
+      "id": "calls",
+      "from": "llm",
+      "to": "loop",
+      "y": 350,
+      "label": "message.tool_calls",
+      "variant": "return"
+    },
+    {
+      "id": "exec",
+      "from": "loop",
+      "to": "tools",
+      "y": 430,
+      "label": "执行工具(先于收尾)"
+    },
+    {
+      "id": "result",
+      "from": "tools",
+      "to": "loop",
+      "y": 500,
+      "label": "stdout/stderr",
+      "variant": "return"
+    },
+    {
+      "id": "feed",
+      "from": "loop",
+      "to": "llm",
+      "y": 580,
+      "label": "role:tool 结果回填"
+    },
+    {
+      "id": "final",
+      "from": "llm",
+      "to": "loop",
+      "y": 660,
+      "label": "无 tool_calls → 收敛",
+      "variant": "return"
+    },
+    {
+      "id": "done",
+      "from": "loop",
+      "to": "caller",
+      "y": 676,
+      "label": "final + turns + tool_trace",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "循环三定律",
+      "items": [
+        "先执行再收尾：命令与『完成』同轮时不漏执行",
+        "assistant 消息先落历史，再回填 tool 结果",
+        "无 tool_calls 即收敛，轮次上限兜底"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "v0.1 刻意不做的",
+      "items": [
+        "不校验参数（05 工具契约治理）",
+        "不限制命令（06 沙箱 / 07 权限门）",
+        "不计成本（09 预算）、不管上下文（10 压缩）"
+      ]
+    }
+  ]
+}

@@ -40,3 +40,8 @@ interview/**/traces.jsonl
 interview/**/memory.json
 interview/**/trace.jsonl
 interview/batch_real*.log
+
+# harness 线真机运行产物
+harness/**/results/
+harness/**/batch.log
+harness/**/sandbox/

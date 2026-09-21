@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Skills 按需注入：菜单常驻，正文按需付费",
+    "subtitle": "启动只注入 145 字符菜单，命中后才加载 1536 字符正文",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "boot",
+      "label": "启动时"
+    },
+    {
+      "id": "hit",
+      "label": "命中时"
+    },
+    {
+      "id": "ctx",
+      "label": "上下文"
+    }
+  ],
+  "phases": [
+    {
+      "id": "menu",
+      "label": "渐进式披露",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "pay",
+      "label": "按需支付",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "scan",
+    "menu",
+    "task",
+    "load"
+  ],
+  "nodes": [
+    {
+      "id": "scan",
+      "lane": "boot",
+      "col": 0,
+      "type": "database",
+      "label": "扫描 skills/",
+      "sublabel": "解析 frontmatter"
+    },
+    {
+      "id": "menu",
+      "lane": "boot",
+      "col": 2,
+      "type": "frontend",
+      "label": "菜单注入",
+      "sublabel": "system 常驻"
+    },
+    {
+      "id": "task",
+      "lane": "hit",
+      "col": 3,
+      "type": "external",
+      "label": "任务命中",
+      "sublabel": "『准备发布 v1.0』"
+    },
+    {
+      "id": "load",
+      "lane": "hit",
+      "col": 5,
+      "type": "messagebus",
+      "label": "懒加载工具",
+      "sublabel": "按需取正文"
+    },
+    {
+      "id": "body",
+      "lane": "ctx",
+      "col": 5,
+      "type": "database",
+      "label": "正文入上下文",
+      "sublabel": "1536 字符一次付费"
+    }
+  ],
+  "edges": [
+    {
+      "from": "scan",
+      "to": "menu",
+      "variant": "emphasis"
+    },
+    {
+      "from": "menu",
+      "to": "task",
+      "label": "只带菜单开会",
+      "variant": "default"
+    },
+    {
+      "from": "task",
+      "to": "load",
+      "variant": "emphasis",
+      "via": [
+        [
+          600,
+          243
+        ]
+      ],
+      "route": "straight"
+    },
+    {
+      "from": "load",
+      "to": "body",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "真机计量",
+      "items": [
+        "菜单 145 字符常驻",
+        "正文 1536 字符 ≈ 512 est token",
+        "加载前正文 0 字符在上下文"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "设计要点",
+      "items": [
+        "触发词写进 frontmatter 供模型选",
+        "加载经工具而非字符串匹配",
+        "menu:body ≈ 1:10 才值得懒加载",
+        "未命中技能: 正文 0 字符在上下文(实测)"
+      ]
+    }
+  ]
+}

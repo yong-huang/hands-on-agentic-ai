@@ -21,9 +21,11 @@ hands-on-agentic-ai/
 │   ├── 01_cot_compare ... 31_checkpoint_resume
 │   ├── run_all.sh       # 全量测试跑批器 (mock/real 双模式)
 │   └── llm.py           # 两线共用的 OpenAI 兼容客户端 (本地 Ollama)
-├── docs/                # 两线的题单/清单文档
-│   ├── agent.md             # agents 线学习清单 (15/30 进度)
-│   └── agent_interview.md   # interview 线题单 (31/31 完成, 含全部踩坑记录)
+├── harness/             # 🎛️ Harness 攻坚: 18 实验 (自研 mh/ 包, 清单见 docs/harness.md)
+├── docs/                # 各线的题单/清单文档
+│   ├── agent.md             # agents 线学习清单 (30/30 完成)
+│   ├── agent_interview.md   # interview 线题单 (31/31 完成, 含全部踩坑记录)
+│   └── harness.md           # harness 线学习清单 (18/18 完成, 含 Harness vs Agentic AI 速览)
 └── scripts/             # 公共脚本 (模型预载等)
 ```
 

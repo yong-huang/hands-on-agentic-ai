@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "2×2 收尾对照：换模型 vs 换 Harness",
+    "subtitle": "双向受控实验，给系列主线一个自己的答案",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "axis",
+      "label": "两个变量轴"
+    },
+    {
+      "id": "cells",
+      "label": "四个格"
+    },
+    {
+      "id": "verdict",
+      "label": "裁决"
+    }
+  ],
+  "phases": [
+    {
+      "id": "design",
+      "label": "复用 16 评测台",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "answer",
+      "label": "闭环主线",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "tasks",
+    "grid",
+    "report"
+  ],
+  "nodes": [
+    {
+      "id": "tasks",
+      "lane": "axis",
+      "col": 0,
+      "type": "database",
+      "label": "固定任务集",
+      "sublabel": "16 评测台同款"
+    },
+    {
+      "id": "grid",
+      "lane": "cells",
+      "col": 2,
+      "type": "backend",
+      "label": "2×2 网格",
+      "sublabel": "2 模型 × 2 harness",
+      "tag": "40 次跑批"
+    },
+    {
+      "id": "report",
+      "lane": "verdict",
+      "col": 4,
+      "type": "frontend",
+      "label": "REPORT.md",
+      "sublabel": "2×2 表 + 量化结论"
+    }
+  ],
+  "edges": [
+    {
+      "from": "tasks",
+      "to": "grid",
+      "variant": "emphasis"
+    },
+    {
+      "from": "grid",
+      "to": "report",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "实验设计",
+      "items": [
+        "行: qwen3.8(27B) vs qwen3:4b",
+        "列: 裸 loop vs 全装 harness",
+        "判分器与任务集全程不变"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "要回答的问题",
+      "items": [
+        "换模型带来多少提升?",
+        "换 harness 带来多少提升?",
+        "弱模型+好 harness 能否反超?"
+      ]
+    }
+  ]
+}

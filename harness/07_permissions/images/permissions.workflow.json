@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "权限门：意图与副作用之间的三档判定",
+    "subtitle": "The model decides what to do. The harness decides what's allowed.",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "judge",
+      "label": "判定"
+    },
+    {
+      "id": "tier",
+      "label": "三档出口"
+    },
+    {
+      "id": "trace",
+      "label": "留痕"
+    }
+  ],
+  "phases": [
+    {
+      "id": "match",
+      "label": "首条命中",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "exit",
+      "label": "allow / ask / deny",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "cmd",
+    "match",
+    "deny"
+  ],
+  "nodes": [
+    {
+      "id": "cmd",
+      "lane": "judge",
+      "col": 0,
+      "type": "external",
+      "label": "模型意图",
+      "sublabel": "一条待执行命令"
+    },
+    {
+      "id": "match",
+      "lane": "judge",
+      "col": 2,
+      "type": "backend",
+      "label": "规则匹配",
+      "sublabel": "fnmatch 首条命中"
+    },
+    {
+      "id": "allow",
+      "lane": "tier",
+      "col": 1,
+      "type": "backend",
+      "label": "allow 直通",
+      "sublabel": "ls · echo · cat"
+    },
+    {
+      "id": "askh",
+      "lane": "tier",
+      "col": 3,
+      "type": "security",
+      "label": "ask 人工确认",
+      "sublabel": "HITL interrupt · y/N",
+      "tag": "pip install"
+    },
+    {
+      "id": "deny",
+      "lane": "tier",
+      "col": 5,
+      "type": "security",
+      "label": "deny 拒绝",
+      "sublabel": "原因回喂模型",
+      "tag": "rm*"
+    },
+    {
+      "id": "audit",
+      "lane": "trace",
+      "col": 3,
+      "type": "database",
+      "label": "audit.log",
+      "sublabel": "时间戳·判定·命中规则"
+    }
+  ],
+  "edges": [
+    {
+      "from": "cmd",
+      "to": "match",
+      "variant": "default"
+    },
+    {
+      "from": "match",
+      "to": "allow",
+      "label": "良性",
+      "variant": "emphasis",
+      "labelDy": -14,
+      "labelAt": [
+        260,
+        190
+      ]
+    },
+    {
+      "from": "match",
+      "to": "askh",
+      "label": "敏感",
+      "variant": "dashed",
+      "labelDy": 14,
+      "labelAt": [
+        420,
+        190
+      ]
+    },
+    {
+      "from": "match",
+      "to": "deny",
+      "label": "危险命令",
+      "variant": "security",
+      "role": "error",
+      "labelAt": [
+        560,
+        150
+      ]
+    },
+    {
+      "from": "allow",
+      "to": "audit",
+      "variant": "dashed"
+    },
+    {
+      "from": "askh",
+      "to": "audit",
+      "variant": "dashed"
+    },
+    {
+      "from": "deny",
+      "to": "audit",
+      "label": "全部留痕",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "真机一幕",
+      "items": [
+        "rm 被拦后模型改试 unlink → 也被拦",
+        "最后如实汇报『删除被策略禁止』",
+        "audit.log 10 条全部留痕"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "黑名单可绕过",
+      "items": [
+        "python3 os.remove 就是 rm 的旁路",
+        "本系列解法: 解释器一并 deny",
+        "生产解法: 白名单 + 容器隔离"
+      ]
+    }
+  ]
+}

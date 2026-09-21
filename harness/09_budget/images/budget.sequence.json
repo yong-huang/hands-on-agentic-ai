@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "预算与止损时序：warn 提醒 → force 撤走工具 → HANDOFF",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1000,
+      780
+    ],
+    "column_fit": "spread"
+  },
+  "participants": [
+    {
+      "id": "loop",
+      "type": "frontend",
+      "label": "mh.loop",
+      "sublabel": "主循环(零改动)"
+    },
+    {
+      "id": "bud",
+      "type": "backend",
+      "label": "mh.budget",
+      "sublabel": "Budget·计量"
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM",
+      "sublabel": "qwen3.8"
+    },
+    {
+      "id": "tools",
+      "type": "database",
+      "label": "工具表",
+      "sublabel": "可被撤走"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "loop",
+      "to": "bud",
+      "y": 200,
+      "label": "每轮先过预算闸",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "bud",
+      "to": "llm",
+      "y": 280,
+      "label": "warn: 附『请尽快收敛』提醒"
+    },
+    {
+      "id": "m3",
+      "from": "llm",
+      "to": "loop",
+      "y": 360,
+      "label": "继续调用工具",
+      "variant": "return"
+    },
+    {
+      "id": "m4",
+      "from": "loop",
+      "to": "bud",
+      "y": 450,
+      "label": "预算耗尽",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m5",
+      "from": "bud",
+      "to": "llm",
+      "y": 530,
+      "label": "force: 撤走 tools + HANDOFF 指令",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m6",
+      "from": "llm",
+      "to": "loop",
+      "y": 620,
+      "label": "纯文本 HANDOFF 摘要",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "优雅降级三原则",
+      "items": [
+        "不抛异常, 止损也是正常出口",
+        "force 轮撤走 tools: 物理禁止而非口头禁止",
+        "HANDOFF 三行: 已完成/未完成/关键文件"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "真机设计约束",
+      "items": [
+        "qwen3.8 两条批量 bash 做完 5 目录",
+        "预算必须低于自然轮次才演示得出",
+        "精确 token 计量(eval_count)归 16 评测台"
+      ]
+    }
+  ]
+}

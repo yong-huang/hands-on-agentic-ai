@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Hook 系统时序：pre 阻断注入反馈，post 脱敏改写",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1000,
+      780
+    ],
+    "column_fit": "spread"
+  },
+  "participants": [
+    {
+      "id": "loop",
+      "type": "frontend",
+      "label": "mh.loop",
+      "sublabel": "主循环(零改动)"
+    },
+    {
+      "id": "hk",
+      "type": "backend",
+      "label": "mh.hooks",
+      "sublabel": "HookManager"
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM",
+      "sublabel": "qwen3.8"
+    },
+    {
+      "id": "fn",
+      "type": "database",
+      "label": "工具+沙箱",
+      "sublabel": "run_bash"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "from": "loop",
+      "to": "hk",
+      "y": 200,
+      "label": "pre-hook(写 .env)",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m2",
+      "from": "hk",
+      "to": "llm",
+      "y": 280,
+      "label": "[hook 拦截] 反馈注入",
+      "variant": "return"
+    },
+    {
+      "id": "m3",
+      "from": "llm",
+      "to": "loop",
+      "y": 360,
+      "label": "改用合规方案",
+      "variant": "return"
+    },
+    {
+      "id": "m4",
+      "from": "loop",
+      "to": "hk",
+      "y": 450,
+      "label": "pre-hook(放行)"
+    },
+    {
+      "id": "m5",
+      "from": "hk",
+      "to": "fn",
+      "y": 520,
+      "label": "执行"
+    },
+    {
+      "id": "m6",
+      "from": "fn",
+      "to": "hk",
+      "y": 590,
+      "label": "原始结果(含 sk-…)",
+      "variant": "return"
+    },
+    {
+      "id": "m7",
+      "from": "hk",
+      "to": "loop",
+      "y": 660,
+      "label": "post-hook 脱敏后回喂",
+      "variant": "return"
+    },
+    {
+      "id": "m8",
+      "from": "loop",
+      "to": "llm",
+      "y": 690,
+      "label": "role:tool",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "两个 hook 的分工",
+      "items": [
+        "pre: 意图与副作用之间, 阻断+告知怎么改",
+        "post: 结果回喂前, 脱敏/净化/裁剪"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "真机惊喜",
+      "items": [
+        "模型读到的密钥已是 sk-sec…[已脱敏]",
+        "它从头到尾没见过真实密钥",
+        "纵深防御: 写被拦 + 读已脱敏"
+      ]
+    }
+  ]
+}

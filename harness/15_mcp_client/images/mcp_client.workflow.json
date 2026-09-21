@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "MCP 动态工具：外部工具先过权限门",
+    "subtitle": "发现→注册→拦截→批准→执行，外部工具不可直接信",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "mcp",
+      "label": "MCP Server(外部进程)"
+    },
+    {
+      "id": "mh",
+      "label": "mh 工具表"
+    },
+    {
+      "id": "gov",
+      "label": "治理层"
+    }
+  ],
+  "phases": [
+    {
+      "id": "disc",
+      "label": "发现与注册",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "call",
+      "label": "受治理调用",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "server",
+    "reg",
+    "gate",
+    "place",
+    "audit"
+  ],
+  "nodes": [
+    {
+      "id": "server",
+      "lane": "mcp",
+      "col": 0,
+      "type": "cloud",
+      "label": "书店 server",
+      "sublabel": "stdio · 3 tools"
+    },
+    {
+      "id": "reg",
+      "lane": "mh",
+      "col": 1,
+      "type": "database",
+      "label": "动态注册",
+      "sublabel": "inputSchema→mh 工具表"
+    },
+    {
+      "id": "gate",
+      "lane": "gov",
+      "col": 2,
+      "type": "security",
+      "label": "权限门",
+      "sublabel": "place_order*→ask",
+      "tag": "外部工具不直接信"
+    },
+    {
+      "id": "query",
+      "lane": "mcp",
+      "col": 3,
+      "type": "messagebus",
+      "label": "query_stock",
+      "sublabel": "allow 直通"
+    },
+    {
+      "id": "place",
+      "lane": "mcp",
+      "col": 5,
+      "type": "messagebus",
+      "label": "place_order",
+      "sublabel": "ask→人工批准"
+    },
+    {
+      "id": "audit",
+      "lane": "gov",
+      "col": 5,
+      "type": "database",
+      "label": "audit.log",
+      "sublabel": "全部留痕"
+    }
+  ],
+  "edges": [
+    {
+      "from": "server",
+      "to": "reg",
+      "label": "list_tools",
+      "variant": "emphasis"
+    },
+    {
+      "from": "reg",
+      "to": "gate",
+      "label": "注册即包门",
+      "variant": "security"
+    },
+    {
+      "from": "gate",
+      "to": "query",
+      "label": "放行",
+      "variant": "default",
+      "labelAt": [
+        180,
+        420
+      ]
+    },
+    {
+      "from": "gate",
+      "to": "place",
+      "label": "ask→批准",
+      "variant": "emphasis",
+      "fromSide": "top",
+      "toSide": "top",
+      "route": "up-channel",
+      "labelAt": [
+        450,
+        80
+      ]
+    },
+    {
+      "from": "query",
+      "to": "audit",
+      "variant": "dashed"
+    },
+    {
+      "from": "place",
+      "to": "audit",
+      "label": "全部留痕",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "真机一幕",
+      "items": [
+        "动态发现 3 工具",
+        "place_order 被 ask 拦截→批准→订单 O001",
+        "audit.log 2 条 MCP 判定记录"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "桥接工程坑",
+      "items": [
+        "stdio_client 的 anyio 上下文绑定创建任务",
+        "协程返回即关进程 → Connection closed",
+        "解法: 常驻协程持有会话生命周期"
+      ]
+    }
+  ]
+}

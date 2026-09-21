@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "沙箱执行层：一条命令的三道关卡",
+    "subtitle": "词法守卫 → 进程组限时 → 输出截断，永不抛异常",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "in",
+      "label": "进入沙箱"
+    },
+    {
+      "id": "exec",
+      "label": "执行与处决"
+    },
+    {
+      "id": "out",
+      "label": "回喂模型"
+    }
+  ],
+  "phases": [
+    {
+      "id": "guard",
+      "label": "三道关卡",
+      "fromCol": 0,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "result",
+      "label": "可回喂的文本",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "cmd",
+    "guard",
+    "popen",
+    "kill"
+  ],
+  "nodes": [
+    {
+      "id": "cmd",
+      "lane": "in",
+      "col": 0,
+      "type": "external",
+      "label": "命令",
+      "sublabel": "模型想执行的 bash"
+    },
+    {
+      "id": "guard",
+      "lane": "in",
+      "col": 1,
+      "type": "security",
+      "label": "词法守卫",
+      "sublabel": "../ 与 fork 炸弹拒绝",
+      "tag": "拒绝在执行前"
+    },
+    {
+      "id": "popen",
+      "lane": "exec",
+      "col": 1,
+      "type": "messagebus",
+      "label": "进程组执行",
+      "sublabel": "cwd 锁定 · 3s 限时"
+    },
+    {
+      "id": "kill",
+      "lane": "exec",
+      "col": 3,
+      "type": "security",
+      "label": "超时处决",
+      "sublabel": "killpg 杀全组·无孤儿"
+    },
+    {
+      "id": "trunc",
+      "lane": "out",
+      "col": 3,
+      "type": "backend",
+      "label": "8KB 截断",
+      "sublabel": "正常退出也检查"
+    },
+    {
+      "id": "result_ok",
+      "lane": "out",
+      "col": 5,
+      "type": "backend",
+      "label": "结果文本",
+      "sublabel": "永不抛异常"
+    }
+  ],
+  "edges": [
+    {
+      "from": "cmd",
+      "to": "guard",
+      "variant": "default"
+    },
+    {
+      "from": "guard",
+      "to": "popen",
+      "label": "放行",
+      "variant": "emphasis",
+      "labelAt": [
+        220,
+        172
+      ]
+    },
+    {
+      "from": "popen",
+      "to": "kill",
+      "label": "超时",
+      "variant": "security",
+      "role": "error",
+      "route": "straight"
+    },
+    {
+      "from": "popen",
+      "to": "trunc",
+      "label": "正常退出",
+      "variant": "emphasis"
+    },
+    {
+      "from": "kill",
+      "to": "result_ok",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "from": "trunc",
+      "to": "result_ok",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "三层防御",
+      "items": [
+        "词法: ../ 不进执行器",
+        "进程: killpg 处决整组不留孤儿",
+        "输出: 截断并告知, 防上下文爆炸"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "诚实边界",
+      "items": [
+        "词法守卫挡不住绝对路径写 /tmp",
+        "容器级隔离(如 Docker)超出本实验",
+        "绝对路径治理归 07 权限门"
+      ]
+    }
+  ]
+}

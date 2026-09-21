@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "无 Harness 基线：同一任务，差一层执行",
+    "subtitle": "A 组裸 LLM 只能『说出』命令，B 组最小 harness 真的执行并回喂",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      640
+    ]
+  },
+  "lanes": [
+    {
+      "id": "bare",
+      "label": "A 组 · 裸 LLM（无执行层）"
+    },
+    {
+      "id": "ctrl",
+      "label": "B 组 · 最小 harness"
+    },
+    {
+      "id": "judge",
+      "label": "判分"
+    }
+  ],
+  "phases": [
+    {
+      "id": "ask",
+      "label": "同一任务",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "diff",
+      "label": "执行差异",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "grade",
+      "label": "文件系统判分",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "task",
+    "reply_b",
+    "exec_b",
+    "feed",
+    "grade"
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "lane": "bare",
+      "col": 0,
+      "type": "external",
+      "label": "同一任务",
+      "sublabel": "建 3 个文件并统计行数"
+    },
+    {
+      "id": "reply_a",
+      "lane": "bare",
+      "col": 2,
+      "type": "backend",
+      "label": "模型输出 bash",
+      "sublabel": "命令只是被『看到』"
+    },
+    {
+      "id": "claim",
+      "lane": "bare",
+      "col": 4,
+      "type": "security",
+      "label": "宣称任务完成",
+      "sublabel": "文件系统零变化",
+      "tag": "虚假成功"
+    },
+    {
+      "id": "reply_b",
+      "lane": "ctrl",
+      "col": 1,
+      "type": "backend",
+      "label": "模型输出 bash",
+      "sublabel": "完全相同的提示词"
+    },
+    {
+      "id": "exec_b",
+      "lane": "ctrl",
+      "col": 3,
+      "type": "messagebus",
+      "label": "真执行",
+      "sublabel": "cwd 锁沙箱 · 3s 超时"
+    },
+    {
+      "id": "feed",
+      "lane": "ctrl",
+      "col": 5,
+      "type": "frontend",
+      "label": "输出回喂",
+      "sublabel": "据实继续推理"
+    },
+    {
+      "id": "grade",
+      "lane": "judge",
+      "col": 5,
+      "type": "database",
+      "label": "文件系统判分",
+      "sublabel": "行数精确匹配"
+    }
+  ],
+  "edges": [
+    {
+      "from": "task",
+      "to": "reply_a",
+      "variant": "default"
+    },
+    {
+      "from": "task",
+      "to": "reply_b",
+      "variant": "default"
+    },
+    {
+      "from": "reply_a",
+      "to": "claim",
+      "label": "没有执行层",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "from": "reply_b",
+      "to": "exec_b",
+      "variant": "emphasis"
+    },
+    {
+      "from": "exec_b",
+      "to": "feed",
+      "label": "捕获输出",
+      "variant": "emphasis"
+    },
+    {
+      "from": "feed",
+      "to": "grade",
+      "label": "变更已落盘",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "裸 LLM 的典型死法",
+      "items": [
+        "虚假成功：宣称完成，磁盘上什么都没有",
+        "死循环：同一命令反复输出不收敛",
+        "上下文漂移：多轮后忘了任务后半段"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "对照组只多了一件事",
+      "items": [
+        "提取代码块 → 真执行（沙箱内）",
+        "执行结果回喂，模型据实修正",
+        "判分不看嘴，只看文件系统"
+      ]
+    }
+  ]
+}

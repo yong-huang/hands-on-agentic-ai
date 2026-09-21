@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "子代理调度：任务描述就是上下文防火墙",
+    "subtitle": "子代理 3 轮 3 调用，主代理上下文只多一条摘要",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "主代理"
+    },
+    {
+      "id": "sub",
+      "label": "子代理(独立上下文)"
+    },
+    {
+      "id": "judge",
+      "label": "验收"
+    }
+  ],
+  "phases": [
+    {
+      "id": "dispatch",
+      "label": "分派",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "verify",
+      "label": "隔离与回收",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "main_a",
+    "spawn",
+    "subloop",
+    "summary",
+    "cited"
+  ],
+  "nodes": [
+    {
+      "id": "main_a",
+      "lane": "main",
+      "col": 0,
+      "type": "external",
+      "label": "主代理",
+      "sublabel": "收到统计任务"
+    },
+    {
+      "id": "spawn",
+      "lane": "main",
+      "col": 2,
+      "type": "messagebus",
+      "label": "spawn_subagent",
+      "sublabel": "入参=任务描述"
+    },
+    {
+      "id": "subloop",
+      "lane": "sub",
+      "col": 3,
+      "type": "backend",
+      "label": "独立 loop 实例",
+      "sublabel": "3 轮 3 次工具调用",
+      "tag": "过程不出子上下文"
+    },
+    {
+      "id": "summary",
+      "lane": "main",
+      "col": 4,
+      "type": "frontend",
+      "label": "结果摘要",
+      "sublabel": "主上下文只多这一条"
+    },
+    {
+      "id": "cited",
+      "lane": "judge",
+      "col": 5,
+      "type": "database",
+      "label": "磁盘核对",
+      "sublabel": "69 行/437 字/4 标题"
+    }
+  ],
+  "edges": [
+    {
+      "from": "main_a",
+      "to": "spawn",
+      "variant": "default"
+    },
+    {
+      "from": "spawn",
+      "to": "subloop",
+      "label": "全新工具表实例",
+      "variant": "emphasis"
+    },
+    {
+      "from": "subloop",
+      "to": "summary",
+      "label": "只回摘要",
+      "variant": "emphasis"
+    },
+    {
+      "from": "summary",
+      "to": "cited",
+      "label": "数字与磁盘比对",
+      "variant": "emphasis",
+      "labelAt": [
+        540,
+        300
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "隔离三要素",
+      "items": [
+        "独立消息历史",
+        "全新工具表实例",
+        "返回值截断为摘要"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "验收口径",
+      "items": [
+        "trace diff: 子命令 0 条泄漏进主上下文",
+        "摘要数字与磁盘事实核对",
+        "子轨迹留档可查但不污染"
+      ]
+    }
+  ]
+}

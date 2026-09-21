@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "会话生命周期：kill -9 之后的断点续跑",
+    "subtitle": "原子快照·悬空裁剪·跳过重放——崩溃也是一种可恢复事件",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "run",
+      "label": "Phase A · 运行"
+    },
+    {
+      "id": "crash",
+      "label": "崩溃现场"
+    },
+    {
+      "id": "resume",
+      "label": "Phase B · 恢复"
+    }
+  ],
+  "phases": [
+    {
+      "id": "a",
+      "label": "运行即备份",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "b",
+      "label": "崩溃与恢复",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "task",
+    "snap",
+    "kill9",
+    "trim"
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "lane": "run",
+      "col": 0,
+      "type": "external",
+      "label": "串行任务",
+      "sublabel": "d1..d8 一次一个"
+    },
+    {
+      "id": "snap",
+      "lane": "run",
+      "col": 2,
+      "type": "database",
+      "label": "每轮原子快照",
+      "sublabel": "消息历史+副作用清单"
+    },
+    {
+      "id": "kill9",
+      "lane": "crash",
+      "col": 4,
+      "type": "security",
+      "label": "kill -9",
+      "sublabel": "checkpoint 留证"
+    },
+    {
+      "id": "trim",
+      "lane": "resume",
+      "col": 5,
+      "type": "backend",
+      "label": "裁悬空尾部",
+      "sublabel": "丢弃未执行的 tool_calls"
+    },
+    {
+      "id": "redo",
+      "lane": "resume",
+      "col": 3,
+      "type": "messagebus",
+      "label": "跳过重放",
+      "sublabel": "manifest 已完成不重做"
+    },
+    {
+      "id": "done",
+      "lane": "resume",
+      "col": 1,
+      "type": "frontend",
+      "label": "任务完成",
+      "sublabel": "mtime 未动·8/8 建成"
+    }
+  ],
+  "edges": [
+    {
+      "from": "task",
+      "to": "snap",
+      "variant": "default"
+    },
+    {
+      "from": "snap",
+      "to": "kill9",
+      "label": "13s 强杀",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "from": "kill9",
+      "to": "trim",
+      "label": "resume",
+      "variant": "emphasis"
+    },
+    {
+      "from": "trim",
+      "to": "redo",
+      "label": "manifest 比对",
+      "variant": "emphasis",
+      "via": [
+        [
+          660,
+          367
+        ]
+      ],
+      "labelAt": [
+        545,
+        410
+      ]
+    },
+    {
+      "from": "redo",
+      "to": "done",
+      "label": "补完 d7/d8",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "恢复三件套",
+      "items": [
+        "原子快照: tmp+rename, kill 打不断一致性",
+        "悬空裁剪: 卡在 tool_calls 中间也能修",
+        "跳过重放: mtime 未动作铁证"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "与 interview/31 的分界",
+      "items": [
+        "31 恢复问答记录",
+        "本篇恢复带副作用的 agent 会话",
+        "副作用真伪以 manifest 为准"
+      ]
+    }
+  ]
+}

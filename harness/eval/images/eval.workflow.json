@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Harness 评测台：Agent QA 回归管线",
+    "subtitle": "固定任务集 · 受控配置 · 三维指标 · 回退标红",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "input",
+      "label": "输入端"
+    },
+    {
+      "id": "run",
+      "label": "评测执行"
+    },
+    {
+      "id": "out",
+      "label": "裁决"
+    }
+  ],
+  "phases": [
+    {
+      "id": "fix",
+      "label": "固定不变的",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "vary",
+      "label": "唯一变量",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "tasks",
+    "judge",
+    "cfgB",
+    "table"
+  ],
+  "nodes": [
+    {
+      "id": "tasks",
+      "lane": "input",
+      "col": 0,
+      "type": "database",
+      "label": "10 任务集",
+      "sublabel": "含串行依赖"
+    },
+    {
+      "id": "judge",
+      "lane": "input",
+      "col": 2,
+      "type": "security",
+      "label": "文件系统判分",
+      "sublabel": "01 哲学沿用"
+    },
+    {
+      "id": "cfgA",
+      "lane": "run",
+      "col": 3,
+      "type": "backend",
+      "label": "baseline v0.1",
+      "sublabel": "裸 loop+裸 bash"
+    },
+    {
+      "id": "cfgB",
+      "lane": "run",
+      "col": 5,
+      "type": "backend",
+      "label": "full v1.0",
+      "sublabel": "契约+沙箱+预算"
+    },
+    {
+      "id": "table",
+      "lane": "out",
+      "col": 5,
+      "type": "frontend",
+      "label": "对比表",
+      "sublabel": "回退即 exit 1 · 🔴 标红"
+    }
+  ],
+  "edges": [
+    {
+      "from": "tasks",
+      "to": "judge",
+      "variant": "emphasis"
+    },
+    {
+      "from": "judge",
+      "to": "cfgA",
+      "label": "同一任务集",
+      "variant": "default"
+    },
+    {
+      "from": "judge",
+      "to": "cfgB",
+      "variant": "default"
+    },
+    {
+      "from": "cfgA",
+      "to": "table",
+      "variant": "emphasis"
+    },
+    {
+      "from": "cfgB",
+      "to": "table",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Agent QA 三维",
+      "items": [
+        "解决率: 有效性",
+        "平均轮次: 收敛速度",
+        "est token: 成本"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "论文的教训",
+      "items": [
+        "支架演进可能功能不变成本翻倍",
+        "失败任务 token 是成功任务 2.7 倍",
+        "回归评测是支架的刚需"
+      ]
+    }
+  ]
+}

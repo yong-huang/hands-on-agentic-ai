@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "上下文压缩：阈值触发的历史瘦身",
+    "subtitle": "头尾保留·中段摘要·工具结果占位·事件留档",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "check",
+      "label": "每轮检查"
+    },
+    {
+      "id": "compact",
+      "label": "压缩"
+    },
+    {
+      "id": "cont",
+      "label": "继续任务"
+    }
+  ],
+  "phases": [
+    {
+      "id": "watch",
+      "label": "阈值监视",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "resume",
+      "label": "带着摘要继续",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "ctx",
+    "over",
+    "sum",
+    "join",
+    "tail"
+  ],
+  "nodes": [
+    {
+      "id": "ctx",
+      "lane": "check",
+      "col": 0,
+      "type": "database",
+      "label": "消息历史",
+      "sublabel": "估算 token 超阈值?"
+    },
+    {
+      "id": "over",
+      "lane": "check",
+      "col": 2,
+      "type": "security",
+      "label": "触发压缩",
+      "sublabel": "头 2 条+尾 6 条保留"
+    },
+    {
+      "id": "sum",
+      "lane": "compact",
+      "col": 2,
+      "type": "backend",
+      "label": "模型自摘要",
+      "sublabel": "保留文件名/数字/路径",
+      "tag": "≤250 字"
+    },
+    {
+      "id": "join",
+      "lane": "cont",
+      "col": 3,
+      "type": "messagebus",
+      "label": "拼接回历史",
+      "sublabel": "原地替换 messages[:]"
+    },
+    {
+      "id": "tail",
+      "lane": "cont",
+      "col": 5,
+      "type": "frontend",
+      "label": "继续任务",
+      "sublabel": "峰值有界·事件留档"
+    }
+  ],
+  "edges": [
+    {
+      "from": "ctx",
+      "to": "over",
+      "label": "超阈值",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "from": "over",
+      "to": "sum",
+      "label": "中段送摘要器",
+      "variant": "emphasis"
+    },
+    {
+      "from": "sum",
+      "to": "join",
+      "variant": "emphasis"
+    },
+    {
+      "from": "join",
+      "to": "tail",
+      "label": "零改动回 loop",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "三个关键设计",
+      "items": [
+        "摘要由模型生成, 硬性要求保留关键事实",
+        "messages[:] 原地替换, loop 无感",
+        "事件表记录 before/after/摘要全文"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "诚实边界",
+      "items": [
+        "摘要器也可能丢细节(暗桩检查兜底)",
+        "工具结果占位符化后无法回查原文",
+        "精确 token 计量归 16 评测台"
+      ]
+    }
+  ]
+}

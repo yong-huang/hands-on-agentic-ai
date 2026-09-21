@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Agent Harness 分层架构（以 Claude Code 为参照）",
+    "subtitle": "Agent = Model + Harness：模型在外，harness 是可拆解的运行时",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1120,
+      480
+    ],
+    "views": [
+      {
+        "id": "one-call",
+        "label": "一次工具调用的旅程",
+        "focus": [
+          "user",
+          "cli",
+          "prompt",
+          "loop",
+          "tools",
+          "perm",
+          "sandbox",
+          "ctx"
+        ],
+        "note": "从用户输入到沙箱执行再回喂主循环，权限门在执行前拦截。"
+      },
+      {
+        "id": "memory-side",
+        "label": "记忆与扩展",
+        "focus": [
+          "session",
+          "prompt",
+          "ext",
+          "tools"
+        ],
+        "note": "会话状态落盘、记忆注入提示词，扩展机制动态注册工具。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "终端用户",
+      "sublabel": "任务·审批·中断",
+      "pos": [
+        40,
+        200
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM（qwen3.8）",
+      "sublabel": "只负责推理",
+      "pos": [
+        940,
+        200
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "cli",
+      "type": "frontend",
+      "label": "启动链路",
+      "sublabel": "REPL·斜杠命令",
+      "pos": [
+        250,
+        60
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "prompt",
+      "type": "frontend",
+      "label": "Prompt 装配",
+      "sublabel": "系统提示+记忆注入",
+      "pos": [
+        470,
+        60
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "ext",
+      "type": "messagebus",
+      "label": "扩展机制",
+      "sublabel": "子代理·Hooks·MCP·Skills",
+      "pos": [
+        700,
+        60
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "tools",
+      "type": "messagebus",
+      "label": "工具系统·契约",
+      "sublabel": "schema 注册·校验",
+      "pos": [
+        250,
+        200
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "loop",
+      "type": "backend",
+      "label": "查询引擎·主循环",
+      "sublabel": "ReAct 循环·停止条件",
+      "pos": [
+        470,
+        200
+      ],
+      "size": [
+        160,
+        64
+      ],
+      "tag": "中枢单点"
+    },
+    {
+      "id": "perm",
+      "type": "security",
+      "label": "权限门",
+      "sublabel": "allow/ask/deny·HITL",
+      "pos": [
+        250,
+        340
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "sandbox",
+      "type": "database",
+      "label": "沙箱·文件系统",
+      "sublabel": "隔离执行·副作用",
+      "pos": [
+        470,
+        340
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "ctx",
+      "type": "backend",
+      "label": "上下文管理",
+      "sublabel": "压缩·截断·占位符",
+      "pos": [
+        700,
+        340
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "session",
+      "type": "database",
+      "label": "会话·记忆",
+      "sublabel": "checkpoint·MEMORY.md",
+      "pos": [
+        930,
+        340
+      ],
+      "size": [
+        160,
+        64
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Agent Harness 运行时（本系列自研范围）",
+      "wraps": [
+        "cli",
+        "prompt",
+        "ext",
+        "tools",
+        "loop",
+        "perm",
+        "sandbox",
+        "ctx",
+        "session"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c-user",
+      "from": "user",
+      "to": "cli",
+      "label": "下达任务",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c-cli-prompt",
+      "from": "cli",
+      "to": "prompt",
+      "label": "初始化会话"
+    },
+    {
+      "id": "c-prompt-loop",
+      "from": "prompt",
+      "to": "loop",
+      "label": "装配上下文",
+      "labelDy": -42,
+      "labelAt": [
+        543,
+        138
+      ]
+    },
+    {
+      "id": "c-ext-ctx",
+      "from": "ext",
+      "to": "loop",
+      "label": "挂载扩展",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c-loop-llm",
+      "from": "loop",
+      "to": "llm",
+      "label": "推理请求",
+      "variant": "emphasis",
+      "labelDy": -30,
+      "labelAt": [
+        820,
+        180
+      ]
+    },
+    {
+      "id": "c-llm-loop",
+      "from": "llm",
+      "to": "loop",
+      "label": "决策回传",
+      "variant": "dashed",
+      "labelDy": 26,
+      "labelAt": [
+        1000,
+        300
+      ]
+    },
+    {
+      "id": "c-loop-tools",
+      "from": "loop",
+      "to": "tools",
+      "label": "工具调用"
+    },
+    {
+      "id": "c-tools-perm",
+      "from": "tools",
+      "to": "perm",
+      "label": "执行前拦截",
+      "variant": "emphasis",
+      "labelAt": [
+        330,
+        290
+      ]
+    },
+    {
+      "id": "c-perm-sandbox",
+      "from": "perm",
+      "to": "sandbox",
+      "label": "放行·隔离执行",
+      "labelAt": [
+        440,
+        420
+      ]
+    },
+    {
+      "id": "c-sandbox-ctx",
+      "from": "sandbox",
+      "to": "ctx",
+      "label": "结果治理",
+      "labelDy": -24,
+      "labelAt": [
+        620,
+        424
+      ]
+    },
+    {
+      "id": "c-ctx-loop",
+      "from": "ctx",
+      "to": "loop",
+      "label": "回喂",
+      "variant": "dashed",
+      "labelDy": 20,
+      "labelAt": [
+        640,
+        300
+      ]
+    },
+    {
+      "id": "c-session-ctx",
+      "from": "session",
+      "to": "ctx",
+      "label": "记忆入上下文",
+      "variant": "dashed"
+    }
+  ]
+}

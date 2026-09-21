@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "跨会话记忆：A 学到 · B 遵循 · C 遗忘",
+    "subtitle": "MEMORY.md 人类可读——记忆污染的解药是看得见、可手改",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      560
+    ]
+  },
+  "lanes": [
+    {
+      "id": "learn",
+      "label": "会话 A · 学到"
+    },
+    {
+      "id": "store",
+      "label": "MEMORY.md"
+    },
+    {
+      "id": "use",
+      "label": "会话 B/C/D"
+    }
+  ],
+  "phases": [
+    {
+      "id": "capture",
+      "label": "沉淀",
+      "fromCol": 0,
+      "toCol": 2,
+      "variant": "emphasis"
+    },
+    {
+      "id": "apply",
+      "label": "遵循与遗忘",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "conv",
+    "consol",
+    "md",
+    "inject",
+    "ok"
+  ],
+  "nodes": [
+    {
+      "id": "conv",
+      "lane": "learn",
+      "col": 0,
+      "type": "external",
+      "label": "用户声明偏好",
+      "sublabel": "文件头必须加标记"
+    },
+    {
+      "id": "consol",
+      "lane": "learn",
+      "col": 2,
+      "type": "backend",
+      "label": "收尾沉淀",
+      "sublabel": "模型提取 ≤3 条",
+      "tag": "consolidate"
+    },
+    {
+      "id": "md",
+      "lane": "store",
+      "col": 3,
+      "type": "database",
+      "label": "MEMORY.md",
+      "sublabel": "时间戳条目·可手改"
+    },
+    {
+      "id": "inject",
+      "lane": "use",
+      "col": 4,
+      "type": "frontend",
+      "label": "新会话注入",
+      "sublabel": "system_with_memory"
+    },
+    {
+      "id": "ok",
+      "lane": "use",
+      "col": 5,
+      "type": "frontend",
+      "label": "无提示遵循",
+      "sublabel": "calc.py 带标记"
+    },
+    {
+      "id": "forget",
+      "lane": "store",
+      "col": 1,
+      "type": "security",
+      "label": "forget 遗忘",
+      "sublabel": "删含关键词条目",
+      "tag": "C 会话"
+    }
+  ],
+  "edges": [
+    {
+      "from": "conv",
+      "to": "consol",
+      "variant": "default"
+    },
+    {
+      "from": "consol",
+      "to": "md",
+      "label": "remember",
+      "variant": "emphasis"
+    },
+    {
+      "from": "md",
+      "to": "inject",
+      "label": "recall",
+      "variant": "emphasis"
+    },
+    {
+      "from": "inject",
+      "to": "ok",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "真机四会话",
+      "items": [
+        "A: 声明偏好→沉淀 1 条",
+        "B: 无提示 calc.py 带标记",
+        "C: forget 后 recall 清空",
+        "D: 遗忘后模型自发不写(无习惯污染)"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "记忆污染的解药",
+      "items": [
+        "条目带时间戳可追溯",
+        "文件人类可读可手改",
+        "遗忘是一等操作而非补丁"
+      ]
+    }
+  ]
+}

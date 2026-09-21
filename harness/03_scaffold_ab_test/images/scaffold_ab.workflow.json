@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "固定模型变 Harness：契约治理的待遇差异",
+    "subtitle": "模型、任务、判分器全部相同，只有工具调用的『待遇』不同",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      930,
+      620
+    ]
+  },
+  "lanes": [
+    {
+      "id": "model",
+      "label": "同一模型 · qwen3.8"
+    },
+    {
+      "id": "cfgA",
+      "label": "A 配置 · 裸奔"
+    },
+    {
+      "id": "cfgB",
+      "label": "B 配置 · 契约治理"
+    }
+  ],
+  "phases": [
+    {
+      "id": "same",
+      "label": "同一模型",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "treat",
+      "label": "待遇分岔",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "judge",
+      "label": "判分",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "task",
+    "call",
+    "a_exec",
+    "a_err"
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "lane": "model",
+      "col": 0,
+      "type": "external",
+      "label": "同一任务集",
+      "sublabel": "10 个可自动判分任务"
+    },
+    {
+      "id": "call",
+      "lane": "model",
+      "col": 2,
+      "type": "backend",
+      "label": "模型输出调用",
+      "sublabel": "JSON 工具调用协议"
+    },
+    {
+      "id": "a_exec",
+      "lane": "cfgA",
+      "col": 2,
+      "type": "messagebus",
+      "label": "参数直传执行",
+      "sublabel": "无 schema 校验"
+    },
+    {
+      "id": "a_err",
+      "lane": "cfgA",
+      "col": 4,
+      "type": "security",
+      "label": "原始错误直传",
+      "sublabel": "repr(e)·无修复机会",
+      "tag": "判负 0/10"
+    },
+    {
+      "id": "b_valid",
+      "lane": "cfgB",
+      "col": 1,
+      "type": "security",
+      "label": "schema 校验",
+      "sublabel": "缺必填参数即拒"
+    },
+    {
+      "id": "b_trans",
+      "lane": "cfgB",
+      "col": 3,
+      "type": "backend",
+      "label": "错误翻译回传",
+      "sublabel": "哪里错·怎么改·8KB 截断"
+    },
+    {
+      "id": "b_fix",
+      "lane": "cfgB",
+      "col": 5,
+      "type": "messagebus",
+      "label": "结构修复 ×1",
+      "sublabel": "非法 JSON 救回一次"
+    }
+  ],
+  "edges": [
+    {
+      "from": "task",
+      "to": "call",
+      "variant": "default",
+      "route": "straight"
+    },
+    {
+      "from": "call",
+      "to": "a_exec",
+      "label": "裸奔待遇",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "from": "call",
+      "to": "b_valid",
+      "label": "契约待遇",
+      "variant": "emphasis"
+    },
+    {
+      "from": "a_exec",
+      "to": "a_err",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "from": "b_valid",
+      "to": "b_trans",
+      "variant": "emphasis"
+    },
+    {
+      "from": "b_trans",
+      "to": "b_fix",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "A 配置缺的三道工序",
+      "items": [
+        "无校验：缺参数也要到执行时才炸",
+        "无翻译：KeyError 对模型毫无信息量",
+        "无止损：解析失败直接判负"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "契约治理 = 确定性反馈",
+      "items": [
+        "校验失败 → 指名缺哪个参数",
+        "执行失败 → 归纳成可读错误",
+        "修复是稀缺资源：只给一次"
+      ]
+    }
+  ]
+}

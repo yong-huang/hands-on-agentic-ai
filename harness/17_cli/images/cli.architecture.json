@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "mini-harness CLI 总装接线图",
+    "subtitle": "12 模块 · 一张 REPL · 全部证据线",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1180,
+      760
+    ]
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "终端用户",
+      "sublabel": "任务·斜杠命令",
+      "pos": [
+        60,
+        240
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "repl",
+      "type": "frontend",
+      "label": "REPL",
+      "sublabel": "readline·/命令",
+      "pos": [
+        260,
+        240
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "mem",
+      "type": "database",
+      "label": "memory",
+      "sublabel": "MEMORY.md 注入",
+      "pos": [
+        480,
+        100
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "skills",
+      "type": "messagebus",
+      "label": "skills",
+      "sublabel": "菜单懒加载",
+      "pos": [
+        700,
+        100
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "loop",
+      "type": "backend",
+      "label": "loop",
+      "sublabel": "三定律主循环",
+      "pos": [
+        480,
+        240
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM",
+      "sublabel": "qwen3.8·think off",
+      "pos": [
+        700,
+        240
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "bud",
+      "type": "backend",
+      "label": "budget",
+      "sublabel": "warn→force HANDOFF",
+      "pos": [
+        465,
+        380
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "comp",
+      "type": "backend",
+      "label": "compaction",
+      "sublabel": "阈值瘦身",
+      "pos": [
+        645,
+        380
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "sess",
+      "type": "database",
+      "label": "session",
+      "sublabel": "checkpoint/resume",
+      "pos": [
+        825,
+        380
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "perm",
+      "type": "security",
+      "label": "permissions",
+      "sublabel": "allow/ask/deny·审计",
+      "pos": [
+        250,
+        380
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "hooks",
+      "type": "security",
+      "label": "hooks",
+      "sublabel": ".env 保护",
+      "pos": [
+        250,
+        470
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "tools",
+      "type": "messagebus",
+      "label": "tools+sandbox",
+      "sublabel": "契约·守卫·超时",
+      "pos": [
+        250,
+        560
+      ],
+      "size": [
+        160,
+        64
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "mh/ · 12 模块",
+      "wraps": [
+        "repl",
+        "mem",
+        "skills",
+        "loop",
+        "bud",
+        "comp",
+        "sess",
+        "perm",
+        "hooks",
+        "tools"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c1",
+      "from": "user",
+      "to": "repl",
+      "label": "任务",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c2",
+      "from": "repl",
+      "to": "loop",
+      "label": "run_agent",
+      "labelAt": [
+        390,
+        318
+      ]
+    },
+    {
+      "id": "c3",
+      "from": "mem",
+      "to": "repl",
+      "label": "system 注入",
+      "variant": "dashed"
+    },
+    {
+      "id": "c4",
+      "from": "skills",
+      "to": "loop",
+      "variant": "dashed",
+      "label": "菜单",
+      "labelAt": [
+        700,
+        180
+      ]
+    },
+    {
+      "id": "c5",
+      "from": "loop",
+      "to": "llm",
+      "label": "推理",
+      "variant": "emphasis",
+      "labelAt": [
+        640,
+        318
+      ]
+    },
+    {
+      "id": "c6",
+      "from": "loop",
+      "to": "bud",
+      "label": "止损",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        500,
+        330
+      ]
+    },
+    {
+      "id": "c7",
+      "from": "loop",
+      "to": "comp",
+      "label": "瘦身",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        680,
+        330
+      ]
+    },
+    {
+      "id": "c8",
+      "from": "loop",
+      "to": "sess",
+      "label": "快照",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        860,
+        330
+      ]
+    },
+    {
+      "id": "c9",
+      "from": "loop",
+      "to": "perm",
+      "label": "",
+      "labelAt": [
+        300,
+        470
+      ]
+    },
+    {
+      "id": "c10",
+      "from": "perm",
+      "to": "hooks",
+      "label": "",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "c11",
+      "from": "hooks",
+      "to": "tools",
+      "label": "放行执行",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ]
+}
