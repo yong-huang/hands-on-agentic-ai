@@ -1,11 +1,11 @@
 """mh.mcp_client — MCP 动态工具 (项目 15): 发现·代理·过权限门
 
-MCP server(interview/19 的书店夹具)作为外部进程, 客户端桥接三步:
+MCP server(qa/19 的书店夹具)作为外部进程, 客户端桥接三步:
   1. 后台线程跑独立 event loop, 维持持久 stdio 会话(避免每次调用重启进程)
   2. list_tools → 动态注册进 mh 工具表(schema 从 MCP inputSchema 映射)
   3. 每次调用经 07 权限门(外部工具不可信, 拦截点在意图与副作用之间)
 
-信任边界: MCP 工具不是"直接信" —— 与 interview/20 的 guard 思路一致,
+信任边界: MCP 工具不是"直接信" —— 与 qa/20 的 guard 思路一致,
 本模块把它做进 mh 的工具表协议里。
 """
 

@@ -151,7 +151,7 @@
     },
     {
       "dot": "rose",
-      "title": "与 interview/31 的分界",
+      "title": "与 qa/31 的分界",
       "items": [
         "31 恢复问答记录",
         "本篇恢复带副作用的 agent 会话",

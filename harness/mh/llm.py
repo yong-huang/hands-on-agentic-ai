@@ -1,6 +1,6 @@
 """mh.llm — mh 包共用 LLM 客户端 (Ollama 原生 /api/chat, 支持 function calling)
 
-约定与 interview/llm.py 一致: LLM_BASE_URL / LLM_MODEL / LLM_API_KEY 环境变量,
+约定与 qa/llm.py 一致: LLM_BASE_URL / LLM_MODEL / LLM_API_KEY 环境变量,
 默认 http://localhost:11434 + qwen3.8:latest, 免 Key。
 返回完整 message dict(含 content / tool_calls), 供 loop 使用。
 """

@@ -1,7 +1,7 @@
 # 🎛️ Harness AI（Agent Harness）18 小项目学习清单 · Todo List
 
 > 通过 18 个小项目（每项目 80-300 行代码）亲手造一个类 Claude Code 的 Agent Harness，重点吃透 **Harness AI 与 Agentic AI 的区别**
-> 本机 Ollama 免 Key 可跑（复用 `interview/llm.py` 的 OpenAI 兼容约定），零云依赖、零新增安装
+> 本机 Ollama 免 Key 可跑（复用 `qa/llm.py` 的 OpenAI 兼容约定），零云依赖、零新增安装
 > 串联机制：全部项目共同生长为 `harness/mh/` mini-harness 包，每阶段末 ⛓️ 集成接线，项目 17 🏁 终极总装
 > 预计周期：4 周（每天 2-3 小时）
 
@@ -22,7 +22,7 @@
 - 核心公式：**Agent = Model + Harness**。模型负责推理，harness 负责执行、记忆、权限与规则强制
 - 三代演进：① RAG（只读检索）→ ② Agentic 框架（预定义编排，"和工作流图一样僵化"）→ ③ **Harness Engineering**（只定义约束边界，释放模型："The model decides what to do. The harness decides what's allowed."）
 - 实证数据（为什么 harness 值得单独学）：同一模型换 scaffold 得分 **42% vs 78%**；Vercel 删掉 80% 工具后成功率 80%→100%、延迟 724s→141s；论文固定模型只变 harness 版本，解决率原地踏步（~30.5%）而 **token 消耗 391K→668K 近乎翻倍**——生产事故大多"来自 harness，而非模型本身"
-- 与本仓库已有两线的关系：`agents/` 线 = framework 视角（设计时组合能力），`interview/` 线 = 考点视角（能讲清），**本线 = harness 视角（能造出）**——见文末关系表
+- 与本仓库已有两线的关系：`agents/` 线 = framework 视角（设计时组合能力），`qa/` 线 = 问题实证视角（能讲清），**本线 = harness 视角（能造出）**——见文末关系表
 
 ---
 
@@ -55,7 +55,7 @@
 
 | 场景 | 提示词 |
 |:---|:---|
-| **开始一个新项目** | `我要开始 Agent Harness 项目「[名称]」，目标是 [目标]。请给我完整 Python 代码约 [行数] 行（Python 3.11+，LLM 走 OpenAI 兼容接口：base_url/model 从环境变量 LLM_BASE_URL/LLM_MODEL 读取，默认 http://localhost:11434/v1 + qwen3.8:latest，支持 MOCK=1 离线），复用 /Users/hyhit/Desktop/workspace/projects/hands-on-agentic-ai/interview/llm.py 的 chat() 客户端，含验收断言与运行命令。只输出代码。` |
+| **开始一个新项目** | `我要开始 Agent Harness 项目「[名称]」，目标是 [目标]。请给我完整 Python 代码约 [行数] 行（Python 3.11+，LLM 走 OpenAI 兼容接口：base_url/model 从环境变量 LLM_BASE_URL/LLM_MODEL 读取，默认 http://localhost:11434/v1 + qwen3.8:latest，支持 MOCK=1 离线），复用 /Users/hyhit/Desktop/workspace/projects/hands-on-agentic-ai/qa/llm.py 的 chat() 客户端，含验收断言与运行命令。只输出代码。` |
 | **排障** | `我的 mini-harness 出现 [现象]，报错/日志：[粘贴]。请分析是模型问题还是 harness 问题，给修复代码。` |
 | **对照 Claude Code 设计** | `我正在自研 harness 的 [模块]（当前实现：[粘贴代码]）。Claude Code 源码中同类机制是这样设计的：[资料要点]。请指出我的实现差距并给改进版代码。` |
 | **评测设计** | `我要为 harness 做回归评测，任务是 [描述]。请给我评分器代码：解决率/token 消耗/轮次三个指标，输出 markdown 对比表。只输出代码。` |
@@ -88,12 +88,12 @@
 | **行数** | ~150 |
 | **核心知识点** | 裸模型缺陷、失败模式分类（工具幻觉/死循环/上下文漂移/无状态）、基线思维 |
 | **产出模块** | `harness/01_no_harness_baseline/`（实验脚本 + `FAILURES.md` 失败实录） |
-| **技术栈** | Python 标准库 + `interview/llm.py`（已实测 ✅） |
+| **技术栈** | Python 标准库 + `qa/llm.py`（已实测 ✅） |
 | **验收标准** | 让裸 LLM（仅 prompt，无工具执行层）完成"在 tmp 目录创建 3 个文件并统计行数"的多步任务 10 次：≥3 种经典失败模式各有 1 份日志证据存入 FAILURES.md；对照组（手写 10 行的"给它 bash 工具"最简循环）成功率显著更高并有数字对比 |
 | **⚠️ 风险** | 本地小模型失败更快，属正常实验现象，不是 bug |
 
 **🤖 开始提示词**：
-> `我要开始 Agent Harness 项目「无 Harness 基线」。请给我完整 Python 代码约 150 行：一个 runner 让裸 LLM 通过对话（无工具执行、无重试控制）尝试完成多步文件任务，自动记录每轮对话与结果；另加一个 10 行的对照组（直接 exec 模型输出的 bash 命令）。输出失败分类统计表。复用 interview/llm.py 的 chat()，支持 MOCK=1。附验收命令。只输出代码。`
+> `我要开始 Agent Harness 项目「无 Harness 基线」。请给我完整 Python 代码约 150 行：一个 runner 让裸 LLM 通过对话（无工具执行、无重试控制）尝试完成多步文件任务，自动记录每轮对话与结果；另加一个 10 行的对照组（直接 exec 模型输出的 bash 命令）。输出失败分类统计表。复用 qa/llm.py 的 chat()，支持 MOCK=1。附验收命令。只输出代码。`
 
 **完成日期**：2026-09-18（真机 qwen3.8 10×2：A 组 0/10，B 组 10/10，见 `harness/01_no_harness_baseline/results/`）
 **踩坑记录**：① 模型"命令+任务完成"同轮时先判完成导致命令漏执行——harness 动作必须先于模型结论；② qwen3:4b 混合推理把 1200 token 配额全花在思考上 content 为空（/no_think 兜底）；③ 系统代理把 localhost:11434 劫持到 :7890 致跑批静默卡死（NO_PROXY 豁免）；④ mock 自检会污染真机 results/（自检改写临时目录）
@@ -127,11 +127,11 @@
 | **核心知识点** | 受控变量法（固定模型只变 scaffold）、解决率/token/轮次三指标、Agent QA 思想 |
 | **产出模块** | `harness/03_scaffold_ab_test/`（任务集 + 两配置 runner + 对比表） |
 | **前置** | 项目 1 |
-| **技术栈** | 复用 interview 线已验证的评测套路（已实测 ✅） |
+| **技术栈** | 复用 qa 线已验证的评测套路（已实测 ✅） |
 | **验收标准** | 固定 `qwen3.8:latest`，同一 10 任务集跑两种 harness 配置（A：无工具描述优化+无错误回传；B：schema 校验+错误回传+结果截断）：产出 markdown 对比表，含解决率/平均 token/平均轮次三行，两配置差异全部量化；任务集与跑批脚本可一键重跑 |
 
 **🤖 开始提示词**：
-> `我要开始 Agent Harness 项目「固定模型变 Harness 对照实验」。请给我完整 Python 代码约 200 行：10 个可自动判分的文件操作任务、两个 harness 配置（A 裸奔 / B 有工具契约治理），固定 qwen3.8 跑批，输出解决率/token/轮次对比表。复用 interview/llm.py，支持 MOCK=1。附验收命令。只输出代码。`
+> `我要开始 Agent Harness 项目「固定模型变 Harness 对照实验」。请给我完整 Python 代码约 200 行：10 个可自动判分的文件操作任务、两个 harness 配置（A 裸奔 / B 有工具契约治理），固定 qwen3.8 跑批，输出解决率/token/轮次对比表。复用 qa/llm.py，支持 MOCK=1。附验收命令。只输出代码。`
 
 **完成日期**：2026-09-18（真机 qwen3.8 10 任务×2 配置：A/B 均 10/10，轨迹完全一致——零差异是主发现）
 **踩坑记录**：① 强模型+顺任务域测不出契约治理差异（40 调用零失败），A/B"惩罚"一次未被触发——后续实验必须注入扰动或分难度档；② 修复预算 0 次使用；③ temperature=0 轨迹逐字可复现，评测需温度>0 或难度梯度才有分布信息
@@ -153,7 +153,7 @@
 | **验收标准** | `python harness/04_min_loop/demo.py` 一条命令：agent 自主完成"在 /tmp/mh_demo 创建 hello.py（内容打印日期）并运行它"两步任务，全程零人工干预，`--trace` 参数能看到每一轮的完整消息历史 |
 
 **🤖 开始提示词**：
-> `我要开始 Agent Harness 项目「最小 Agent Loop」。请给我完整 Python 代码约 180 行：harness/mh/loop.py 实现 run_agent(task, tools, max_turns) 主循环（LLM→tool_calls→执行→结果回填→继续，直到 finish 或超轮次），内置一个 run_bash 工具，demo.py 演示两步文件任务。复用 interview/llm.py 的 base_url/model 环境变量约定，Ollama function calling 格式。附验收命令。只输出代码。`
+> `我要开始 Agent Harness 项目「最小 Agent Loop」。请给我完整 Python 代码约 180 行：harness/mh/loop.py 实现 run_agent(task, tools, max_turns) 主循环（LLM→tool_calls→执行→结果回填→继续，直到 finish 或超轮次），内置一个 run_bash 工具，demo.py 演示两步文件任务。复用 qa/llm.py 的 base_url/model 环境变量约定，Ollama function calling 格式。附验收命令。只输出代码。`
 
 **完成日期**：2026-09-18（mh/ 包诞生：loop.py ~60 行，真机 3 轮 2 调用全自主过验收）
 **踩坑记录**：① qwen3.8 经 Ollama 返回 content 为空、推理在独立 thinking 字段——10 压缩要治理；② 接口预留 chat_fn/on_event/cwd 注入点，后续模块零侵入接入
@@ -168,7 +168,7 @@
 | **核心知识点** | 工具注册表、JSON Schema 参数校验、错误信息回传设计、模型自纠循环 |
 | **产出模块** | `harness/mh/tools.py` |
 | **前置** | 项目 4 |
-| **技术栈** | `jsonschema`（已装 ✅，interview/15 同款） |
+| **技术栈** | `jsonschema`（已装 ✅，qa/15 同款） |
 | **验收标准** | 故意让模型首次调用传错参数类型：日志可见"校验失败→错误回传→第二次调用成功"完整两轮，任务最终完成；`mh/tools.py` 被项目 4 的 loop 无侵入替换后原 demo 仍通过 |
 
 **🤖 开始提示词**：
@@ -285,7 +285,7 @@
 | **核心知识点** | 会话快照、崩溃恢复、幂等重放、断点续跑 |
 | **产出模块** | `harness/mh/session.py` |
 | **前置** | 项目 10 |
-| **⚠️ 风险** | 与 interview/31_checkpoint_resume 同主题——本版是**进阶**：恢复的不是问答记录而是**带工具状态的 agent 会话**（已执行的工具调用及其副作用要识别并跳过） |
+| **⚠️ 风险** | 与 qa/31_checkpoint_resume 同主题——本版是**进阶**：恢复的不是问答记录而是**带工具状态的 agent 会话**（已执行的工具调用及其副作用要识别并跳过） |
 | **验收标准** | 任务执行中途 `kill -9` 进程，`--resume` 重启后：断言已完成的文件写操作不重复执行（按 mtime+内容 hash 判断）、任务最终完成、恢复事件写入会话日志 |
 
 **🤖 开始提示词**：
@@ -362,11 +362,11 @@
 | **核心知识点** | MCP 协议客户端、动态工具注册、外部工具过权限门、信任边界 |
 | **产出模块** | `harness/mh/mcp_client.py` |
 | **前置** | 项目 7、5 |
-| **⚠️ 风险** | 与 interview/19-20 同主题——本版是**进阶**：MCP 工具不是"直接信"，而是必须先过项目 7 的 allow/ask/deny 权限门。复用 interview/19 的 MCP server 作夹具，无新增依赖（`mcp` 包已装 ✅） |
+| **⚠️ 风险** | 与 qa/19-20 同主题——本版是**进阶**：MCP 工具不是"直接信"，而是必须先过项目 7 的 allow/ask/deny 权限门。复用 qa/19 的 MCP server 作夹具，无新增依赖（`mcp` 包已装 ✅） |
 | **验收标准** | 连接本地 MCP server 后其工具动态出现在工具注册表：断言 ① 模型能发现并调用 ② 其中一个工具命中 ask 规则被拦截等审批 ③ 审批通过后调用成功、audit.log 有 MCP 工具记录 |
 
 **🤖 开始提示词**：
-> `我要开始 Agent Harness 项目「MCP 动态工具」。请给我完整 Python 代码约 220 行：harness/mh/mcp_client.py 启动本地 MCP server 子进程（复用 interview/19_mcp_server 的实现），list_tools 动态注册进 mh 工具表，每次调用前先过 permissions 门。附发现/拦截/放行三段式验收脚本。只输出代码。`
+> `我要开始 Agent Harness 项目「MCP 动态工具」。请给我完整 Python 代码约 220 行：harness/mh/mcp_client.py 启动本地 MCP server 子进程（复用 qa/19_mcp_server 的实现），list_tools 动态注册进 mh 工具表，每次调用前先过 permissions 门。附发现/拦截/放行三段式验收脚本。只输出代码。`
 
 **完成日期**：2026-09-20（动态发现 3 工具；place_order ask 拦截→批准→订单 O001；audit 2 条）
 **踩坑记录**：① anyio 上下文绑定创建任务——stdio_client 的 CM 跨协程持有即 Connection closed，须常驻协程持有会话生命周期；② 权限匹配串泛化为"command 或 工具名+参数"，否则 MCP 工具全被 default deny；③ 治理过严时模型主动暂停交易而非硬闯——行为红利再现
@@ -459,12 +459,12 @@
 ```bash
 # 0. 已就绪（2026-09-17 实测）：
 #    Python 3.13.9（anaconda）· Ollama: qwen3.8:latest(17GB) + qwen3:4b + nomic-embed-text
-#    jsonschema / requests / mcp 已装 · interview/llm.py 共用客户端（环境变量切换 base_url/model）
+#    jsonschema / requests / mcp 已装 · qa/llm.py 共用客户端（环境变量切换 base_url/model）
 # 1. 需安装：无（全清单零新增依赖；项目 18 的 DeepSeek API 对照为可选，无 Key 不影响验收）
 # 2. 每项目开工前：
 ollama list | grep qwen3.8        # 模型在位
 python3 harness/NN_xxx/xxx.py --selftest 2>/dev/null || echo "本项目无 selftest, 直接跑验收脚本"
-# 3. 离线跑法：MOCK=1（复用 interview 线约定）或 LLM_MODEL=qwen3:4b 降档提速
+# 3. 离线跑法：MOCK=1（复用 qa 线约定）或 LLM_MODEL=qwen3:4b 降档提速
 ```
 
 ## ⚠️ 与已有清单的关系
@@ -472,8 +472,8 @@ python3 harness/NN_xxx/xxx.py --selftest 2>/dev/null || echo "本项目无 selft
 | 已有清单 | 关系 |
 |:---|:---|
 | `docs/agent.md`（agents 线，30/30 ✅） | **互补视角**：agents 线 = LangChain framework 视角（设计时怎么组合出 agent 能力），本线 = harness 视角（运行时怎么管控 agent 行为）。正是 winder.ai 说的 "Frameworks compose agents, harnesses run them"。项目 5（工具契约）是 agents 线项目 15-18 的运行时进阶 |
-| `docs/agent_interview.md`（interview 线，31/31 ✅） | **互补+进阶**：面试线解决"能讲清"，本线解决"能造出"。明确进阶项：项目 11 ≙ interview/31 进阶（恢复工具副作用而非问答记录）、项目 15 ≙ interview/19-20 进阶（MCP 工具过权限门）、项目 16 ≙ interview/27-28 评测的 harness 专项化；项目 8（Hook）两线均未覆盖，属全新 |
-| 重叠规避 | agents/interview 线已完成的基础项（裸调 API、CoT/ReAct 推理、RAG、多 agent 协作框架对比）本清单**不再重复**，只在与 harness 交界处引用 |
+| `docs/qa.md`（qa 线，31/31 ✅） | **互补+进阶**：qa 线解决"能讲清"，本线解决"能造出"。明确进阶项：项目 11 ≙ qa/31 进阶（恢复工具副作用而非问答记录）、项目 15 ≙ qa/19-20 进阶（MCP 工具过权限门）、项目 16 ≙ qa/27-28 评测的 harness 专项化；项目 8（Hook）两线均未覆盖，属全新 |
+| 重叠规避 | agents/qa 线已完成的基础项（裸调 API、CoT/ReAct 推理、RAG、多 agent 协作框架对比）本清单**不再重复**，只在与 harness 交界处引用 |
 
 ## 📚 来源（2026-09-17 联网核实）
 

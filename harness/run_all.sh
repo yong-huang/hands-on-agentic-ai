@@ -38,7 +38,7 @@ if [ "$MODE" = "mock" ]; then
     lab 12_memory_mock     12_memory "MOCK=1 python3 demo.py"
     lab 13_subagent_mock   13_subagent "MOCK=1 python3 demo.py"
     lab 14_skills_mock     14_skills "MOCK=1 python3 demo.py"
-    lab 15_mcp_proto       15_mcp_client "python3 ../../interview/19_mcp_server/mcp_server.py test | grep -q '协议握手'"
+    lab 15_mcp_proto       15_mcp_client "python3 ../../qa/19_mcp_server/mcp_server.py test | grep -q '协议握手'"
     lab 16_eval_mock       eval "MOCK=1 bash run.sh"
     lab 17_cli_compile     17_cli "python3 -m py_compile demo.py ../mh/cli.py"
     lab 18_compile         18_model_vs_harness "python3 -m py_compile run_2x2.py"

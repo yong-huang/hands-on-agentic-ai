@@ -31,8 +31,8 @@ LAB_DIR = Path(__file__).resolve().parent
 RESULTS_DIR = LAB_DIR / "results"   # selftest 会临时改指向 tmp, mock 数据永不污染真机结果
 os.environ.setdefault("NO_PROXY", "localhost,127.0.0.1")        # 本地 Ollama 不走系统代理
 os.environ.setdefault("no_proxy", "localhost,127.0.0.1")
-sys.path.insert(0, str(LAB_DIR / ".." / ".." / "interview"))
-from llm import MODEL, chat, mock_chat  # noqa: E402  复用 interview 线共用客户端
+sys.path.insert(0, str(LAB_DIR / ".." / ".." / "qa"))
+from llm import MODEL, chat, mock_chat  # noqa: E402  复用 qa 线共用客户端
 
 TASK = ("请在沙箱目录完成以下任务, 全部做完后明确说\"任务完成\":\n"
         "1) 创建 alpha.txt, 内容为 3 行文字;\n"

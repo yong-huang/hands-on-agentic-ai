@@ -8,7 +8,7 @@
 > 完整学习清单（含 Harness AI vs Agentic AI 区别速览与来源）见
 > [../docs/harness.md](../docs/harness.md)。
 > 另两条线：[agents/](../agents/README.md)（framework 视角）·
-> [interview/](../interview/README.md)（面试考点视角）。
+> [qa/](../qa/README.md)（问题实证视角）。
 
 ## 环境要求
 
@@ -22,7 +22,7 @@ ollama serve                         # http://localhost:11434
 pip install -r requirements.txt
 ```
 
-- 共用客户端 `../interview/llm.py`：`LLM_BASE_URL` / `LLM_MODEL` 环境变量切换，
+- 共用客户端 `../qa/llm.py`：`LLM_BASE_URL` / `LLM_MODEL` 环境变量切换，
   `MOCK=1` 离线模式。
 - 提速跑法：`LLM_MODEL=qwen3:4b`（2.5GB，注意 qwen3 混合推理模型的
   thinking 配额坑，各实验脚本已内置 `/no_think` 处理）。
@@ -60,7 +60,7 @@ pip install -r requirements.txt
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
 | ✅ 10 | [compaction](10_compaction/README.md) | 上下文压缩：阈值触发 + 摘要 + 工具结果治理 |
-| ✅ 11 | [session](11_session/README.md) | 会话持久化与崩溃恢复：checkpoint/resume（≙ interview/31 进阶） |
+| ✅ 11 | [session](11_session/README.md) | 会话持久化与崩溃恢复：checkpoint/resume（≙ qa/31 进阶） |
 | ✅ 12 | [memory](12_memory/README.md) | 跨会话记忆：MEMORY.md 自动沉淀与新会话注入 |
 
 ### 第五阶段 · 扩展机制
@@ -69,7 +69,7 @@ pip install -r requirements.txt
 | :--- | :--- | :--- |
 | ✅ 13 | [subagent](13_subagent/README.md) | 子代理调度：上下文隔离的任务分派与回收 |
 | ✅ 14 | [skills](14_skills/README.md) | Skills 按需注入：触发匹配 + 懒加载省 token 实测 |
-| ✅ 15 | [mcp_client](15_mcp_client/README.md) | MCP 动态工具：在权限门下接入外部 server（≙ interview/19-20 进阶） |
+| ✅ 15 | [mcp_client](15_mcp_client/README.md) | MCP 动态工具：在权限门下接入外部 server（≙ qa/19-20 进阶） |
 
 ### 第六阶段 · 评测与总装
 

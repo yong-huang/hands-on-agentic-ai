@@ -3,9 +3,9 @@
 > 通过 30 个小项目（每个 100-500 行 Python）系统掌握 AI Agent 开发：
 > 从裸 HTTP 调用 LLM，到手写 ReAct 循环、Function Calling、MCP、HITL 审批，
 > 再到记忆系统、RAG、多 Agent 协同与可观测性。
-> 每个实验四件套：**README 教程 + 主脚本 + 真实可跑 + 架构图三件套**。
+> 每个实验：**README 教程 + 主脚本 + 真实可跑**（01-30 另配架构图三件套）。
 > 完整学习清单与 AI 提示词见 [../docs/agent.md](../docs/agent.md)。
-> 面试导向的 31 个项目见 [../interview/](../interview/README.md)。
+> 问题实证的 31 个项目见 [../qa/](../qa/README.md)。
 
 ## 环境要求
 
@@ -29,7 +29,7 @@ ollama serve                        # 默认监听 http://localhost:11434
 # 2) Python 3.11+
 conda create -n agent_dev python=3.11 && conda activate agent_dev
 
-# 3) 依赖（与 load_resources.sh 第 1 步等价，覆盖 agents/ 与 interview/ 全部脚本）
+# 3) 依赖（与 load_resources.sh 第 1 步等价，覆盖 agents/ 与 qa/ 全部脚本）
 pip install -r requirements.txt
 ```
 
@@ -137,7 +137,7 @@ pip install -r requirements.txt
 
 ```
 agents/NN_xxx/
-├── README.md          # 教程：为什么 / 一图看懂 / 快速开始 / 核心概念 / 深入要点
+├── README.md          # 教程：五段式 What / Why / How / Deep Dive / Q&A
 ├── xxx.py             # 主脚本 = 学习重点，逐行读脚本就是在学这个主题
 └── images/            # 架构图三件套
     ├── xxx.<type>.json  # 图源（Typed JSON，可 diff、可复现）
@@ -151,7 +151,7 @@ agents/NN_xxx/
 
 ## 已在真实环境验证过的事
 
-- 30 个实验全部在本机（Ollama + qwen3.8:latest）跑通（26-30 为收官批次），
+- 34 个实验全部在本机（Ollama + qwen3.8:latest）跑通，
   交互脚本以管道输入方式回归验证；
 - 修复过的真实 bug：项目 05 的 EOF 死循环、项目 09 的推理模型空答案
   （`reasoning=False`）、项目 14 的 MCP 废弃包名与裸 sleep、项目 15 的

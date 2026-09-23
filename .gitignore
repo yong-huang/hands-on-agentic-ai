@@ -31,15 +31,15 @@ agents/*/MEMORY.md
 agents/*/_demo_store.json
 chroma_db*/
 agents/30_observability_eval/traces/
-interview/**/checkpoint.json
+qa/**/checkpoint.json
 
-# interview 真机运行产物
-interview/**/real_run.log
-interview/**/audit.jsonl
-interview/**/traces.jsonl
-interview/**/memory.json
-interview/**/trace.jsonl
-interview/batch_real*.log
+# qa 真机运行产物
+qa/**/real_run.log
+qa/**/audit.jsonl
+qa/**/traces.jsonl
+qa/**/memory.json
+qa/**/trace.jsonl
+qa/batch_real*.log
 
 # harness 线真机运行产物
 harness/**/results/

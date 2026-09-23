@@ -29,7 +29,7 @@ LAB_DIR = Path(__file__).resolve().parent
 RESULTS_DIR = LAB_DIR / "results"
 os.environ.setdefault("NO_PROXY", "localhost,127.0.0.1")
 os.environ.setdefault("no_proxy", "localhost,127.0.0.1")
-sys.path.insert(0, str(LAB_DIR / ".." / ".." / "interview"))
+sys.path.insert(0, str(LAB_DIR / ".." / ".." / "qa"))
 from llm import chat, mock_chat  # noqa: E402
 
 NUM_PREDICT = 1200

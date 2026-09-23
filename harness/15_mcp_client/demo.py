@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """15 · MCP 动态工具 — 外部工具先过权限门 (docs/harness.md 项目 15)
 
-interview/19-20 的进阶: MCP 工具不是"直接信"。
-流程: 启动书店 MCP server(interview/19 夹具) → list_tools 动态注册 →
+qa/19-20 的进阶: MCP 工具不是"直接信"。
+流程: 启动书店 MCP server(qa/19 夹具) → list_tools 动态注册 →
 每个 MCP 工具包上 07 权限门 → 真机 agent 查库存+下单。
 
 规则: query_stock/sales_stats allow, place_order ask(脚本注入批准)。
@@ -60,7 +60,7 @@ def main():
         print("MOCK: MCP 管道无离线模式(依赖真实 server), 跳过")
         return
 
-    server = Path("..") / ".." / "interview" / "19_mcp_server" / "mcp_server.py"
+    server = Path("..") / ".." / "qa" / "19_mcp_server" / "mcp_server.py"
     bridge = MCPBridge(server)
     bridge.start()
     discovered = bridge.list_tools()
