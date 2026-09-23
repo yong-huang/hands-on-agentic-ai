@@ -63,7 +63,15 @@ def mock_chat(messages, tools=None, **kw):
     last = str(messages[-1].get("content", ""))
     if "提取值得跨会话" in last:
         return {"role": "assistant", "content": "- 所有 Python 文件头部必须加注释 # PROJECT: mh-demo"}
-    return {"role": "assistant", "content": "好的"}
+    n_tool = sum(1 for m in messages if m.get("role") == "tool")
+    if n_tool == 0:
+        sysc = str(messages[0].get("content", ""))
+        mark = "  # PROJECT: mh-demo" if "mh-demo" in sysc else ""
+        return {"role": "assistant", "content": "", "tool_calls": [
+            {"function": {"name": "run_bash",
+                          "arguments": {"command":
+                                        f"printf 'def add(a, b):\\n    return a + b{mark}\\n' > calc.py"}}}]}
+    return {"role": "assistant", "content": "任务完成: calc.py 已创建"}
 
 
 TASK = "创建 hello.py, 内容为打印 hi"

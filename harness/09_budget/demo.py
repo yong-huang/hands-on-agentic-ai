@@ -68,7 +68,7 @@ def mock_chat(messages, tools=None, **kw):
     n = sum(1 for m in messages
             if isinstance(m.get("content"), str) and "f.txt" in str(m.get("content"))) or 1
     sysmsg = [m for m in messages if m["role"] == "system"]
-    forced = any("HANDOFF" in str(m.get("content")) for m in sysmsg)
+    forced = any("HANDOFF" in str(m.get("content")) for m in messages)
     step = min(sum(1 for m in messages if m["role"] == "tool") + 1, 5)
     if forced:
         return {"role": "assistant", "content":

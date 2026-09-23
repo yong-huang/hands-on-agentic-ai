@@ -53,11 +53,17 @@ def make_tools_factory(sandbox: Path):
     return factory
 
 
+_TRUTH = (len(WORKSPACE_README.read_text().splitlines()),
+          __import__("re").findall(r"[一-龥]", WORKSPACE_README.read_text()).__len__(),
+          WORKSPACE_README.read_text().count("##"))
+_TRUTH_STR = f"{_TRUTH[0]} 行 / {_TRUTH[1]} 中文字符 / {_TRUTH[2]} 个标题"
+
+
 def mock_chat(messages, tools=None, **kw):
     """离线: 主代理调 spawn(内含 mock 子代理), 验证隔离管道。"""
     last = messages[-1]
     if last.get("role") == "tool":
-        return {"role": "assistant", "content": "子代理汇报: 24 行 / 371 中文字符 / 11 个标题"}
+        return {"role": "assistant", "content": f"子代理汇报: {_TRUTH_STR}"}
     return {"role": "assistant", "content": "", "tool_calls": [
         {"function": {"name": "spawn_subagent",
                       "arguments": {"task": "统计 README 指标"}}}]}
@@ -70,7 +76,7 @@ def mock_sub_chat(messages, tools=None, **kw):
     if n < 3:
         return {"role": "assistant", "content": "", "tool_calls": [
             {"function": {"name": "run_bash", "arguments": {"command": cmds[n]}}}]}
-    return {"role": "assistant", "content": "24 行 / 371 中文字符 / 11 个标题"}
+    return {"role": "assistant", "content": _TRUTH_STR}
 
 
 def main():

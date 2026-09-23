@@ -15,6 +15,7 @@
 import fnmatch
 import json
 import os
+import re
 import time
 from pathlib import Path
 
@@ -45,12 +46,30 @@ class PermissionGate:
                     f"  命令: {command}\n  允许执行? [y/N] ").strip().lower()
         return ans == "y", "人工批准" if ans == "y" else "人工拒绝"
 
+    @staticmethod
+    def _segments(command: str):
+        """命令链拆分: && / || / ; / 管道 逐段独立判定。
+        17 总装实测: 模型会把 rm 藏进 `echo ... && rm ...`, 整串前缀匹配
+        会被 echo* 放行 —— 链感知后任一段命中 deny/ask 即生效(最严者胜)。"""
+        return [s.strip() for s in re.split(r"&&|\|\||;|\|", command) if s.strip()]
+
     def check(self, command: str) -> tuple:
-        """返回 (decision, rule)。"""
-        for rule in self.rules:
-            if fnmatch.fnmatch(command, rule["pattern"]):
-                return rule.get("decision", "deny"), rule
-        return self.default, {"pattern": "(default)", "reason": "无规则命中, 安全默认"}
+        """返回 (decision, rule) —— 对命令链逐段判定, 最严者胜。"""
+        order = {"deny": 0, "ask": 1, "allow": 2}
+        default_rule = {"pattern": "(default)",
+                        "reason": "无规则命中, 安全默认"}
+        decisions = []
+        for seg in self._segments(command):
+            hit = None
+            for rule in self.rules:
+                if fnmatch.fnmatch(seg, rule["pattern"]):
+                    hit = (rule.get("decision", "deny"), rule)
+                    break
+            decisions.append(hit or (self.default, default_rule))
+        if not decisions:
+            return self.default, default_rule
+        decisions.sort(key=lambda d: order.get(d[0], 0))
+        return decisions[0]
 
     def audit(self, command: str, decision: str, rule: dict, note: str = ""):
         if not self.audit_path:
