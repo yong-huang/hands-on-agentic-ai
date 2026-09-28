@@ -1,11 +1,31 @@
 # 05 · Function Calling 版 Agent 与 ReAct 对比
 
-> 把 [03 的 5 个任务](../03_react_manual/README.md)用原生
+> 把 [03 项目的 5 个任务](../03_react_manual/README.md)用原生
 > `tools/tool_calls` 重写，与提示词版 ReAct 同题同工具对跑，输出解析
 > 稳定性 / token 成本 / 可观测性 / 模型依赖度四维对比（token 取 API 真实
-> usage）。
+> usage）。读完本篇，你能用自己跑出的数据回答"工程上选哪个、能否结合"。
+
+## Background
+
+没有原生工具接口时，Agent 的工具调用靠提示词约定：开发者要求模型在
+正文里输出一段 JSON 决策，再用正则（正则表达式，按模式匹配文本的
+工具）从文本中把它抠出来执行——03 项目的手写 ReAct 就是这种做法。
+
+文本约定的代价随规模暴露：模型可能在 JSON 外附带解释文字、少个括号，
+解析失败只能靠重试兜底；每轮决策以普通文本重发，token 开销也照单全收。
+
+模型厂商后来在 API 层给出原生方案——请求里声明工具清单，模型在响应的
+结构化字段里返回要调用的函数和参数。这种原生能力与提示词方案孰优孰劣、
+能否结合，需要同题同工具的对跑数据。
+
+本实验把同一批任务分别用两种方式实现，从四个维度量化对比。
 
 ## What
+
+Function Calling（简称 FC，函数调用）是大模型 API 的原生能力：请求中用
+JSON Schema（一种用 JSON 描述数据结构的规范）声明每个工具的名称与
+参数，模型不再把决策混在正文文本里，而是在响应的 `tool_calls` 字段中
+返回结构化的函数名和 `arguments`（参数对象）。
 
 一句话关系：**FC 解决"Action 怎么传"（传输层），ReAct 解决"Agent 怎么想"
 （提示词循环）**——不互斥，可叠加。
@@ -17,12 +37,37 @@
 | 可观测性 | 解析文本 trace | `message.tool_calls` 天然结构化 |
 | 模型依赖度 | 任何指令模型可跑 | 要求模型支持 tools |
 
-## Why
+表里三个名词先解释：LLM（Large Language Model）即大语言模型；trace
+指执行轨迹（程序打印的逐步记录）；可观测性指运行过程能否被程序直接
+读取检查——结构化字段比解析日志文本更可靠。
 
-提示词版 ReAct 靠正则从文本抠 JSON，FC 原生结构化——工程上到底选哪个、
-能不能结合，需要同题同工具的对跑数据，而不是背结论。
+## When to Use
 
-## How
+在为 Agent 项目选工具调用实现时，先看模型与任务形态：
+
+- 模型确认支持 tools 接口、要接进生产系统——选 FC，拿结构化返回与
+  可观测性；
+- 模型不支持 tools，或需要在任意指令模型间自由迁移——用提示词版
+  ReAct，它对模型零要求；
+- 任务决策链长、单任务调用次数多——schema 的常驻开销被摊薄，FC 的
+  结构化优势才开始覆盖成本。
+
+何时不用：单轮问答根本不需要工具，两种方案都省掉；一两轮就结束的
+超短任务，FC 的 schema 开销占比过高（本实验实测 +75%）。
+
+| 方案 | 差异 | 什么时候选它 |
+| :--- | :--- | :--- |
+| 提示词 ReAct | 决策是文本里的 JSON，正则解析+重试 | 模型不支持 tools；需要最大兼容性 |
+| 原生 FC | API 结构化字段传输，可并行调用 | 生产系统；模型支持 tools |
+| 两者叠加 | FC 传输 + ReAct 语义（见 How It Works） | 要结构化传输也要可解释的思考链 |
+
+## Quick Start
+
+前置条件：Python 3；真实模式需要本机 Ollama（`http://localhost:11434/v1`）
+上的 qwen3.8，且模型模板需支持原生 tools——不支持 tools 的模型只能跑
+提示词版。
+
+环境变量 `LLM_BASE_URL` / `LLM_MODEL` / `LLM_API_KEY` 可换目标。
 
 ```bash
 cd qa/05_fc_vs_react
@@ -30,7 +75,11 @@ MOCK=1 python3 fc_vs_react.py    # 离线：预置响应
 python3 fc_vs_react.py           # 真实：qwen3.8 (Ollama 原生 tools)
 ```
 
-实测（temperature=0）：
+MOCK 为预置演示，token 数字与真机实测（下表）不同且方向相反；+75%
+结论出自 qwen3.8 真机 usage。
+
+实测（temperature=0，即关闭随机性、输出尽量确定；token 取 API 真实
+usage 字段，不是估算）：
 
 | 指标 | ReAct（提示词 JSON） | FC（原生 tool_calls） |
 |:--|:--|:--|
@@ -41,14 +90,20 @@ python3 fc_vs_react.py           # 真实：qwen3.8 (Ollama 原生 tools)
 
 解读：正确率打平；FC 赢在**一轮多工具并行**（`message.tool_calls` 是
 数组）与结构化传输；但 schema 常驻 prompt 使其 token 反而更多——**任务
-越短，schema 开销占比越高**。解析稳定性在本组实验打平（qwen3.8 抠 JSON
-也全对），小模型/长决策场景下 FC 的结构化优势才会显现。
+越短，schema 开销占比越高**。
 
-## Deep Dive
+解析稳定性在本组实验打平（qwen3.8 抠 JSON 也全对），小模型/长决策场景
+下 FC 的结构化优势才会显现。
 
-**两者可叠加：FC 是传输层，ReAct 是提示词模式。**叠加演示（真实输出）：
-system prompt 要求"调用前先在 content 写一句思考"，qwen3.8 在**同一条
-消息**里返回了两者——
+## How It Works
+
+两种方式跑的是同一个循环：模型给决策、执行工具、把结果喂回，直到能
+作答。差别只在"决策怎么传"——ReAct 的 Action 藏在正文 JSON 里，FC 的
+Action 是 API 的结构化字段。
+
+两者可以叠加，且叠加演示有真实输出：system prompt（系统级提示词，即
+对模型行为的全局指令）要求"调用前先在 content（消息正文字段）写一句
+思考"，qwen3.8 在**同一条消息**里返回了两者——
 
 ```text
 content(Thought)   = '我先查询广州的实时天气，获取当前温度。'
@@ -57,9 +112,22 @@ tool_calls(Action) = [('get_weather', '{"city":"广州"}')]
 
 ReAct 的 Thought→Action→Observation 语义原样成立，只是 Action 从"文本
 里的 JSON"换成"API 结构化字段"。生产系统通常两者叠加：ReAct 语义 + FC
-传输 + max_steps 兜底。
+传输 + max_steps 兜底（步数护栏的实现见 04 项目）。
 
-## Q&A
+Quick Start 表里的两个现象都能在这里对上号："task2/4 一轮并行两个
+工具"来自 `tool_calls` 是数组、一次能带多个调用；"+75%"来自工具清单
+（schema）每轮都随请求重发。
+
+## Pitfalls & Q&A
+
+踩坑清单：
+
+- **现象：请求带 tools 直接报错，或模型无视工具。** 原因：FC 依赖模型
+  与推理框架支持 tools 接口，不是所有模型都具备。解法：换支持 tools
+  的模型，或退回提示词版 ReAct（对模型零要求）。
+- **现象：qwen3.8 上提示词版解析全对，换小模型后解析失败开始出现。**
+  原因："抠 JSON"的稳定性依赖模型遵循输出格式的能力，本实验的模型偏强，
+  差距没有显形。解法：加强正则+重试兜底；对格式稳定性要求高时迁移到 FC。
 
 **Q1: 选型是二选一吗？**
 

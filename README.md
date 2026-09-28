@@ -1,10 +1,10 @@
 # hands-on-agentic-ai · 亲手构建 AI Agent（三条学习线）
 
-> 一个仓库，三条线，**79 个可跑项目**：
+> 一个仓库，三条线，**83 个可跑项目**：
 >
 > | 线 | 目录 | 定位 | 项目数 |
 > |:--|:--|:--|:--:|
-> | 🛠️ **技能主线** | [agents/](agents/README.md) | LangChain 视角，从裸调 API 到服务化的 30 项渐进实验 | 30 |
+> | 🛠️ **技能主线** | [agents/](agents/README.md) | LangChain 视角，从裸调 API 到服务化的 34 项渐进实验 | 34 |
 > | 🎯 **问题实证** | [qa/](qa/README.md) | 31 个高频问题一问一项目，含攻防对照与真机反常数据 | 31 |
 > | 🎛️ **Harness 攻坚** | [harness/](harness/README.md) | 自研 mh/ mini-harness，18 项运行时实验 | 18 |
 >
@@ -16,7 +16,7 @@
 
 ```
 hands-on-agentic-ai/
-├── agents/              # 🛠️ 技能主线: 7 阶段 30 实验 (索引见 agents/README.md)
+├── agents/              # 🛠️ 技能主线: 8 阶段 34 实验 (索引见 agents/README.md)
 │   └── 01_call_llm ... 30_observability_eval
 │       每个实验四件套: README 教程 + 主脚本 + 架构图三件套
 ├── qa/                  # 🎯 问题实证: 8 阶段 31 项目 (索引见 qa/README.md)
@@ -25,7 +25,7 @@ hands-on-agentic-ai/
 │   └── llm.py           # 两线共用的 OpenAI 兼容客户端 (本地 Ollama)
 ├── harness/             # 🎛️ Harness 攻坚: 18 实验 (自研 mh/ 包, 清单见 docs/harness.md)
 ├── docs/                # 各线的题单/清单文档
-│   ├── agent.md             # agents 线学习清单 (30/30 完成)
+│   ├── agent.md             # agents 线学习清单 (30/30 完成, 31-34 为后续前沿补充)
 │   ├── qa.md                # qa 线题单 (31/31 完成, 含全部踩坑记录)
 │   └── harness.md           # harness 线学习清单 (18/18 完成, 含 Harness vs Agentic AI 速览)
 └── scripts/             # 公共脚本 (模型预载等)

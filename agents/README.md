@@ -1,6 +1,6 @@
-# agents · LangChain 视角 Agent 开发 30 项渐进实验
+# agents · LangChain 视角 Agent 开发 34 项渐进实验
 
-> 通过 30 个小项目（每个 100-500 行 Python）系统掌握 AI Agent 开发：
+> 通过 34 个小项目（每个 100-500 行 Python）系统掌握 AI Agent 开发：
 > 从裸 HTTP 调用 LLM，到手写 ReAct 循环、Function Calling、MCP、HITL 审批，
 > 再到记忆系统、RAG、多 Agent 协同与可观测性。
 > 每个实验：**README 教程 + 主脚本 + 真实可跑**（01-30 另配架构图三件套）。
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 
 ## 实验列表
 
-编号即学习顺序。每个实验的教程在其目录下的 [README.md]。
+编号即学习顺序。每个实验的教程为其目录下的 `README.md`。
 
 ### 第一阶段 · LLM 基础与 Prompt 工程
 
@@ -126,6 +126,8 @@ pip install -r requirements.txt
                  └─► 记忆/上下文（16-19）──► RAG（20-23）──► 多 Agent（24-27）
                         │
                         └─► 工程化收尾：服务化 + 安全 + 可观测/评估（28-30）
+                               │
+                               └─► 前沿补充：Code Mode + A2A 卡片 + Skills 披露 + RAG 量化（31-34）
 ```
 
 排序原则：最小可运行单元最先；每个实验只引入一个新概念；后面的实验复用
@@ -137,7 +139,7 @@ pip install -r requirements.txt
 
 ```
 agents/NN_xxx/
-├── README.md          # 教程：五段式 What / Why / How / Deep Dive / Q&A
+├── README.md          # 教程：六段式 Background / What / When to Use / Quick Start / How It Works / Pitfalls & Q&A
 ├── xxx.py             # 主脚本 = 学习重点，逐行读脚本就是在学这个主题
 └── images/            # 架构图三件套
     ├── xxx.<type>.json  # 图源（Typed JSON，可 diff、可复现）
@@ -156,7 +158,8 @@ agents/NN_xxx/
 - 修复过的真实 bug：项目 05 的 EOF 死循环、项目 09 的推理模型空答案
   （`reasoning=False`）、项目 14 的 MCP 废弃包名与裸 sleep、项目 15 的
   交互模式缺入口；
-- 14 张架构图全部通过 showcase 级九项质量校验与多视口（1440/1600/1920/
+- 全部架构图（31 张，覆盖 01-31；32-34 待补）通过 showcase 级九项质量校验与
+  多视口（1440/1600/1920/
   2048）浏览器零溢出检查；SVG 画布按内容实测边界紧裁（四周 24px 均匀留白，
   Chrome getBBox 实测 + 像素级背景覆盖验证），HTML 交互版 viewBox 同步收紧
   并保持最小宽高比 1.6 以免页面溢出。

@@ -125,7 +125,7 @@ export LLM_API_KEY="ollama"
 
 ## 与 agents/ 系列的关系
 
-`agents/`（LangChain 视角，30 项渐进实验）是**技能主线**：怎么一步步把
+`agents/`（LangChain 视角，34 项渐进实验）是**技能主线**：怎么一步步把
 Agent 做出来。本目录是**问题深化**：每个高频问题一个最小可跑实证，含
 攻防对照与真机反常数据。两边问题重叠的项目（记忆/RAG/多 Agent/安全）
 互为印证，README 互相链接。
