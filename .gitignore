@@ -49,3 +49,6 @@ harness/**/sandbox/
 # harness 线其余跑批产物
 harness/**/batch*.log
 harness/**/rows.json
+
+# 架构图 visual-check 生成物（浏览器证据留在磁盘，不入库；图三件套 json/html/svg 入库）
+*.visual-check.*
