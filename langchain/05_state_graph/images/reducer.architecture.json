@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Reducer 合并：两个并行分支写同一份 State",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      880,
+      470
+    ]
+  },
+  "components": [
+    {
+      "id": "start",
+      "type": "external",
+      "label": "启动",
+      "sublabel": "初始 state",
+      "pos": [
+        30,
+        200
+      ],
+      "size": [
+        120,
+        64
+      ]
+    },
+    {
+      "id": "branch_a",
+      "type": "backend",
+      "label": "分支 A",
+      "sublabel": "写 logs+total",
+      "pos": [
+        220,
+        100
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "branch_b",
+      "type": "backend",
+      "label": "分支 B",
+      "sublabel": "写 logs+total",
+      "pos": [
+        220,
+        310
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "merge",
+      "type": "security",
+      "label": "合并规则生效",
+      "sublabel": "各 key 按 reducer 合并",
+      "pos": [
+        450,
+        200
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "end",
+      "type": "database",
+      "label": "最终 State",
+      "sublabel": "total=2, logs=[a,b]",
+      "pos": [
+        700,
+        200
+      ],
+      "size": [
+        160,
+        64
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "start-a",
+      "from": "start",
+      "to": "branch_a",
+      "label": "fan-out"
+    },
+    {
+      "id": "start-b",
+      "from": "start",
+      "to": "branch_b"
+    },
+    {
+      "id": "a-merge",
+      "from": "branch_a",
+      "to": "merge"
+    },
+    {
+      "id": "b-merge",
+      "from": "branch_b",
+      "to": "merge"
+    },
+    {
+      "id": "merge-end",
+      "from": "merge",
+      "to": "end",
+      "label": "继续下一步",
+      "variant": "emphasis"
+    }
+  ]
+}

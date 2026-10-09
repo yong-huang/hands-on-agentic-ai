@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "崩溃恢复：检查点让已完成步骤不重算",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [980, 520]
+  },
+  "participants": [
+    { "id": "script", "type": "external", "label": "启动脚本", "sublabel": "父进程" },
+    { "id": "graph", "type": "backend", "label": "图执行器", "sublabel": "六步 JobState" },
+    { "id": "saver", "type": "database", "label": "SqliteSaver", "sublabel": "磁盘检查点" }
+  ],
+  "segments": [
+    { "from": 150, "to": 300, "label": "第一次运行（被杀）" },
+    { "from": 308, "to": 440, "label": "重启后同 thread 续跑" }
+  ],
+  "messages": [
+    { "from": "script", "to": "graph", "y": 172, "label": "invoke(thread=crash-job)" },
+    { "from": "graph", "to": "saver", "y": 200, "label": "写检查点 s1", "variant": "dashed" },
+    { "from": "graph", "to": "saver", "y": 228, "label": "写检查点 s2", "variant": "dashed" },
+    { "from": "graph", "to": "saver", "y": 256, "label": "写检查点 s3", "variant": "dashed" },
+    { "from": "graph", "to": "script", "y": 284, "label": "s4 执行前被 kill -9", "variant": "security" },
+    { "from": "script", "to": "graph", "y": 322, "label": "重启：invoke(None) 续跑", "variant": "emphasis" },
+    { "from": "graph", "to": "saver", "y": 350, "label": "读最后检查点（s3 已完成）", "variant": "return" },
+    { "from": "graph", "to": "saver", "y": 378, "label": "写检查点 s4-s6", "variant": "dashed" },
+    { "from": "graph", "to": "script", "y": 406, "label": "完成 s1-s6", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "graph", "from": 164, "to": 420, "type": "backend" },
+    { "participant": "saver", "from": 192, "to": 264, "type": "database" },
+    { "participant": "saver", "from": 342, "to": 386, "type": "database" }
+  ]
+}

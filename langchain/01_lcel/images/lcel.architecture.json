@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "分诊链结构：RunnableBranch 关键词路由到三条分支",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      880,
+      510
+    ]
+  },
+  "components": [
+    {
+      "id": "question",
+      "type": "external",
+      "label": "问题文本",
+      "sublabel": "str 输入",
+      "pos": [
+        30,
+        223
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "router",
+      "type": "security",
+      "label": "RunnableBranch",
+      "sublabel": "命中条件即路由",
+      "pos": [
+        200,
+        223
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "code",
+      "type": "backend",
+      "label": "code 分支",
+      "sublabel": "含「代码」→ LLM 审查",
+      "pos": [
+        400,
+        60
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "math",
+      "type": "backend",
+      "label": "math 分支",
+      "sublabel": "含「计算」→ LLM 计算",
+      "pos": [
+        440,
+        223
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "general",
+      "type": "backend",
+      "label": "general 分支",
+      "sublabel": "兜底 → LLM 通用回答",
+      "pos": [
+        400,
+        386
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "answer",
+      "type": "database",
+      "label": "答案文本",
+      "sublabel": "StrOutputParser 输出",
+      "pos": [
+        690,
+        223
+      ],
+      "size": [
+        160,
+        64
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "q-router",
+      "from": "question",
+      "to": "router"
+    },
+    {
+      "id": "router-code",
+      "from": "router",
+      "to": "code"
+    },
+    {
+      "id": "router-math",
+      "from": "router",
+      "to": "math",
+      "variant": "emphasis"
+    },
+    {
+      "id": "router-general",
+      "from": "router",
+      "to": "general"
+    },
+    {
+      "id": "code-answer",
+      "from": "code",
+      "to": "answer"
+    },
+    {
+      "id": "math-answer",
+      "from": "math",
+      "to": "answer"
+    },
+    {
+      "id": "general-answer",
+      "from": "general",
+      "to": "answer"
+    }
+  ]
+}

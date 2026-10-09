@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "回调追踪：把 Agent 运行的 span 收集成 trace.json",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      960,
+      470
+    ]
+  },
+  "components": [
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "Agent 运行",
+      "sublabel": "create_agent",
+      "pos": [
+        40,
+        200
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "model_chain",
+      "type": "backend",
+      "label": "model 节点",
+      "sublabel": "chain span",
+      "pos": [
+        260,
+        80
+      ],
+      "size": [
+        160,
+        60
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "ChatOllama 调用",
+      "sublabel": "llm span：耗时 + token",
+      "pos": [
+        510,
+        80
+      ],
+      "size": [
+        200,
+        60
+      ]
+    },
+    {
+      "id": "tools_chain",
+      "type": "backend",
+      "label": "tools 节点",
+      "sublabel": "chain span",
+      "pos": [
+        260,
+        330
+      ],
+      "size": [
+        160,
+        60
+      ]
+    },
+    {
+      "id": "tool",
+      "type": "messagebus",
+      "label": "calculator 执行",
+      "sublabel": "tool span：耗时",
+      "pos": [
+        510,
+        330
+      ],
+      "size": [
+        200,
+        60
+      ]
+    },
+    {
+      "id": "handler",
+      "type": "security",
+      "label": "TraceHandler",
+      "sublabel": "回调钩子收集 span",
+      "pos": [
+        510,
+        205
+      ],
+      "size": [
+        200,
+        60
+      ]
+    },
+    {
+      "id": "trace",
+      "type": "database",
+      "label": "trace.json",
+      "sublabel": "落盘可复查",
+      "pos": [
+        780,
+        203
+      ],
+      "size": [
+        150,
+        64
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "agent-model",
+      "from": "agent",
+      "to": "model_chain"
+    },
+    {
+      "id": "model-llm",
+      "from": "model_chain",
+      "to": "llm"
+    },
+    {
+      "id": "agent-tools",
+      "from": "agent",
+      "to": "tools_chain"
+    },
+    {
+      "id": "tools-tool",
+      "from": "tools_chain",
+      "to": "tool"
+    },
+    {
+      "id": "llm-handler",
+      "from": "llm",
+      "to": "handler",
+      "variant": "dashed"
+    },
+    {
+      "id": "tool-handler",
+      "from": "tool",
+      "to": "handler",
+      "variant": "dashed"
+    },
+    {
+      "id": "handler-trace",
+      "from": "handler",
+      "to": "trace"
+    }
+  ]
+}

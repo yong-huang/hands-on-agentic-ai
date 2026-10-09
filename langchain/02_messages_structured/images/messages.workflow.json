@@ -1,0 +1,122 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "结构化输出管线：解析失败回炉重试",
+    "locale": "zh-CN",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "生成主链路"
+    },
+    {
+      "id": "retry_l",
+      "label": "回炉重试",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "text",
+    "prompt",
+    "llm",
+    "parser",
+    "person"
+  ],
+  "nodes": [
+    {
+      "id": "text",
+      "lane": "main",
+      "col": 0,
+      "type": "external",
+      "label": "用户文本",
+      "sublabel": "HumanMessage",
+      "width": 130
+    },
+    {
+      "id": "prompt",
+      "lane": "main",
+      "col": 1,
+      "type": "backend",
+      "label": "提示模板",
+      "sublabel": "格式说明 + 历史消息",
+      "width": 175
+    },
+    {
+      "id": "llm",
+      "lane": "main",
+      "col": 2,
+      "type": "cloud",
+      "label": "ChatOllama 生成",
+      "sublabel": "temperature=0",
+      "width": 165
+    },
+    {
+      "id": "parser",
+      "lane": "main",
+      "col": 3,
+      "type": "security",
+      "label": "解析 + 校验",
+      "sublabel": "PydanticOutputParser",
+      "width": 175
+    },
+    {
+      "id": "person",
+      "lane": "main",
+      "col": 4,
+      "type": "database",
+      "label": "Person 对象",
+      "sublabel": "姓名 / 年龄 / 城市",
+      "width": 150
+    },
+    {
+      "id": "retry",
+      "lane": "retry_l",
+      "col": 3,
+      "type": "backend",
+      "label": "错误回喂",
+      "sublabel": "异常附回消息",
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "t-p",
+      "from": "text",
+      "to": "prompt"
+    },
+    {
+      "id": "p-l",
+      "from": "prompt",
+      "to": "llm"
+    },
+    {
+      "id": "l-par",
+      "from": "llm",
+      "to": "parser"
+    },
+    {
+      "id": "par-person",
+      "from": "parser",
+      "to": "person",
+      "label": "校验通过",
+      "variant": "emphasis"
+    },
+    {
+      "id": "par-retry",
+      "from": "parser",
+      "to": "retry",
+      "label": "解析失败",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "retry-llm",
+      "from": "retry",
+      "to": "llm",
+      "label": "附错误重新提问（≤3 次）",
+      "route": "bottom-channel"
+    }
+  ]
+}

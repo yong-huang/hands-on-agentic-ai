@@ -1,0 +1,141 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Agentic RAG：评分不合格就改写回炉，仍不合格则拒答",
+    "locale": "zh-CN",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "主链路"
+    },
+    {
+      "id": "fallback",
+      "label": "回炉与拒答",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "question",
+    "retrieve",
+    "grade",
+    "generate",
+    "answer"
+  ],
+  "nodes": [
+    {
+      "id": "question",
+      "lane": "main",
+      "col": 0,
+      "type": "external",
+      "label": "问题",
+      "sublabel": "question",
+      "width": 120
+    },
+    {
+      "id": "retrieve",
+      "lane": "main",
+      "col": 1,
+      "type": "database",
+      "label": "retrieve 节点",
+      "sublabel": "Chroma 相似检索 Top-4",
+      "width": 190
+    },
+    {
+      "id": "grade",
+      "lane": "main",
+      "col": 2,
+      "type": "security",
+      "label": "grade 节点",
+      "sublabel": "相关性评分（结构化输出）",
+      "width": 210
+    },
+    {
+      "id": "generate",
+      "lane": "main",
+      "col": 3,
+      "type": "backend",
+      "label": "generate 节点",
+      "sublabel": "带 [来源: 文件] 作答",
+      "width": 190
+    },
+    {
+      "id": "answer",
+      "lane": "main",
+      "col": 4,
+      "type": "database",
+      "label": "答案",
+      "sublabel": "含来源标注",
+      "width": 140
+    },
+    {
+      "id": "rewrite",
+      "lane": "fallback",
+      "col": 1,
+      "type": "messagebus",
+      "label": "rewrite 节点",
+      "sublabel": "查询改写后回炉",
+      "width": 170
+    },
+    {
+      "id": "refuse",
+      "lane": "fallback",
+      "col": 4,
+      "type": "security",
+      "label": "refuse 节点",
+      "sublabel": "重试用尽：拒答",
+      "width": 170
+    }
+  ],
+  "edges": [
+    {
+      "id": "q-ret",
+      "from": "question",
+      "to": "retrieve"
+    },
+    {
+      "id": "ret-grade",
+      "from": "retrieve",
+      "to": "grade"
+    },
+    {
+      "id": "grade-gen",
+      "from": "grade",
+      "to": "generate",
+      "label": "资料相关",
+      "variant": "emphasis"
+    },
+    {
+      "id": "grade-rewrite",
+      "from": "grade",
+      "to": "rewrite",
+      "label": "不相关（还有重试额度）",
+      "variant": "security"
+    },
+    {
+      "id": "rewrite-ret",
+      "from": "rewrite",
+      "to": "retrieve",
+      "label": "改写后重新检索",
+      "route": "straight"
+    },
+    {
+      "id": "grade-refuse",
+      "from": "grade",
+      "to": "refuse",
+      "label": "重试用尽仍不相关"
+    },
+    {
+      "id": "gen-ans",
+      "from": "generate",
+      "to": "answer"
+    },
+    {
+      "id": "refuse-ans",
+      "from": "refuse",
+      "to": "answer"
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "create_agent 的 Agent Loop：查询失败后回退估算",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      980,
+      560
+    ]
+  },
+  "participants": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "用户",
+      "sublabel": "一句话任务"
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "create_agent",
+      "sublabel": "LangGraph 状态机"
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "ChatOllama",
+      "sublabel": "qwen3.8"
+    },
+    {
+      "id": "tools",
+      "type": "messagebus",
+      "label": "ToolNode",
+      "sublabel": "fetch / estimate"
+    }
+  ],
+  "segments": [
+    {
+      "from": 140,
+      "to": 290,
+      "label": "第一轮：实时查询失败"
+    },
+    {
+      "from": 296,
+      "to": 410,
+      "label": "第二轮：估算回退"
+    },
+    {
+      "from": 416,
+      "to": 500,
+      "label": "收尾：报告"
+    }
+  ],
+  "messages": [
+    {
+      "from": "user",
+      "to": "agent",
+      "y": 160,
+      "label": "查 apple 价格"
+    },
+    {
+      "from": "agent",
+      "to": "llm",
+      "y": 188,
+      "label": "消息 + 工具 schema"
+    },
+    {
+      "from": "llm",
+      "to": "agent",
+      "y": 216,
+      "label": "tool_calls: fetch_price",
+      "variant": "emphasis"
+    },
+    {
+      "from": "agent",
+      "to": "tools",
+      "y": 244,
+      "label": "执行 fetch_price"
+    },
+    {
+      "from": "tools",
+      "to": "agent",
+      "y": 272,
+      "label": "ERROR 503 + 回退指引",
+      "variant": "security"
+    },
+    {
+      "from": "agent",
+      "to": "llm",
+      "y": 300,
+      "label": "错误回填"
+    },
+    {
+      "from": "llm",
+      "to": "agent",
+      "y": 328,
+      "label": "tool_calls: estimate_price",
+      "variant": "emphasis"
+    },
+    {
+      "from": "agent",
+      "to": "tools",
+      "y": 356,
+      "label": "执行 estimate_price"
+    },
+    {
+      "from": "tools",
+      "to": "agent",
+      "y": 384,
+      "label": "4.5",
+      "variant": "return"
+    },
+    {
+      "from": "agent",
+      "to": "llm",
+      "y": 412,
+      "label": "结果回填"
+    },
+    {
+      "from": "llm",
+      "to": "agent",
+      "y": 440,
+      "label": "最终文本",
+      "variant": "return"
+    },
+    {
+      "from": "agent",
+      "to": "user",
+      "y": 468,
+      "label": "报告 ≈4.5 元",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "agent",
+      "from": 152,
+      "to": 480,
+      "type": "backend"
+    },
+    {
+      "participant": "llm",
+      "from": 204,
+      "to": 460,
+      "type": "cloud"
+    },
+    {
+      "participant": "tools",
+      "from": 228,
+      "to": 292,
+      "type": "messagebus"
+    },
+    {
+      "participant": "tools",
+      "from": 352,
+      "to": 404,
+      "type": "messagebus"
+    }
+  ]
+}

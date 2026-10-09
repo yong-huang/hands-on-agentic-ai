@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "服务总装：SDK → langgraph dev → 三个能力合一的图",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      960,
+      470
+    ]
+  },
+  "components": [
+    {
+      "id": "client",
+      "type": "external",
+      "label": "SDK 客户端",
+      "sublabel": "langgraph_sdk",
+      "pos": [
+        30,
+        188
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "server",
+      "type": "cloud",
+      "label": "langgraph dev",
+      "sublabel": "本地服务 :2030",
+      "pos": [
+        230,
+        188
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "graph",
+      "type": "backend",
+      "label": "research_agent",
+      "sublabel": "create_agent 总装",
+      "pos": [
+        460,
+        188
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "search",
+      "type": "database",
+      "label": "检索工具",
+      "sublabel": "Chroma + 嵌入",
+      "pos": [
+        460,
+        350
+      ],
+      "size": [
+        190,
+        56
+      ]
+    },
+    {
+      "id": "hitl",
+      "type": "security",
+      "label": "HITL 审批",
+      "sublabel": "delete_note 中断等确认",
+      "pos": [
+        730,
+        106
+      ],
+      "size": [
+        200,
+        56
+      ]
+    },
+    {
+      "id": "tracer",
+      "type": "messagebus",
+      "label": "追踪回调",
+      "sublabel": "事件写 JSONL",
+      "pos": [
+        730,
+        242
+      ],
+      "size": [
+        200,
+        56
+      ]
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "平台持久化",
+      "sublabel": ".langgraph_api 快照",
+      "pos": [
+        220,
+        350
+      ],
+      "size": [
+        200,
+        56
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c-s",
+      "from": "client",
+      "to": "server"
+    },
+    {
+      "id": "s-g",
+      "from": "server",
+      "to": "graph",
+      "variant": "emphasis"
+    },
+    {
+      "id": "g-search",
+      "from": "graph",
+      "to": "search",
+      "label": "检索",
+      "variant": "dashed",
+      "labelAt": [
+        555,
+        300
+      ]
+    },
+    {
+      "id": "g-hitl",
+      "from": "graph",
+      "to": "hitl",
+      "variant": "dashed"
+    },
+    {
+      "id": "g-tracer",
+      "from": "graph",
+      "to": "tracer",
+      "variant": "dashed"
+    },
+    {
+      "id": "s-store",
+      "from": "server",
+      "to": "store",
+      "label": "自动持久化",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ]
+}

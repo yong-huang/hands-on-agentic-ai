@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Middleware 钩子：包裹模型调用与工具执行",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      920,
+      460
+    ]
+  },
+  "components": [
+    {
+      "id": "request",
+      "type": "external",
+      "label": "请求",
+      "sublabel": "用户消息",
+      "pos": [
+        195,
+        200
+      ],
+      "size": [
+        120,
+        64
+      ]
+    },
+    {
+      "id": "model",
+      "type": "cloud",
+      "label": "模型节点",
+      "sublabel": "ChatOllama 生成",
+      "pos": [
+        375,
+        200
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "tools",
+      "type": "backend",
+      "label": "工具节点",
+      "sublabel": "ToolNode 执行",
+      "pos": [
+        605,
+        200
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "hook_model",
+      "type": "security",
+      "label": "before_model",
+      "sublabel": "计数、改提示词",
+      "pos": [
+        375,
+        70
+      ],
+      "size": [
+        150,
+        56
+      ]
+    },
+    {
+      "id": "hook_tool",
+      "type": "security",
+      "label": "wrap_tool_call",
+      "sublabel": "拦截黑名单、重试",
+      "pos": [
+        605,
+        330
+      ],
+      "size": [
+        150,
+        56
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "req-model",
+      "from": "request",
+      "to": "model"
+    },
+    {
+      "id": "model-tools",
+      "from": "model",
+      "to": "tools",
+      "label": "tool_calls",
+      "variant": "emphasis",
+      "labelDy": -22
+    },
+    {
+      "id": "tools-model",
+      "from": "tools",
+      "to": "model",
+      "label": "结果回填·下一轮",
+      "variant": "dashed",
+      "labelDy": 30
+    },
+    {
+      "id": "hook-model",
+      "from": "hook_model",
+      "to": "model",
+      "label": "包裹调用",
+      "variant": "dashed",
+      "labelDy": 30
+    },
+    {
+      "id": "hook-tool",
+      "from": "hook_tool",
+      "to": "tools",
+      "label": "包裹执行",
+      "variant": "dashed"
+    }
+  ]
+}

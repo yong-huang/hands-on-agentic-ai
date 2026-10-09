@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Command 监督者：路由到 worker，再汇总（含 handoff）",
+    "locale": "zh-CN",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "decide", "label": "输入与决策" },
+    { "id": "work", "label": "执行（worker）" },
+    { "id": "agg", "label": "汇总" }
+  ],
+  "mainPath": ["question", "supervisor", "researcher", "aggregate"],
+  "nodes": [
+    {
+      "id": "question",
+      "lane": "decide",
+      "col": 0,
+      "type": "external",
+      "label": "问题",
+      "sublabel": "question",
+      "width": 120
+    },
+    {
+      "id": "supervisor",
+      "lane": "decide",
+      "col": 1,
+      "type": "security",
+      "label": "supervisor 节点",
+      "sublabel": "Command(goto=...) 决定去向",
+      "width": 220
+    },
+    {
+      "id": "researcher",
+      "lane": "work",
+      "col": 2,
+      "type": "backend",
+      "label": "researcher",
+      "sublabel": "资料整理",
+      "width": 150
+    },
+    {
+      "id": "statistician",
+      "lane": "work",
+      "col": 3,
+      "type": "backend",
+      "label": "statistician",
+      "sublabel": "换算与统计",
+      "width": 150
+    },
+    {
+      "id": "aggregate",
+      "lane": "agg",
+      "col": 4,
+      "type": "database",
+      "label": "aggregate 节点",
+      "sublabel": "汇总产出",
+      "width": 150
+    }
+  ],
+  "edges": [
+    { "id": "q-sup", "from": "question", "to": "supervisor" },
+    {
+      "id": "sup-res",
+      "from": "supervisor",
+      "to": "researcher",
+      "label": "文本 / 换算",
+      "variant": "emphasis"
+    },
+    {
+      "id": "sup-stat",
+      "from": "supervisor",
+      "to": "statistician",
+      "label": "数学 / 统计"
+    },
+    {
+      "id": "res-stat",
+      "from": "researcher",
+      "to": "statistician",
+      "label": "handoff（换算类）",
+      "variant": "security"
+    },
+    { "id": "res-agg", "from": "researcher", "to": "aggregate" },
+    { "id": "stat-agg", "from": "statistician", "to": "aggregate" }
+  ]
+}

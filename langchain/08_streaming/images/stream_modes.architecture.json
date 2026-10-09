@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "一次运行，四种流式消费视角",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [920, 460]
+  },
+  "components": [
+    {
+      "id": "app",
+      "type": "backend",
+      "label": "图一次运行",
+      "sublabel": "prepare → generate",
+      "pos": [40, 186],
+      "size": [150, 64]
+    },
+    {
+      "id": "values",
+      "type": "database",
+      "label": "values",
+      "sublabel": "状态快照（逐层生长）",
+      "pos": [330, 36],
+      "size": [190, 56]
+    },
+    {
+      "id": "updates",
+      "type": "messagebus",
+      "label": "updates",
+      "sublabel": "按节点增量",
+      "pos": [330, 141],
+      "size": [190, 56]
+    },
+    {
+      "id": "messages",
+      "type": "messagebus",
+      "label": "messages",
+      "sublabel": "token 分片 + 节点元数据",
+      "pos": [330, 246],
+      "size": [190, 56]
+    },
+    {
+      "id": "custom",
+      "type": "messagebus",
+      "label": "custom",
+      "sublabel": "图内自定义事件",
+      "pos": [330, 351],
+      "size": [190, 56]
+    },
+    {
+      "id": "consumer",
+      "type": "frontend",
+      "label": "消费端",
+      "sublabel": "CLI / SSE / 前端",
+      "pos": [700, 182],
+      "size": [160, 64]
+    }
+  ],
+  "connections": [
+    { "id": "app-values", "from": "app", "to": "values" },
+    { "id": "app-updates", "from": "app", "to": "updates" },
+    {
+      "id": "app-messages",
+      "from": "app",
+      "to": "messages",
+      "variant": "emphasis"
+    },
+    { "id": "app-custom", "from": "app", "to": "custom" },
+    { "id": "values-consumer", "from": "values", "to": "consumer" },
+    { "id": "updates-consumer", "from": "updates", "to": "consumer" },
+    { "id": "messages-consumer", "from": "messages", "to": "consumer" },
+    { "id": "custom-consumer", "from": "custom", "to": "consumer" }
+  ]
+}

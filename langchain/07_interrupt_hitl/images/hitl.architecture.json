@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "审批闸门：interrupt 暂停后，三种决策分流",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [880, 510]
+  },
+  "components": [
+    {
+      "id": "request",
+      "type": "external",
+      "label": "工具请求",
+      "sublabel": "delete_file(old.txt)",
+      "pos": [30, 223],
+      "size": [150, 64]
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "审批闸门",
+      "sublabel": "interrupt() 暂停",
+      "pos": [230, 223],
+      "size": [150, 64]
+    },
+    {
+      "id": "approve",
+      "type": "backend",
+      "label": "approve",
+      "sublabel": "按原参数执行",
+      "pos": [450, 60],
+      "size": [160, 64]
+    },
+    {
+      "id": "edit",
+      "type": "backend",
+      "label": "edit",
+      "sublabel": "用修改后的参数执行",
+      "pos": [450, 223],
+      "size": [160, 64]
+    },
+    {
+      "id": "reject",
+      "type": "security",
+      "label": "reject",
+      "sublabel": "不执行 + 拒绝理由",
+      "pos": [450, 386],
+      "size": [160, 64]
+    },
+    {
+      "id": "result",
+      "type": "database",
+      "label": "结果回填",
+      "sublabel": "ToolMessage → 模型",
+      "pos": [690, 223],
+      "size": [160, 64]
+    }
+  ],
+  "connections": [
+    { "id": "req-gate", "from": "request", "to": "gate" },
+    { "id": "gate-approve", "from": "gate", "to": "approve" },
+    {
+      "id": "gate-edit",
+      "from": "gate",
+      "to": "edit",
+      "variant": "emphasis"
+    },
+    {
+      "id": "gate-reject",
+      "from": "gate",
+      "to": "reject",
+      "variant": "security"
+    },
+    { "id": "approve-result", "from": "approve", "to": "result" },
+    { "id": "edit-result", "from": "edit", "to": "result" },
+    { "id": "reject-result", "from": "reject", "to": "result" }
+  ]
+}
