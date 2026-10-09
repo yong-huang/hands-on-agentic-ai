@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AI 测试台骨架：一个 run_sut() 接口，两个被测对象",
+    "subtitle": "调用方只面向统一接口，返回值是统一结果模型 final/turns/tool_trace",
+    "quality_profile": "showcase",
+    "locale": "zh-CN"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 4,
+    "gapX": 80,
+    "gapY": 80
+  },
+  "components": [
+    {
+      "id": "probe",
+      "type": "security",
+      "label": "探活门",
+      "sublabel": "ollama_alive() 探活",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "mh",
+      "type": "backend",
+      "label": "mh.loop 主 SUT",
+      "sublabel": "每轮真调 LLM",
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM",
+      "sublabel": "Ollama qwen3.8 /v1",
+      "row": 0,
+      "col": 3
+    },
+    {
+      "id": "caller",
+      "type": "external",
+      "label": "测试与演示",
+      "sublabel": "pytest · 后续 20 项目",
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "run_sut",
+      "type": "frontend",
+      "label": "run_sut() 统一接口",
+      "sublabel": "testbench/suts.py",
+      "row": 1,
+      "col": 1,
+      "tag": "中枢单点"
+    },
+    {
+      "id": "tools",
+      "type": "backend",
+      "label": "run_bash 工具",
+      "sublabel": "cwd=临时任务目录",
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "mock",
+      "type": "messagebus",
+      "label": "离线剧本",
+      "sublabel": "mock_chat_fn · MOCK=1",
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "mini",
+      "type": "backend",
+      "label": "mini_agent 辅 SUT",
+      "sublabel": "qa/30_mini_agent · 零 LLM",
+      "row": 2,
+      "col": 2
+    }
+  ],
+  "connections": [
+    {
+      "id": "e1",
+      "from": "caller",
+      "to": "run_sut",
+      "label": "run_sut(task)"
+    },
+    {
+      "id": "e2",
+      "from": "run_sut",
+      "to": "probe",
+      "label": "先探活"
+    },
+    {
+      "id": "e3",
+      "from": "run_sut",
+      "to": "mock",
+      "label": "MOCK=1 取剧本",
+      "labelDy": 34
+    },
+    {
+      "id": "e4",
+      "from": "probe",
+      "to": "mh",
+      "label": "存活才放行"
+    },
+    {
+      "id": "e6",
+      "from": "run_sut",
+      "to": "mini",
+      "label": "sut=mini"
+    },
+    {
+      "id": "e7",
+      "from": "mh",
+      "to": "llm",
+      "label": "对话+schema"
+    },
+    {
+      "id": "e8",
+      "from": "mh",
+      "to": "tools",
+      "label": "执行工具",
+      "labelDy": 34
+    }
+  ]
+}

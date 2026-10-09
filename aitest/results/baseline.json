@@ -1,0 +1,92 @@
+{
+ "meta": {
+  "dataset": "golden_v1",
+  "sut": "mini",
+  "model": "default",
+  "offline": true,
+  "generated_at": "2026-10-09T09:55:09"
+ },
+ "cases": [
+  {
+   "id": "fact_001",
+   "category": "fact",
+   "schema": {
+    "pass": false,
+    "repairs": [
+     "未找到 JSON 起始 '{'"
+    ],
+    "error": "无可提取的 JSON 对象"
+   },
+   "semantic": {
+    "threshold": 0.6,
+    "points_passed": 0,
+    "points_total": 2,
+    "pass": false,
+    "sims": [
+     0.0,
+     0.0
+    ]
+   },
+   "factuality": {
+    "claims": 0,
+    "unsupported": 0,
+    "unknown": 0,
+    "pass": true
+   },
+   "judge": {
+    "score": 4,
+    "reason": "离线管道",
+    "pass": true
+   },
+   "pass": false,
+   "answer_preview": "ok"
+  },
+  {
+   "id": "fact_002",
+   "category": "fact",
+   "schema": {
+    "pass": false,
+    "repairs": [
+     "未找到 JSON 起始 '{'"
+    ],
+    "error": "无可提取的 JSON 对象"
+   },
+   "semantic": {
+    "threshold": 0.6,
+    "points_passed": 0,
+    "points_total": 2,
+    "pass": false,
+    "sims": [
+     0.0,
+     0.0
+    ]
+   },
+   "factuality": {
+    "claims": 0,
+    "unsupported": 0,
+    "unknown": 0,
+    "pass": true
+   },
+   "judge": {
+    "score": 4,
+    "reason": "离线管道",
+    "pass": true
+   },
+   "pass": false,
+   "answer_preview": "ok"
+  }
+ ],
+ "summary": {
+  "rates": {
+   "schema": 0.0,
+   "semantic": 0.0,
+   "factuality": 1.0,
+   "judge": 1.0
+  },
+  "overall_pass_rate": 0.0,
+  "pass_by_category": {},
+  "total_by_category": {
+   "fact": 2
+  }
+ }
+}

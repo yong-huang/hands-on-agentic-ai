@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "LLM-as-Judge 校准：先对账，再上岗",
+    "subtitle": "人工预标注做标准卷；judge 的每个输出都过结构化断言解析",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1068,
+      520
+    ]
+  },
+  "stages": [
+    {
+      "label": "输入"
+    },
+    {
+      "label": "judge 评分"
+    },
+    {
+      "label": "结构化解析"
+    },
+    {
+      "label": "校准指标"
+    },
+    {
+      "label": "验收"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "cal",
+      "type": "database",
+      "label": "judge_labeled.yaml",
+      "sublabel": "20 条人工预标注·4题×5档",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "sample",
+      "type": "external",
+      "label": "被评问答",
+      "sublabel": "question + answer",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "judge",
+      "type": "frontend",
+      "label": "score_answer",
+      "sublabel": "rubric 1-5 分 · temp=0",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "parse",
+      "type": "security",
+      "label": "结构化断言",
+      "sublabel": "复用项目 4 解析与重试",
+      "stage": 2,
+      "row": 1,
+      "tag": "解析失败=不可用评分"
+    },
+    {
+      "id": "metrics",
+      "type": "backend",
+      "label": "对齐 + 稳定性",
+      "sublabel": "相邻一致率 · 重复一致率",
+      "stage": 3,
+      "row": 1
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "验收门",
+      "sublabel": "≥80% 且 ≥90%",
+      "stage": 4,
+      "row": 1
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "cal",
+      "to": "judge",
+      "label": "标准卷"
+    },
+    {
+      "id": "f2",
+      "from": "sample",
+      "to": "judge",
+      "label": "待评",
+      "variant": "emphasis",
+      "route": "bottom-channel",
+      "labelDy": 14
+    },
+    {
+      "id": "f3",
+      "from": "judge",
+      "to": "parse",
+      "label": "JSON 输出",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f4",
+      "from": "parse",
+      "to": "metrics",
+      "label": "分数+理由"
+    },
+    {
+      "id": "f5",
+      "from": "cal",
+      "to": "metrics",
+      "label": "人工分对照",
+      "route": "top-channel",
+      "labelDy": -12
+    },
+    {
+      "id": "f6",
+      "from": "metrics",
+      "to": "gate",
+      "label": "双指标",
+      "variant": "emphasis"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "全量评测管线：golden set 到四维基线报告",
+    "subtitle": "每条用例双驱动(原生+JSON 变体)，evaluate_case 收口四维断言",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1068,
+      540
+    ]
+  },
+  "stages": [
+    {
+      "label": "输入"
+    },
+    {
+      "label": "SUT 驱动"
+    },
+    {
+      "label": "统一断言"
+    },
+    {
+      "label": "聚合"
+    },
+    {
+      "label": "基线"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ds",
+      "type": "database",
+      "label": "golden_v1.yaml",
+      "sublabel": "20 条 · query+期望要点",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "judge",
+      "type": "external",
+      "label": "judge 模型",
+      "sublabel": "qwen3:4b · rubric 打分",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "sut",
+      "type": "backend",
+      "label": "run_sut ×2",
+      "sublabel": "原生 query + JSON 变体",
+      "stage": 1,
+      "row": 1,
+      "tag": "mh 主 SUT"
+    },
+    {
+      "id": "eva",
+      "type": "security",
+      "label": "evaluate_case",
+      "sublabel": "结构/语义/事实/judge",
+      "stage": 2,
+      "row": 1,
+      "tag": "统一协议"
+    },
+    {
+      "id": "agg",
+      "type": "backend",
+      "label": "aggregate",
+      "sublabel": "分维通过率聚合",
+      "stage": 3,
+      "row": 1
+    },
+    {
+      "id": "base",
+      "type": "database",
+      "label": "baseline.json",
+      "sublabel": "逐用例结果 + 汇总",
+      "stage": 4,
+      "row": 1
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "ds",
+      "to": "sut",
+      "label": "逐条用例",
+      "variant": "emphasis",
+      "route": "vertical-channel",
+      "labelDy": -14
+    },
+    {
+      "id": "f2",
+      "from": "ds",
+      "to": "eva",
+      "label": "期望要点",
+      "route": "bottom-channel",
+      "labelDy": 14
+    },
+    {
+      "id": "f3",
+      "from": "sut",
+      "to": "eva",
+      "label": "回答",
+      "variant": "emphasis",
+      "labelDy": -12,
+      "route": "vertical-channel"
+    },
+    {
+      "id": "f4",
+      "from": "judge",
+      "to": "eva",
+      "label": "评分/判定",
+      "route": "bottom-channel",
+      "labelDy": 14
+    },
+    {
+      "id": "f5",
+      "from": "eva",
+      "to": "agg",
+      "label": "四维结果",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f6",
+      "from": "agg",
+      "to": "base",
+      "label": "汇总落盘",
+      "variant": "emphasis"
+    }
+  ]
+}

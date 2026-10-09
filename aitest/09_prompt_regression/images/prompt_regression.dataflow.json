@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "提示词回归数据流：两版 prompt 同卷对比",
+    "subtitle": "劣化变体先证明套件能抓劣化，套件报\"没有劣化\"才有资格被相信",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1068,
+      540
+    ]
+  },
+  "stages": [
+    {
+      "label": "输入"
+    },
+    {
+      "label": "双版驱动"
+    },
+    {
+      "label": "信号对比"
+    },
+    {
+      "label": "三态判定"
+    },
+    {
+      "label": "报告"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ds",
+      "type": "database",
+      "label": "golden_v1.yaml",
+      "sublabel": "同一套 20 条用例",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "pb",
+      "type": "external",
+      "label": "两版 system prompt",
+      "sublabel": "严谨人设 vs 劣化变体",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "drive",
+      "type": "backend",
+      "label": "run_sut ×2 版",
+      "sublabel": "同用例 · 注入不同 system",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "sig",
+      "type": "backend",
+      "label": "逐用例信号",
+      "sublabel": "语义通过数 + judge 分数",
+      "stage": 2,
+      "row": 1
+    },
+    {
+      "id": "verd",
+      "type": "security",
+      "label": "三态判定",
+      "sublabel": "任一信号下降 = 劣化",
+      "stage": 3,
+      "row": 1,
+      "tag": "📈 改善 · ➖ 持平 · 📉 劣化"
+    },
+    {
+      "id": "rep",
+      "type": "database",
+      "label": "回归报告.md",
+      "sublabel": "三栏汇总 + 劣化明细",
+      "stage": 4,
+      "row": 1
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "ds",
+      "to": "drive",
+      "label": "用例",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f2",
+      "from": "pb",
+      "to": "drive",
+      "label": "system 注入"
+    },
+    {
+      "id": "f3",
+      "from": "drive",
+      "to": "sig",
+      "label": "两版回答",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f4",
+      "from": "sig",
+      "to": "verd",
+      "label": "delta"
+    },
+    {
+      "id": "f5",
+      "from": "verd",
+      "to": "rep",
+      "label": "三栏汇总",
+      "variant": "emphasis"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "golden set 数据流：从 YAML 文件到评测与回归消费",
+    "subtitle": "校验门 PASS 才进对比；评测、回归、维护决策全从 diff 分叉",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1068,
+      620
+    ]
+  },
+  "stages": [
+    {
+      "label": "数据集文件"
+    },
+    {
+      "label": "加载"
+    },
+    {
+      "label": "校验门"
+    },
+    {
+      "label": "语义 diff"
+    },
+    {
+      "label": "下游消费"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "v1",
+      "type": "database",
+      "label": "golden_v1.yaml",
+      "sublabel": "基准 20 条·四类",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "v2",
+      "type": "database",
+      "label": "golden_v2.yaml",
+      "sublabel": "演示变体·用后即删",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "load",
+      "type": "backend",
+      "label": "load()",
+      "sublabel": "yaml.safe_load",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "schema",
+      "type": "security",
+      "label": "validate_dataset",
+      "sublabel": "手写规则·一次报全",
+      "stage": 2,
+      "row": 1,
+      "tag": "PASS 才放行"
+    },
+    {
+      "id": "diff",
+      "type": "backend",
+      "label": "diff_datasets",
+      "sublabel": "按 id 集合运算",
+      "stage": 3,
+      "row": 1,
+      "tag": "+增/-删/~改"
+    },
+    {
+      "id": "eval",
+      "type": "frontend",
+      "label": "run_eval",
+      "sublabel": "项目 8·首轮全量评测",
+      "stage": 4,
+      "row": 0
+    },
+    {
+      "id": "regress",
+      "type": "frontend",
+      "label": "prompt_regression",
+      "sublabel": "项目 9·劣化项标红",
+      "stage": 4,
+      "row": 1
+    },
+    {
+      "id": "human",
+      "type": "external",
+      "label": "维护者",
+      "sublabel": "增删改决策·写回新版本",
+      "stage": 4,
+      "row": 2
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "v1",
+      "to": "load",
+      "label": "YAML",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f2",
+      "from": "v2",
+      "to": "load",
+      "label": "YAML 变体"
+    },
+    {
+      "id": "f3",
+      "from": "load",
+      "to": "schema",
+      "label": "cases[]",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f4",
+      "from": "schema",
+      "to": "diff",
+      "label": "校验通过",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f5",
+      "from": "diff",
+      "to": "eval",
+      "label": "基线+候选"
+    },
+    {
+      "id": "f6",
+      "from": "diff",
+      "to": "regress",
+      "label": "对照",
+      "variant": "emphasis",
+      "labelSegment": 0,
+      "labelDx": 30
+    },
+    {
+      "id": "f7",
+      "from": "diff",
+      "to": "human",
+      "label": "+/-/~ 统计"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "非确定性画像数据流：一道题的双温度采样与一致率统计",
+    "subtitle": "两组输出汇入同一统计器；REPORT 的数字是后续断言阈值的标定依据",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1068,
+      560
+    ]
+  },
+  "stages": [
+    {
+      "label": "输入"
+    },
+    {
+      "label": "双温度采样"
+    },
+    {
+      "label": "一致性统计"
+    },
+    {
+      "label": "报告与阈值"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "prompt",
+      "type": "external",
+      "label": "固定 prompt",
+      "sublabel": "一句话问题 · /no_think",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "g0",
+      "type": "backend",
+      "label": "采样 ×30 temp=0",
+      "sublabel": "qa_llm.chat 复用",
+      "stage": 1,
+      "row": 0
+    },
+    {
+      "id": "g8",
+      "type": "backend",
+      "label": "采样 ×30 temp=0.8",
+      "sublabel": "同题不同温",
+      "stage": 1,
+      "row": 2
+    },
+    {
+      "id": "stats",
+      "type": "backend",
+      "label": "一致性统计",
+      "sublabel": "众数占比 · 两两相似均值",
+      "stage": 2,
+      "row": 1,
+      "tag": "纯函数可单测"
+    },
+    {
+      "id": "report",
+      "type": "database",
+      "label": "REPORT.md",
+      "sublabel": "指标表 + 3 条断言启示",
+      "stage": 3,
+      "row": 1
+    },
+    {
+      "id": "threshold",
+      "type": "frontend",
+      "label": "阈值标定",
+      "sublabel": "供项目 9/15 标阈值",
+      "stage": 3,
+      "row": 0
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "prompt",
+      "to": "g0",
+      "label": "同题",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f2",
+      "from": "prompt",
+      "to": "g8",
+      "label": "同题"
+    },
+    {
+      "id": "f3",
+      "from": "g0",
+      "to": "stats",
+      "label": "30 个输出",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f4",
+      "from": "g8",
+      "to": "stats",
+      "label": "30 个输出"
+    },
+    {
+      "id": "f5",
+      "from": "stats",
+      "to": "report",
+      "label": "指标表",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f6",
+      "from": "report",
+      "to": "threshold",
+      "label": "下界参考"
+    }
+  ]
+}

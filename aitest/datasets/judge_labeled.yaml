@@ -1,0 +1,96 @@
+# judge_labeled — LLM-as-Judge 校准集 (docs/aitest.md 项目 7)
+#
+# 20 条人工预标注样本: 同一组问题(运维域, 与 golden_v1 的 fact 类同源)配
+# 不同质量的回答, 由清单作者人工按 rubric 打 1-5 分。judge 的输出与这
+# 份"标准卷答案"对账 —— 对齐率与稳定性都在它上面算。
+#
+# 打分依据(与 judges/rubric.py 的 RUBRIC 一致):
+#   5 正确完整具体可用 / 4 正确但少要点 / 3 方向对但含糊冗余 /
+#   2 有明显事实错误或只对极小部分 / 1 答非所问或核心全错
+# 分布: 每档 4 条。
+
+schema_version: 1
+dataset: judge_labeled
+description: judge 校准集, 4 题 × 5 档质量, 人工标注
+
+samples:
+  - id: jr_001
+    question: "Git 里 commit 和 push 分别做什么?"
+    answer: "commit 把暂存区的改动记录为本地版本快照并生成唯一 SHA-1 标识；push 把这些本地提交上传到远程仓库，让别人也能拿到。"
+    human_score: 5
+  - id: jr_002
+    question: "HTTP 404 和 500 状态码分别代表什么?"
+    answer: "404 表示请求的资源未找到，通常是 URL 错误或资源被删除；500 表示服务器内部错误，是服务端代码或配置出问题的信号。"
+    human_score: 5
+  - id: jr_003
+    question: "chmod 755 是什么意思?"
+    answer: "755 是三组八进制权限：所有者 rwx（读写执行），组 r-x（读执行），其他 r-x。常见于让脚本可执行而其他人不能改。"
+    human_score: 5
+  - id: jr_004
+    question: "bash 里 >、>>、2> 有什么区别?"
+    answer: "> 把标准输出重定向到文件并覆盖原内容；>> 追加到文件末尾；2> 只重定向标准错误输出。可以组合使用，比如 2>err.log。"
+    human_score: 5
+  - id: jr_005
+    question: "Git 里 commit 和 push 分别做什么?"
+    answer: "commit 把改动记录成本地快照，push 上传到远程仓库。"
+    human_score: 4
+  - id: jr_006
+    question: "HTTP 404 和 500 状态码分别代表什么?"
+    answer: "404 是资源没找到，500 是服务器内部错误。"
+    human_score: 4
+  - id: jr_007
+    question: "chmod 755 是什么意思?"
+    answer: "所有者有全部权限，组和其他用户能读和执行，不能写。"
+    human_score: 4
+  - id: jr_008
+    question: "bash 里 >、>>、2> 有什么区别?"
+    answer: "> 是覆盖写入，>> 是追加，2> 是重定向错误。"
+    human_score: 4
+  - id: jr_009
+    question: "Git 里 commit 和 push 分别做什么?"
+    answer: "都是 git 的操作，commit 是记录，push 是推送，反正就是同步代码用的。"
+    human_score: 3
+  - id: jr_010
+    question: "HTTP 404 和 500 状态码分别代表什么?"
+    answer: "都是错误码，404 可能是链接坏了，500 好像是服务器那边挂了，看到就知道出问题了。"
+    human_score: 3
+  - id: jr_011
+    question: "chmod 755 是什么意思?"
+    answer: "755 是一种权限设置，设置了之后文件权限就比较合理，具体就是谁能读谁能执行那种。"
+    human_score: 3
+  - id: jr_012
+    question: "bash 里 >、>>、2> 有什么区别?"
+    answer: "> 和 >> 都是写文件，一个是直接写一个接着写，2> 好像是错误相关的。"
+    human_score: 3
+  - id: jr_013
+    question: "Git 里 commit 和 push 分别做什么?"
+    answer: "commit 是提交到远程，push 是提交到本地。"
+    human_score: 2
+  - id: jr_014
+    question: "HTTP 404 和 500 状态码分别代表什么?"
+    answer: "404 是服务器错误，500 是找不到网页。"
+    human_score: 2
+  - id: jr_015
+    question: "chmod 755 是什么意思?"
+    answer: "把文件权限改成 7 5 5 三个数字，分别是用户数、组数和其他数。"
+    human_score: 2
+  - id: jr_016
+    question: "bash 里 >、>>、2> 有什么区别?"
+    answer: "> 是输入重定向，>> 是输出重定向，2> 是双倍输出。"
+    human_score: 2
+  - id: jr_017
+    question: "Git 里 commit 和 push 分别做什么?"
+    answer: "Git 是一个代码托管平台，可以在网页上浏览代码。"
+    human_score: 1
+  - id: jr_018
+    question: "HTTP 404 和 500 状态码分别代表什么?"
+    answer: "HTTP 是用来传文件的协议，速度很快。"
+    human_score: 1
+  - id: jr_019
+    question: "chmod 755 是什么意思?"
+    answer: "这是一个 HTTP 状态码，表示访问被拒绝。"
+    human_score: 1
+  - id: jr_020
+    question: "bash 里 >、>>、2> 有什么区别?"
+    answer: "bash 是 Linux 的图形界面，用起来很方便。"
+    human_score: 1

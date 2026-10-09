@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "幻觉检测数据流：一条 claim 的三级核验",
+    "subtitle": "数字优先、子串要覆盖率、judge 兜底——三级各管一类幻觉",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1068,
+      560
+    ]
+  },
+  "stages": [
+    {
+      "label": "输入"
+    },
+    {
+      "label": "拆分"
+    },
+    {
+      "label": "三级核验"
+    },
+    {
+      "label": "判定"
+    },
+    {
+      "label": "验收"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ans",
+      "type": "external",
+      "label": "回答 + source 段落",
+      "sublabel": "被测答案与事实依据",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "split",
+      "type": "backend",
+      "label": "split_claims",
+      "sublabel": "按句切分 · 过滤寒暄",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "num",
+      "type": "security",
+      "label": "数字核对",
+      "sublabel": "全缺=幻觉硬信号",
+      "stage": 2,
+      "row": 0
+    },
+    {
+      "id": "sub",
+      "type": "backend",
+      "label": "子串快车道",
+      "sublabel": "覆盖率 ≥60% 直判",
+      "stage": 2,
+      "row": 1,
+      "tag": "防主题词复用"
+    },
+    {
+      "id": "judge",
+      "type": "frontend",
+      "label": "LLM judge",
+      "sublabel": "规则+少样本 · 空响应重试",
+      "stage": 3,
+      "row": 2
+    },
+    {
+      "id": "res",
+      "type": "database",
+      "label": "FactualityResult",
+      "sublabel": "claims × verdict × method",
+      "stage": 3,
+      "row": 0
+    },
+    {
+      "id": "cm",
+      "type": "frontend",
+      "label": "混淆矩阵",
+      "sublabel": "检出 10/10 · 误报 0/10",
+      "stage": 4,
+      "row": 1,
+      "tag": "验收 ≥9 且 ≤1"
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "ans",
+      "to": "split",
+      "label": "回答",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f2",
+      "from": "split",
+      "to": "num",
+      "label": "带数字",
+      "route": "top-channel",
+      "labelDy": -14
+    },
+    {
+      "id": "f3",
+      "from": "split",
+      "to": "sub",
+      "label": "无数字",
+      "labelDy": 14
+    },
+    {
+      "id": "f4",
+      "from": "num",
+      "to": "judge",
+      "label": "在场复核",
+      "labelDy": -26,
+      "labelDx": -14
+    },
+    {
+      "id": "f5",
+      "from": "sub",
+      "to": "judge",
+      "label": "覆盖不足",
+      "labelAt": [
+        600,
+        322
+      ]
+    },
+    {
+      "id": "f8",
+      "from": "judge",
+      "to": "res",
+      "label": "判定",
+      "variant": "emphasis",
+      "labelDy": -14
+    },
+    {
+      "id": "f9",
+      "from": "res",
+      "to": "cm",
+      "label": "20 样本",
+      "variant": "emphasis",
+      "labelDy": -14
+    }
+  ]
+}

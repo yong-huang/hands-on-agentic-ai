@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "结构化输出断言管线：任意文本到可判定的 PASS/FAIL",
+    "subtitle": "规则修复全部可解释且离线；LLM 重试只给一次，修不好就 FAIL",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1068,
+      540
+    ]
+  },
+  "stages": [
+    {
+      "label": "原始输出"
+    },
+    {
+      "label": "提取"
+    },
+    {
+      "label": "规则修复"
+    },
+    {
+      "label": "校验"
+    },
+    {
+      "label": "结果"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "raw",
+      "type": "external",
+      "label": "任意 LLM 文本",
+      "sublabel": "围栏·废话·截断·类型错",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "extract",
+      "type": "backend",
+      "label": "extract_json",
+      "sublabel": "剥围栏 · 括号配平",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "rules",
+      "type": "backend",
+      "label": "repair_rules + 强转",
+      "sublabel": "截断·逗号·引号·类型",
+      "stage": 2,
+      "row": 1,
+      "tag": "逐条可解释"
+    },
+    {
+      "id": "validate",
+      "type": "security",
+      "label": "validate",
+      "sublabel": "手写 schema 校验器",
+      "stage": 3,
+      "row": 1,
+      "tag": "修不好→LLM 重试一次"
+    },
+    {
+      "id": "ok",
+      "type": "database",
+      "label": "AssertResult.ok",
+      "sublabel": "data + repairs 清单",
+      "stage": 4,
+      "row": 0
+    },
+    {
+      "id": "fail",
+      "type": "frontend",
+      "label": "断言失败",
+      "sublabel": "重试仍败即 FAIL",
+      "stage": 4,
+      "row": 2
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "raw",
+      "to": "extract",
+      "label": "文本"
+    },
+    {
+      "id": "f2",
+      "from": "extract",
+      "to": "rules",
+      "label": "JSON 候选",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f3",
+      "from": "rules",
+      "to": "validate",
+      "label": "dict",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f4",
+      "from": "validate",
+      "to": "ok",
+      "label": "PASS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f5",
+      "from": "validate",
+      "to": "fail",
+      "label": "校验错误"
+    }
+  ]
+}

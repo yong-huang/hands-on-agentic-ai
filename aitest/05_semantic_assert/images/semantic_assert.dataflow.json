@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "语义断言数据流：阈值是标定出来的，不是拍的",
+    "subtitle": "20 组标定对扫出阈值曲线；运行时只用选定阈值做一次余弦判定",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1068,
+      560
+    ]
+  },
+  "stages": [
+    {
+      "label": "输入"
+    },
+    {
+      "label": "向量化"
+    },
+    {
+      "label": "相似度与标定"
+    },
+    {
+      "label": "阈值"
+    },
+    {
+      "label": "判定"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "pair",
+      "type": "external",
+      "label": "text + reference",
+      "sublabel": "回答 vs 标准答案",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "calset",
+      "type": "database",
+      "label": "标定集 10+10",
+      "sublabel": "等价改写对 + 同域无关对",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "emb",
+      "type": "backend",
+      "label": "embed()",
+      "sublabel": "nomic-embed-text · 768 维",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "cos",
+      "type": "backend",
+      "label": "cosine()",
+      "sublabel": "余弦相似度 · 纯函数",
+      "stage": 2,
+      "row": 1
+    },
+    {
+      "id": "calib",
+      "type": "backend",
+      "label": "calibrate()",
+      "sublabel": "扫阈值曲线取最高精度",
+      "stage": 2,
+      "row": 0,
+      "tag": "阈值不拍脑袋"
+    },
+    {
+      "id": "thr",
+      "type": "security",
+      "label": "threshold=0.60",
+      "sublabel": "平衡精度 0.95",
+      "stage": 3,
+      "row": 1,
+      "tag": "PASS ≥ 阈值"
+    },
+    {
+      "id": "result",
+      "type": "database",
+      "label": "SemanticResult",
+      "sublabel": "ok + sim + 阈值留痕",
+      "stage": 4,
+      "row": 1
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "pair",
+      "to": "emb",
+      "label": "文本对",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f2",
+      "from": "calset",
+      "to": "calib",
+      "label": "20 组"
+    },
+    {
+      "id": "f3",
+      "from": "emb",
+      "to": "cos",
+      "label": "768 维向量",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f4",
+      "from": "cos",
+      "to": "thr",
+      "label": "分值",
+      "route": "straight",
+      "labelDy": 0,
+      "labelDx": -30
+    },
+    {
+      "id": "f5",
+      "from": "calib",
+      "to": "thr",
+      "label": "选定阈值"
+    },
+    {
+      "id": "f6",
+      "from": "thr",
+      "to": "result",
+      "label": "判定",
+      "variant": "emphasis"
+    }
+  ]
+}
