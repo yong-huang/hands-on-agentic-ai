@@ -51,8 +51,11 @@ def _offline_chat_factory():
 
 def _stub_embeddings():
     """离线 embedding 打桩: 64 桶字符袋向量, 确定性无网络。
-    相似度数值不再有语义 —— 离线模式只验证管道, 数字不代表质量。"""
+    相似度数值不再有语义 —— 离线模式只验证管道, 数字不代表质量。
+    返回原函数以便调用方在结束后恢复(防跨用例污染真机断言)。"""
     from testbench.asserts import semantic
+
+    original = semantic.embed
 
     def fake_embed(text, model=None, timeout=30):
         vec = [0.0] * 64
@@ -61,6 +64,7 @@ def _stub_embeddings():
         return vec
 
     semantic.embed = fake_embed
+    return original
 
 
 def run(dataset="golden_v1", sut="mh", model=None, limit=None,
@@ -69,8 +73,7 @@ def run(dataset="golden_v1", sut="mh", model=None, limit=None,
     cases = load_dataset(dataset)["cases"]
     if limit:
         cases = cases[:limit]
-    if offline_chat:
-        _stub_embeddings()
+    original_embed = _stub_embeddings() if offline_chat else None
     chat_fn = _offline_chat_factory() if offline_chat else _real_chat()
     results = {"meta": {
         "dataset": dataset, "sut": sut, "model": model or "default",
@@ -94,6 +97,10 @@ def run(dataset="golden_v1", sut="mh", model=None, limit=None,
                             for d in (row.get("schema"), row["semantic"],
                                       row["factuality"], row["judge"]) if d)
             print(f"  [{i:02d}/{len(cases)}] {case['id']} {marks}")
+
+    if original_embed is not None:               # 恢复真机 embedding
+        from testbench.asserts import semantic
+        semantic.embed = original_embed
 
     summary = _aggregate(results["cases"])
     results["summary"] = summary
