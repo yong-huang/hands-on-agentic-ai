@@ -1,0 +1,39 @@
+{
+ "sut": "mh",
+ "total": 3,
+ "generated_at": "2026-10-09T21:23:15",
+ "outcomes": {
+  "ok": 3
+ },
+ "uncaught_exception_rate": 0,
+ "findings_path": "/Users/hyhit/Desktop/workspace/projects/hands-on-agentic-ai/aitest/results/findings.jsonl",
+ "rows": [
+  {
+   "id": "fz_001",
+   "class": "empty",
+   "outcome": "ok",
+   "detail": "",
+   "elapsed_s": 3.3,
+   "input_len": 0,
+   "input_head": "''"
+  },
+  {
+   "id": "fz_002",
+   "class": "long",
+   "outcome": "ok",
+   "detail": "",
+   "elapsed_s": 28.54,
+   "input_len": 10000,
+   "input_head": "'长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长'"
+  },
+  {
+   "id": "fz_003",
+   "class": "unicode",
+   "outcome": "ok",
+   "detail": "",
+   "elapsed_s": 9.43,
+   "input_len": 28,
+   "input_head": "'مرحبا שלום 你好 こんにちは 🎈👨\\u200d👩\\u200d👧\\u200d👦'"
+  }
+ ]
+}

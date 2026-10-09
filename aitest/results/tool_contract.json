@@ -1,0 +1,145 @@
+{
+ "normal": {
+  "variant": "normal",
+  "generated_at": "2026-10-09T20:03:00",
+  "model": "qwen3:4b",
+  "sequence": [
+   "write_note",
+   "calc_sum"
+  ],
+  "violations": [],
+  "log": [
+   {
+    "name": "write_note",
+    "args": {
+     "title": "hello",
+     "body": "world"
+    }
+   },
+   {
+    "name": "calc_sum",
+    "args": {
+     "a": 21,
+     "b": 21
+    }
+   }
+  ],
+  "final": "已完成：笔记 hello 已写入，21+21 的结果为 42。"
+ },
+ "wrong_type": {
+  "variant": "wrong_type",
+  "generated_at": "2026-10-09T20:03:03",
+  "model": "qwen3:4b",
+  "sequence": [
+   "write_note",
+   "calc_sum"
+  ],
+  "violations": [
+   {
+    "kind": "wrong_type",
+    "tool": "calc_sum",
+    "detail": "参数 a='21' 类型应为 (<class 'int'>, <class 'float'>)"
+   },
+   {
+    "kind": "wrong_type",
+    "tool": "calc_sum",
+    "detail": "参数 b='21' 类型应为 (<class 'int'>, <class 'float'>)"
+   }
+  ],
+  "log": [
+   {
+    "name": "write_note",
+    "args": {
+     "title": "hello",
+     "body": "world"
+    }
+   },
+   {
+    "name": "calc_sum",
+    "args": {
+     "a": "21",
+     "b": "21"
+    }
+   }
+  ],
+  "final": "已完成：笔记 hello 已写入，calc_sum 返回 2121。"
+ },
+ "missing_param": {
+  "variant": "missing_param",
+  "generated_at": "2026-10-09T20:03:09",
+  "model": "qwen3:4b",
+  "sequence": [
+   "write_note",
+   "calc_sum",
+   "write_note"
+  ],
+  "violations": [
+   {
+    "kind": "missing_param",
+    "tool": "write_note",
+    "detail": "缺少必填参数 body"
+   }
+  ],
+  "log": [
+   {
+    "name": "write_note",
+    "args": {
+     "title": "hello"
+    }
+   },
+   {
+    "name": "calc_sum",
+    "args": {
+     "a": 21,
+     "b": 21
+    }
+   },
+   {
+    "name": "write_note",
+    "args": {
+     "title": "hello",
+     "body": "world"
+    }
+   }
+  ],
+  "final": "已完成：写好了标题为 hello、内容为 world 的笔记，并计算出 21+21=42。"
+ },
+ "extra_call": {
+  "variant": "extra_call",
+  "generated_at": "2026-10-09T20:03:14",
+  "model": "qwen3:4b",
+  "sequence": [
+   "save_memo",
+   "calc_sum"
+  ],
+  "violations": [
+   {
+    "kind": "missing_call",
+    "tool": "write_note",
+    "detail": "剧本要求调用 write_note, 实际序列 ['save_memo', 'calc_sum']"
+   },
+   {
+    "kind": "extra_call",
+    "tool": "save_memo",
+    "detail": "调用了剧本外的工具 save_memo"
+   }
+  ],
+  "log": [
+   {
+    "name": "save_memo",
+    "args": {
+     "title": "hello",
+     "body": "world"
+    }
+   },
+   {
+    "name": "calc_sum",
+    "args": {
+     "a": 21,
+     "b": 21
+    }
+   }
+  ],
+  "final": "已保存标题为 hello、内容为 world 的笔记，并计算出 21+21=42。"
+ }
+}

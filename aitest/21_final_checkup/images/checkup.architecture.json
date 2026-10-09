@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "四维体检：七模块结果组装成评级报告",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      980,
+      470
+    ]
+  },
+  "components": [
+    {
+      "id": "results",
+      "type": "database",
+      "label": "run_results.json",
+      "sublabel": "18 线七模块结果",
+      "pos": [
+        40,
+        200
+      ],
+      "size": [
+        180,
+        64
+      ]
+    },
+    {
+      "id": "group",
+      "type": "backend",
+      "label": "四维组装",
+      "sublabel": "功能/安全/性能/回归",
+      "pos": [
+        300,
+        200
+      ],
+      "size": [
+        180,
+        64
+      ]
+    },
+    {
+      "id": "grade",
+      "type": "security",
+      "label": "总评级 A-F",
+      "sublabel": "失守维度递减",
+      "pos": [
+        560,
+        100
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "recs",
+      "type": "messagebus",
+      "label": "修复建议",
+      "sublabel": "按失守维度生成",
+      "pos": [
+        560,
+        310
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "final",
+      "type": "frontend",
+      "label": "FINAL_REPORT.md",
+      "sublabel": "四区块 + 评级 + 建议",
+      "pos": [
+        770,
+        203
+      ],
+      "size": [
+        150,
+        64
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c1",
+      "from": "results",
+      "to": "group"
+    },
+    {
+      "id": "c2",
+      "from": "group",
+      "to": "grade",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c3",
+      "from": "group",
+      "to": "recs"
+    },
+    {
+      "id": "c4",
+      "from": "grade",
+      "to": "final"
+    },
+    {
+      "id": "c5",
+      "from": "recs",
+      "to": "final"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+ "taskset": "e2e_v1",
+ "sut": "mh",
+ "model": "qwen3:4b",
+ "generated_at": "2026-10-09T20:09:46",
+ "runs": [
+  {
+   "success": 10,
+   "total": 10,
+   "rate": 1.0,
+   "rows": [
+    {
+     "id": "t01",
+     "ok": true,
+     "detail": "a.txt exists=True",
+     "turns": 2,
+     "elapsed_s": 8.32,
+     "evidence": {}
+    },
+    {
+     "id": "t02",
+     "ok": true,
+     "detail": "x/b.txt exists=True",
+     "turns": 2,
+     "elapsed_s": 3.92,
+     "evidence": {}
+    },
+    {
+     "id": "t03",
+     "ok": true,
+     "detail": "lines=3 期望=3",
+     "turns": 2,
+     "elapsed_s": 3.93,
+     "evidence": {}
+    },
+    {
+     "id": "t04",
+     "ok": true,
+     "detail": "d1/d2/e.txt exists=True",
+     "turns": 2,
+     "elapsed_s": 4.5,
+     "evidence": {}
+    },
+    {
+     "id": "t05",
+     "ok": true,
+     "detail": "lines=5 期望=5",
+     "turns": 2,
+     "elapsed_s": 4.45,
+     "evidence": {}
+    },
+    {
+     "id": "t06",
+     "ok": true,
+     "detail": "missing=无",
+     "turns": 2,
+     "elapsed_s": 5.0,
+     "evidence": {}
+    },
+    {
+     "id": "t07",
+     "ok": true,
+     "detail": "两文件一致=True",
+     "turns": 2,
+     "elapsed_s": 5.05,
+     "evidence": {}
+    },
+    {
+     "id": "t08",
+     "ok": true,
+     "detail": "含 '=' 的行=2 期望=2",
+     "turns": 2,
+     "elapsed_s": 4.88,
+     "evidence": {}
+    },
+    {
+     "id": "t09",
+     "ok": true,
+     "detail": "p/q/r/deep.txt exists=True",
+     "turns": 2,
+     "elapsed_s": 5.03,
+     "evidence": {}
+    },
+    {
+     "id": "t10",
+     "ok": true,
+     "detail": "含 '4'=True",
+     "turns": 3,
+     "elapsed_s": 10.42,
+     "evidence": {}
+    }
+   ]
+  },
+  {
+   "success": 10,
+   "total": 10,
+   "rate": 1.0,
+   "rows": [
+    {
+     "id": "t01",
+     "ok": true,
+     "detail": "a.txt exists=True",
+     "turns": 2,
+     "elapsed_s": 7.48,
+     "evidence": {}
+    },
+    {
+     "id": "t02",
+     "ok": true,
+     "detail": "x/b.txt exists=True",
+     "turns": 2,
+     "elapsed_s": 4.79,
+     "evidence": {}
+    },
+    {
+     "id": "t03",
+     "ok": true,
+     "detail": "lines=3 期望=3",
+     "turns": 2,
+     "elapsed_s": 4.96,
+     "evidence": {}
+    },
+    {
+     "id": "t04",
+     "ok": true,
+     "detail": "d1/d2/e.txt exists=True",
+     "turns": 2,
+     "elapsed_s": 6.11,
+     "evidence": {}
+    },
+    {
+     "id": "t05",
+     "ok": true,
+     "detail": "lines=5 期望=5",
+     "turns": 2,
+     "elapsed_s": 4.97,
+     "evidence": {}
+    },
+    {
+     "id": "t06",
+     "ok": true,
+     "detail": "missing=无",
+     "turns": 2,
+     "elapsed_s": 6.19,
+     "evidence": {}
+    },
+    {
+     "id": "t07",
+     "ok": true,
+     "detail": "两文件一致=True",
+     "turns": 2,
+     "elapsed_s": 5.2,
+     "evidence": {}
+    },
+    {
+     "id": "t08",
+     "ok": true,
+     "detail": "含 '=' 的行=2 期望=2",
+     "turns": 2,
+     "elapsed_s": 5.1,
+     "evidence": {}
+    },
+    {
+     "id": "t09",
+     "ok": true,
+     "detail": "p/q/r/deep.txt exists=True",
+     "turns": 2,
+     "elapsed_s": 5.52,
+     "evidence": {}
+    },
+    {
+     "id": "t10",
+     "ok": true,
+     "detail": "含 '4'=True",
+     "turns": 3,
+     "elapsed_s": 10.58,
+     "evidence": {}
+    }
+   ]
+  }
+ ],
+ "max_diff": 0,
+ "stable": true
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "端到端终态断言：任务跑两遍，判分只认磁盘",
+    "subtitle": "不看中间轮次文本，失败任务自动留终态证据",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [1080, 460]
+  },
+  "stages": [
+    { "label": "任务集" },
+    { "label": "驱动" },
+    { "label": "终态" },
+    { "label": "判分" },
+    { "label": "汇总" }
+  ],
+  "nodes": [
+    {
+      "id": "tasks",
+      "type": "database",
+      "label": "tasks.yaml",
+      "sublabel": "10 个终态可判任务",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "runner",
+      "type": "backend",
+      "label": "run_e2e ×2 遍",
+      "sublabel": "每任务独立沙箱",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "disk",
+      "type": "database",
+      "label": "沙箱磁盘",
+      "sublabel": "文件 / 行数 / 内容",
+      "stage": 2,
+      "row": 1
+    },
+    {
+      "id": "checker",
+      "type": "security",
+      "label": "终态判分",
+      "sublabel": "只读磁盘取证",
+      "stage": 3,
+      "row": 1
+    },
+    {
+      "id": "report",
+      "type": "messagebus",
+      "label": "成功率对比",
+      "sublabel": "两遍差值 ≤1",
+      "stage": 4,
+      "row": 1
+    }
+  ],
+  "flows": [
+    { "id": "f1", "from": "tasks", "to": "runner", "label": "驱动", "variant": "emphasis" },
+    { "id": "f2", "from": "runner", "to": "disk", "label": "工具落盘" },
+    { "id": "f3", "from": "disk", "to": "checker", "label": "终态取证", "variant": "emphasis" },
+    { "id": "f4", "from": "checker", "to": "report", "label": "两遍汇总" }
+  ]
+}

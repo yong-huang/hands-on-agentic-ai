@@ -4,7 +4,7 @@
   "sut": "mini",
   "model": "default",
   "offline": true,
-  "generated_at": "2026-10-09T09:55:09"
+  "generated_at": "2026-10-09T21:39:00"
  },
  "cases": [
   {
@@ -23,8 +23,8 @@
     "points_total": 2,
     "pass": false,
     "sims": [
-     0.0,
-     0.0
+     0.1961,
+     0.3651
     ]
    },
    "factuality": {
@@ -57,8 +57,8 @@
     "points_total": 2,
     "pass": false,
     "sims": [
-     0.0,
-     0.0
+     0.1768,
+     0.2041
     ]
    },
    "factuality": {

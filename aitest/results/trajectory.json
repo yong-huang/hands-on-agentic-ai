@@ -1,0 +1,32 @@
+{
+ "fast": {
+  "score": 100,
+  "loop": false,
+  "loop_reason": "",
+  "steps": 2,
+  "expected_steps": 2,
+  "efficiency": 1.0,
+  "redundancy": 0.0,
+  "completed": true
+ },
+ "slow": {
+  "score": 60,
+  "loop": false,
+  "loop_reason": "",
+  "steps": 6,
+  "expected_steps": 2,
+  "efficiency": 0.333,
+  "redundancy": 0.333,
+  "completed": true
+ },
+ "loop": {
+  "score": 0,
+  "loop": true,
+  "loop_reason": "同动作连续 3 次: run_bash",
+  "steps": 30,
+  "efficiency": 0.0,
+  "redundancy": 1.0,
+  "completed": true
+ },
+ "ok": true
+}

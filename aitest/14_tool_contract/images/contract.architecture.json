@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "工具契约测试：mock 工具记录调用，两类断言判违规",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [980, 450]
+  },
+  "components": [
+    {
+      "id": "variants",
+      "type": "external",
+      "label": "写坏变体 ×3",
+      "sublabel": "错型 / 漏参 / 多调",
+      "pos": [40, 250],
+      "size": [160, 60]
+    },
+    {
+      "id": "sut",
+      "type": "cloud",
+      "label": "SUT（mh）",
+      "sublabel": "qwen3:4b 真机",
+      "pos": [40, 90],
+      "size": [160, 60]
+    },
+    {
+      "id": "tools",
+      "type": "backend",
+      "label": "mock 工具表",
+      "sublabel": "记录每次调用",
+      "pos": [280, 168],
+      "size": [180, 66]
+    },
+    {
+      "id": "args",
+      "type": "security",
+      "label": "参数契约",
+      "sublabel": "必填 × 类型",
+      "pos": [540, 70],
+      "size": [160, 60]
+    },
+    {
+      "id": "seq",
+      "type": "security",
+      "label": "序列契约",
+      "sublabel": "剧本子序列",
+      "pos": [540, 268],
+      "size": [160, 60]
+    },
+    {
+      "id": "report",
+      "type": "database",
+      "label": "违规清单",
+      "sublabel": "results/tool_contract.json",
+      "pos": [770, 168],
+      "size": [180, 66]
+    }
+  ],
+  "connections": [
+    { "id": "c1", "from": "sut", "to": "tools", "label": "工具调用" },
+    {
+      "id": "c2",
+      "from": "variants",
+      "to": "tools",
+      "label": "schema 变形",
+      "variant": "dashed"
+    },
+    {
+      "id": "c3",
+      "from": "tools",
+      "to": "args",
+      "label": "调用日志",
+      "variant": "emphasis"
+    },
+    { "id": "c4", "from": "tools", "to": "seq", "label": "调用日志" },
+    { "id": "c5", "from": "args", "to": "report" },
+    { "id": "c6", "from": "seq", "to": "report" }
+  ]
+}

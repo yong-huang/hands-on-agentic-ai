@@ -1,0 +1,44 @@
+{
+ "metrics": {
+  "p50_s": 18.52,
+  "p95_s": 18.52,
+  "tokens_est": 1000
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "p50_s": 18.52,
+   "p95_s": 18.52,
+   "tokens_est": 1000,
+   "rows": [
+    {
+     "id": "t01",
+     "elapsed_s": 18.52,
+     "tokens_est": 1000
+    }
+   ]
+  }
+ ],
+ "tasks_n": 1,
+ "budget": {
+  "p50_s": {
+   "value": 18.52,
+   "limit": 0.5,
+   "pass": false
+  },
+  "p95_s": {
+   "value": 18.52,
+   "limit": 120.0,
+   "pass": true
+  },
+  "tokens_est": {
+   "value": 1000,
+   "limit": 100000,
+   "pass": true
+  }
+ },
+ "failed": [
+  "p50_s"
+ ],
+ "generated_at": "2026-10-09T20:33:39"
+}

@@ -1,0 +1,40 @@
+# tasks.yaml — 端到端任务集 (docs/aitest.md 项目 15)
+#
+# 10 个 mh 能做、终态可判的任务(借用 harness/eval 已验证任务集)。
+# check.kind: file_exists / files_exist / line_count / line_contains_count
+#             / content_contains / content_equal
+# 判分只读沙箱磁盘终态, 不看中间轮次文本。
+
+schema_version: 1
+taskset: e2e_v1
+tasks:
+  - id: t01
+    task: "创建 a.txt, 内容任意(1 行)"
+    check: {kind: file_exists, path: a.txt}
+  - id: t02
+    task: "创建目录 x, 并在其中写 b.txt(1 行)"
+    check: {kind: file_exists, path: x/b.txt}
+  - id: t03
+    task: "创建 c.txt, 写入 3 行内容"
+    check: {kind: line_count, path: c.txt, count: 3}
+  - id: t04
+    task: "创建 d1/d2 两级目录, 在深处写 e.txt(1 行)"
+    check: {kind: file_exists, path: d1/d2/e.txt}
+  - id: t05
+    task: "创建 list.txt, 写入 5 行内容"
+    check: {kind: line_count, path: list.txt, count: 5}
+  - id: t06
+    task: "创建 m1 m2 m3 三个目录, 每个目录里放一个 ok.txt"
+    check: {kind: files_exist, paths: [m1/ok.txt, m2/ok.txt, m3/ok.txt]}
+  - id: t07
+    task: "先写 src.txt(1 行), 再把它的内容复制到 dst.txt"
+    check: {kind: content_equal, path_a: src.txt, path_b: dst.txt}
+  - id: t08
+    task: "创建 cfg.ini, 内容为两行 key=value"
+    check: {kind: line_contains_count, path: cfg.ini, substr: "=", count: 2}
+  - id: t09
+    task: "创建嵌套目录 p/q/r, 在 r 里写 deep.txt(1 行)"
+    check: {kind: file_exists, path: p/q/r/deep.txt}
+  - id: t10
+    task: "创建 w1..w4 四个文件各 1 行, 统计总行数(应为 4)写入 total.txt"
+    check: {kind: content_contains, path: total.txt, text: "4"}

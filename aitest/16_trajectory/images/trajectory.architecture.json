@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "轨迹评测：死循环一票否决，效率与冗余打分",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [780, 470]
+  },
+  "components": [
+    {
+      "id": "trace",
+      "type": "database",
+      "label": "tool_trace",
+      "sublabel": "工具调用序列",
+      "pos": [50, 200],
+      "size": [160, 64]
+    },
+    {
+      "id": "loop",
+      "type": "security",
+      "label": "死循环检测",
+      "sublabel": "连续×3 或 同参×5",
+      "pos": [300, 80],
+      "size": [190, 64]
+    },
+    {
+      "id": "score",
+      "type": "backend",
+      "label": "效率与冗余",
+      "sublabel": "步数效率 + 重复占比",
+      "pos": [300, 310],
+      "size": [190, 64]
+    },
+    {
+      "id": "out",
+      "type": "messagebus",
+      "label": "轨迹分 0-100",
+      "sublabel": "循环直接判 0",
+      "pos": [570, 200],
+      "size": [170, 64]
+    }
+  ],
+  "connections": [
+    { "id": "c1", "from": "trace", "to": "loop" },
+    { "id": "c2", "from": "trace", "to": "score" },
+    {
+      "id": "c3",
+      "from": "loop",
+      "to": "out",
+      "label": "一票否决",
+      "variant": "security"
+    },
+    {
+      "id": "c4",
+      "from": "score",
+      "to": "out",
+      "label": "计分",
+      "variant": "emphasis"
+    }
+  ]
+}

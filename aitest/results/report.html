@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>aitest 评测报告</title><style>
+body{font-family:-apple-system,'PingFang SC',sans-serif;margin:0;background:#f5f6f8;color:#1c2430}
+.wrap{max-width:920px;margin:0 auto;padding:24px}
+h1{font-size:22px;margin:0 0 4px}
+.meta{color:#667;font-size:13px;margin-bottom:20px}
+.cards{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.card{background:#fff;border:1px solid #e3e6ea;border-radius:8px;padding:10px 14px;font-size:13px}
+.card b{font-size:18px;display:block}
+section{background:#fff;border:1px solid #e3e6ea;border-radius:10px;margin-bottom:16px;padding:16px 20px}
+h2{font-size:16px;margin:0 0 10px;border-left:4px solid #4a7dfc;padding-left:8px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td,th{border-bottom:1px solid #eef0f3;text-align:left;padding:6px 8px}
+.bad{color:#c0392b;font-weight:600}
+.good{color:#1e8e4e}
+.gray{color:#98a2ad}
+.small{color:#667;font-size:12px}
+</style></head>
+<body><div class="wrap">
+<h1>aitest 评测报告</h1>
+<div class="meta">SUT=mh · 档位=smoke · 模型=
+qwen3:4b · 生成于 2026-10-09T20:53:47</div>
+<section id='overview'><h2>总览</h2><div class='cards'><div class='card'><b>7</b>ok</div><div class='card'><b class='bad'>0</b>error</div><div class='card'><b class='gray'>0</b>skipped</div><div class='card'><b>422.61s</b>总耗时</div></div><table><tr><th>模块</th><th>状态</th><th>passed</th><th>metrics</th><th>耗时</th><th>detail</th></tr><tr><td>eval</td><td class='good'>ok</td><td>None</td><td>overall_pass_rate=0 / rates=schema=1 / semantic=0.5 / factuality=0 / judge=1 / cases=2 / offline=False</td><td>119.26s</td><td class='small'>golden_v1 前 2 条</td></tr><tr><td>regression</td><td class='good'>ok</td><td>None</td><td>degraded=0 / improved=0 / flat=2</td><td>122.01s</td><td class='small'>双版对比前 2 条</td></tr><tr><td>security</td><td class='good'>ok</td><td>True</td><td>injection=0 / jailbreak=0.5 / fuzz=0</td><td>126.69s</td><td class='small'>failed=无</td></tr><tr><td>contract</td><td class='good'>ok</td><td>True</td><td>normal=0</td><td>8.37s</td><td class='small'>变体违规数={'normal': 0}</td></tr><tr><td>e2e</td><td class='good'>ok</td><td>None</td><td>success=2 / total=2 / rate=1</td><td>13.35s</td><td class='small'>前 2 个任务</td></tr><tr><td>trajectory</td><td class='good'>ok</td><td>True</td><td>fast=100 / slow=60 / loop=0</td><td>0.0s</td><td class='small'>预置轨迹自证(离线)</td></tr><tr><td>perf</td><td class='good'>ok</td><td>None</td><td>p50_s=32.9 / p95_s=32.9 / tokens_est=1000</td><td>32.93s</td><td class='small'>超标项=无</td></tr></table></section>
+<section id='eval'><h2>评测</h2><table><tr><th>来源</th><th>指标</th><th>值</th></tr><tr><td>eval</td><td>overall_pass_rate</td><td>0</td></tr><tr><td>eval</td><td>rate.schema</td><td>1</td></tr><tr><td>eval</td><td>rate.semantic</td><td>0.5</td></tr><tr><td>eval</td><td>rate.factuality</td><td>0</td></tr><tr><td>eval</td><td>rate.judge</td><td>1</td></tr><tr><td>regression</td><td>degraded</td><td>0</td></tr><tr><td>regression</td><td>improved</td><td>0</td></tr><tr><td>regression</td><td>flat</td><td>2</td></tr></table></section>
+<section id='security'><h2>安全</h2><table><tr><th>维度</th><th>值</th></tr><tr><td>injection</td><td>0</td></tr><tr><td>jailbreak</td><td>0.5</td></tr><tr><td>fuzz</td><td>0</td></tr></table></section>
+<section id='behavior'><h2>行为</h2><p class='small'>契约（违规数）: normal=0 <span class='good'>passed=True</span></p><p class='small'>e2e 成功率: 2/2 = 1.0</p><p class='small'>轨迹自证: fast=100 slow=60 loop=0</p></section>
+<section id='performance'><h2>性能</h2><table><tr><th>指标</th><th>值</th></tr><tr><td>p50_s</td><td>32.9</td></tr><tr><td>p95_s</td><td>32.9</td></tr><tr><td>tokens_est</td><td>1000</td></tr></table></section>
+</div></body></html>

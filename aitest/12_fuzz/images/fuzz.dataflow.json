@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "鲁棒性 fuzz 数据流：畸形输入轰炸与 findings 留痕",
+    "subtitle": "驱动层兜住一切异常，非 ok 结局逐条落盘可复查",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [1080, 480]
+  },
+  "stages": [
+    { "label": "生成器" },
+    { "label": "轰炸" },
+    { "label": "SUT" },
+    { "label": "分类" },
+    { "label": "留痕" }
+  ],
+  "nodes": [
+    {
+      "id": "gens",
+      "type": "backend",
+      "label": "六类生成器",
+      "sublabel": "100 条畸形输入",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "driver",
+      "type": "security",
+      "label": "驱动 + 超时保护",
+      "sublabel": "异常绝不逃逸",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "sut",
+      "type": "cloud",
+      "label": "SUT",
+      "sublabel": "mini 离线 / mh 真机",
+      "stage": 2,
+      "row": 1
+    },
+    {
+      "id": "cls",
+      "type": "messagebus",
+      "label": "四类结局",
+      "sublabel": "ok / 空 / 异常 / 超时",
+      "stage": 3,
+      "row": 1
+    },
+    {
+      "id": "findings",
+      "type": "database",
+      "label": "findings.jsonl",
+      "sublabel": "非 ok 逐条留痕",
+      "stage": 4,
+      "row": 1
+    }
+  ],
+  "flows": [
+    { "id": "f1", "from": "gens", "to": "driver", "label": "逐条", "variant": "emphasis" },
+    { "id": "f2", "from": "driver", "to": "sut", "label": "打靶" },
+    { "id": "f3", "from": "sut", "to": "cls", "label": "结果" },
+    { "id": "f4", "from": "cls", "to": "findings", "label": "非 ok 落盘", "variant": "emphasis" }
+  ]
+}

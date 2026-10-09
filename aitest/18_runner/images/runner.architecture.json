@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "统一 runner：七个模块收进一份可校验的结果",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      820,
+      470
+    ]
+  },
+  "components": [
+    {
+      "id": "modules",
+      "type": "backend",
+      "label": "七个测试模块",
+      "sublabel": "评测/回归/安全/契约/e2e/轨迹/性能",
+      "pos": [
+        30,
+        195
+      ],
+      "size": [
+        210,
+        70
+      ]
+    },
+    {
+      "id": "runner",
+      "type": "security",
+      "label": "runner",
+      "sublabel": "档位 + 崩溃不阻断",
+      "pos": [
+        310,
+        195
+      ],
+      "size": [
+        170,
+        70
+      ]
+    },
+    {
+      "id": "schema",
+      "type": "messagebus",
+      "label": "schema.py",
+      "sublabel": "结果契约校验",
+      "pos": [
+        570,
+        85
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "out",
+      "type": "database",
+      "label": "results.json",
+      "sublabel": "单一报告",
+      "pos": [
+        570,
+        300
+      ],
+      "size": [
+        170,
+        64
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c1",
+      "from": "modules",
+      "to": "runner",
+      "label": "逐个调用"
+    },
+    {
+      "id": "c2",
+      "from": "runner",
+      "to": "schema",
+      "label": "组报告",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c3",
+      "from": "schema",
+      "to": "out",
+      "label": "过检落盘",
+      "labelDy": 20
+    }
+  ]
+}

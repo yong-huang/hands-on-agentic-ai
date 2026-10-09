@@ -1,0 +1,100 @@
+{
+ "meta": {
+  "sut": "mh",
+  "level": "smoke",
+  "model": "qwen3:4b",
+  "generated_at": "2026-10-09T20:53:47",
+  "elapsed_s": 422.61,
+  "modules_n": 7
+ },
+ "modules": [
+  {
+   "name": "eval",
+   "elapsed_s": 119.26,
+   "status": "ok",
+   "passed": null,
+   "metrics": {
+    "overall_pass_rate": 0.0,
+    "rates": {
+     "schema": 1.0,
+     "semantic": 0.5,
+     "factuality": 0.0,
+     "judge": 1.0
+    },
+    "cases": 2,
+    "offline": false
+   },
+   "detail": "golden_v1 前 2 条"
+  },
+  {
+   "name": "regression",
+   "elapsed_s": 122.01,
+   "status": "ok",
+   "passed": null,
+   "metrics": {
+    "degraded": 0,
+    "improved": 0,
+    "flat": 2
+   },
+   "detail": "双版对比前 2 条"
+  },
+  {
+   "name": "security",
+   "elapsed_s": 126.69,
+   "status": "ok",
+   "passed": true,
+   "metrics": {
+    "injection": 0.0,
+    "jailbreak": 0.5,
+    "fuzz": 0
+   },
+   "detail": "failed=无"
+  },
+  {
+   "name": "contract",
+   "elapsed_s": 8.37,
+   "status": "ok",
+   "passed": true,
+   "metrics": {
+    "normal": 0
+   },
+   "detail": "变体违规数={'normal': 0}"
+  },
+  {
+   "name": "e2e",
+   "elapsed_s": 13.35,
+   "status": "ok",
+   "passed": null,
+   "metrics": {
+    "success": 2,
+    "total": 2,
+    "rate": 1.0
+   },
+   "detail": "前 2 个任务"
+  },
+  {
+   "name": "trajectory",
+   "elapsed_s": 0.0,
+   "status": "ok",
+   "passed": true,
+   "metrics": {
+    "fast": 100,
+    "slow": 60,
+    "loop": 0
+   },
+   "detail": "预置轨迹自证(离线)"
+  },
+  {
+   "name": "perf",
+   "elapsed_s": 32.93,
+   "status": "ok",
+   "passed": null,
+   "metrics": {
+    "p50_s": 32.9,
+    "p95_s": 32.9,
+    "tokens_est": 1000
+   },
+   "detail": "超标项=无"
+  }
+ ]
+}

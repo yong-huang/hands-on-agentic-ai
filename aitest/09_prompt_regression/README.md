@@ -65,7 +65,7 @@ cd 09_prompt_regression && python3 prompt_regression.py    # 真机 20 条 ×2 �
 |:--:|:--:|:--:|
 | 3 | 13 | **4** |
 
-## 劣化明细
+**劣化明细**（摘自报告）:
 
 - `tool_002`: 期望要点通过 2/2 → 1/2 · judge 5 → 1
 - `tool_003`: 期望要点通过 2/2 → 2/2 · judge 5 → 3
@@ -79,7 +79,9 @@ cd 09_prompt_regression && python3 prompt_regression.py    # 真机 20 条 ×2 �
 
 ### 受控对比：只动一个变量
 
-两版驱动只有 system prompt 不同：`run_sut(query, system=...)` 由适配层（lab 01）把 system 覆盖到 messages 首条，模型、工具、任务目录、max_turns 全部相同。对照 Quick Start 输出里的每行——同一用例 ID 的两个信号值并列，差异可归因到 prompt 本身。
+两版驱动只有 system prompt 不同：`run_sut(query, system=...)` 由适配层（lab 01）把 system 覆盖到 messages 首条，模型、工具、任务目录、max_turns 全部相同。
+
+对照 Quick Start 输出里的每行——同一用例 ID 的两个信号值并列，差异可归因到 prompt 本身。
 
 ### 三态判定与双信号
 

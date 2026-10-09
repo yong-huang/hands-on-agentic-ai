@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "CI 门禁分级：数据变动走快档，代码变动走全量",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [900, 470]
+  },
+  "components": [
+    {
+      "id": "changes",
+      "type": "external",
+      "label": "变更文件",
+      "sublabel": "git diff",
+      "pos": [40, 200],
+      "size": [150, 64]
+    },
+    {
+      "id": "router",
+      "type": "security",
+      "label": "路由规则",
+      "sublabel": "数据→smoke · 代码→full",
+      "pos": [260, 200],
+      "size": [200, 64]
+    },
+    {
+      "id": "smoke",
+      "type": "backend",
+      "label": "smoke 档",
+      "sublabel": "分钟级小样本",
+      "pos": [530, 90],
+      "size": [170, 60]
+    },
+    {
+      "id": "full",
+      "type": "backend",
+      "label": "full 档",
+      "sublabel": "全量口径",
+      "pos": [530, 310],
+      "size": [170, 60]
+    },
+    {
+      "id": "exit",
+      "type": "database",
+      "label": "CI 退出码",
+      "sublabel": "崩溃/机制没过→1",
+      "pos": [740, 200],
+      "size": [150, 64]
+    }
+  ],
+  "connections": [
+    { "id": "c1", "from": "changes", "to": "router" },
+    {
+      "id": "c2",
+      "from": "router",
+      "to": "smoke",
+      "label": "只动数据",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c3",
+      "from": "router",
+      "to": "full",
+      "label": "代码/未知"
+    },
+    { "id": "c4", "from": "smoke", "to": "exit" },
+    { "id": "c5", "from": "full", "to": "exit" }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "报告生成器：JSON 进，五区块单文件出，抽查对账",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      820,
+      470
+    ]
+  },
+  "components": [
+    {
+      "id": "results",
+      "type": "database",
+      "label": "run_results.json",
+      "sublabel": "唯一数据源",
+      "pos": [
+        40,
+        200
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "report",
+      "type": "backend",
+      "label": "report.py",
+      "sublabel": "字符串模板 + 内联 CSS",
+      "pos": [
+        290,
+        200
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "html",
+      "type": "frontend",
+      "label": "report.html",
+      "sublabel": "五区块单文件",
+      "pos": [
+        560,
+        105
+      ],
+      "size": [
+        180,
+        64
+      ]
+    },
+    {
+      "id": "verify",
+      "type": "security",
+      "label": "verify()",
+      "sublabel": "抽查数字一致",
+      "pos": [
+        560,
+        300
+      ],
+      "size": [
+        180,
+        64
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c1",
+      "from": "results",
+      "to": "report"
+    },
+    {
+      "id": "c2",
+      "from": "report",
+      "to": "html",
+      "label": "生成",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c3",
+      "from": "html",
+      "to": "verify",
+      "label": "回读对账",
+      "labelDy": 24
+    }
+  ]
+}

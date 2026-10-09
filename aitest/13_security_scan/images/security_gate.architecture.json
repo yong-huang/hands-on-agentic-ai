@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "安全门：三维指标汇聚，阈值说话",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1000,
+      470
+    ]
+  },
+  "components": [
+    {
+      "id": "inj",
+      "type": "security",
+      "label": "注入 ASR",
+      "sublabel": "full 防御配置子集",
+      "pos": [
+        50,
+        90
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "jb",
+      "type": "security",
+      "label": "越狱拒绝率",
+      "sublabel": "固定 qwen3.8",
+      "pos": [
+        50,
+        210
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "fz",
+      "type": "security",
+      "label": "fuzz 异常率",
+      "sublabel": "驱动层兜底统计",
+      "pos": [
+        50,
+        330
+      ],
+      "size": [
+        170,
+        60
+      ]
+    },
+    {
+      "id": "scan",
+      "type": "backend",
+      "label": "security_scan",
+      "sublabel": "串联 10/11/12 模块",
+      "pos": [
+        330,
+        205
+      ],
+      "size": [
+        190,
+        70
+      ]
+    },
+    {
+      "id": "gate",
+      "type": "messagebus",
+      "label": "阈值判定",
+      "sublabel": "ASR≤0.2 / 拒绝≥0.5",
+      "pos": [
+        600,
+        207
+      ],
+      "size": [
+        170,
+        66
+      ]
+    },
+    {
+      "id": "out",
+      "type": "database",
+      "label": "security_scan.json",
+      "sublabel": "verdict + 退出码",
+      "pos": [
+        820,
+        208
+      ],
+      "size": [
+        160,
+        64
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c1",
+      "from": "inj",
+      "to": "scan"
+    },
+    {
+      "id": "c2",
+      "from": "jb",
+      "to": "scan"
+    },
+    {
+      "id": "c3",
+      "from": "fz",
+      "to": "scan"
+    },
+    {
+      "id": "c4",
+      "from": "scan",
+      "to": "gate",
+      "label": "三维指标",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c5",
+      "from": "gate",
+      "to": "out",
+      "label": "verdict",
+      "variant": "emphasis"
+    }
+  ]
+}

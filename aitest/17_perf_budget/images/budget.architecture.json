@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "性能门禁：多轮采样取中位，预算说话",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [780, 470]
+  },
+  "components": [
+    {
+      "id": "runner",
+      "type": "backend",
+      "label": "run_perf",
+      "sublabel": "N 任务 × R 轮",
+      "pos": [40, 200],
+      "size": [160, 64]
+    },
+    {
+      "id": "lat",
+      "type": "messagebus",
+      "label": "延迟指标",
+      "sublabel": "P50 / P95 取轮间中位",
+      "pos": [290, 80],
+      "size": [200, 64]
+    },
+    {
+      "id": "tok",
+      "type": "database",
+      "label": "token 估算",
+      "sublabel": "字符 / 4（标注为估算）",
+      "pos": [290, 310],
+      "size": [200, 64]
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "预算判定",
+      "sublabel": "越低越好 + 退出码",
+      "pos": [570, 200],
+      "size": [180, 64]
+    }
+  ],
+  "connections": [
+    { "id": "c1", "from": "runner", "to": "lat" },
+    { "id": "c2", "from": "runner", "to": "tok" },
+    {
+      "id": "c3",
+      "from": "lat",
+      "to": "gate",
+      "label": "超标标红",
+      "variant": "emphasis"
+    },
+    { "id": "c4", "from": "tok", "to": "gate", "variant": "dashed" }
+  ]
+}

@@ -6,6 +6,7 @@
 > 全部项目共同生长为 `testbench/` 测试台：评测集 → 四类断言 → 回归与红队 →
 > Agent 行为测试 → 统一 runner 与门禁，🏁 终极给 mh 出四维体检报告。
 > 每个实验四件套：**README 教程 + 主脚本 + 真实可跑 + 架构图三件套**。
+> 当前进度：**21/21 全部完成**（2026-10-09）；pytest 套件离线全绿，图三件套 21 张。
 > 完整学习清单（含与 qa/agent/harness 三线的关系表）见
 > [../docs/aitest.md](../docs/aitest.md)。
 > 另三条线：[agents/](../agents/README.md)（framework 视角）·
@@ -54,28 +55,28 @@ curl -sf http://localhost:11434/v1/models >/dev/null && echo OK
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
 | ✅ 09 | [prompt_regression](09_prompt_regression/README.md) | 提示词回归：双版同卷对比，实测抓出 4 个劣化项 |
-| 10 | injection_range | 提示注入靶场：baseline vs full 两配置 ASR 对照 |
-| 11 | jailbreak | 越狱与红队用例库：payload 变异器 + 拒绝率度量 |
-| 12 | fuzz | 鲁棒性 fuzz：100 条畸形输入轰炸，未捕获异常率 = 0 |
-| 13 | security_scan | ⛓️ 安全门统一扫描器：注入/越狱/fuzz 三维一键出报告 |
+| ✅ 10 | [injection_range](10_injection_range/README.md) | 提示注入靶场：baseline 0.733 vs full 0.067 ASR 对照 |
+| ✅ 11 | [jailbreak](11_jailbreak/README.md) | 越狱用例库：三分类判定 + 变异器，拒绝率 0.667 |
+| ✅ 12 | [fuzz](12_fuzz/README.md) | 鲁棒性 fuzz：100 条畸形输入，mini 全活 / mh 抓 3 findings |
+| ✅ 13 | [security_scan](13_security_scan/README.md) | ⛓️ 安全门：三维一键报告 + 阈值退出码，两态可验 |
 
 ### 第四阶段 · Agent 特有：测行为不只测文本
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
-| 14 | tool_contract | 工具调用契约测试：mock 工具 + 调用序列断言 + 写坏描述自证 |
-| 15 | e2e_task | 端到端任务成功率：终态断言，失败留 trace 证据 |
-| 16 | trajectory | 轨迹评测：步数效率/重复动作/死循环三维打分 |
-| 17 | perf_budget | 性能与成本门禁：P50/P95 延迟 + token 预算，超限 exit 1 |
+| ✅ 14 | [tool_contract](14_tool_contract/README.md) | 工具契约：双断言 + 三写坏变体自证全抓 |
+| ✅ 15 | [e2e_task](15_e2e_task/README.md) | 端到端终态断言：10 任务两遍 10/10 零波动 |
+| ✅ 16 | [trajectory](16_trajectory/README.md) | 轨迹评测：快100/慢60/死循环0，真机轨迹 100 |
+| ✅ 17 | [perf_budget](17_perf_budget/README.md) | 性能门禁：P50 19.4s 达标 / 收紧阈值 exit 1 |
 
 ### 第五阶段 · 平台化：从脚本到门禁
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
-| 18 | runner | ⛓️ 统一 runner 与结果模型：单命令七模块，失败不阻断收集 |
-| 19 | report | 评测报告生成器：results.json → 五区块 HTML，数字可对账 |
-| 20 | gate | CI 门禁分级：变更文件路由冒烟/全量档，自检可断言 |
-| 21 | final_checkup | 🏁 终极四维体检：功能/安全/性能/回归，mh 总评级 A-F |
+| ✅ 18 | [runner](18_runner/README.md) | ⛓️ 统一 runner：七模块 smoke 全 ok，schema 校验 |
+| ✅ 19 | [report](19_report/README.md) | 报告生成器：五区块 HTML + 数字抽查对账 |
+| ✅ 20 | [gate](20_gate/README.md) | CI 门禁分级：变更路由 + selftest 8/8 |
+| ✅ 21 | [final_checkup](21_final_checkup/README.md) | 🏁 四维体检：评级 A + 修复建议 + FINAL_REPORT |
 
 ## 与 harness 线的分工
 

@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "越狱用例库数据流：变异器扩弹药，拒绝率作回归基线",
+    "subtitle": "种子手写、变体自动追加；插空变形在判定侧归一化后再比对",
+    "quality_profile": "showcase",
+    "locale": "zh-CN",
+    "viewBox": [
+      1080,
+      480
+    ]
+  },
+  "stages": [
+    {
+      "label": "种子"
+    },
+    {
+      "label": "变异"
+    },
+    {
+      "label": "打靶"
+    },
+    {
+      "label": "判定"
+    },
+    {
+      "label": "度量"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "seeds",
+      "type": "database",
+      "label": "jailbreak.yaml",
+      "sublabel": "12 条种子·三类",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "mutator",
+      "type": "backend",
+      "label": "规则式变异器",
+      "sublabel": "四类改写·变体入库",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "guard",
+      "type": "external",
+      "label": "守门员 system",
+      "sublabel": "禁止输出 ORANGE-7",
+      "stage": 2,
+      "row": 0
+    },
+    {
+      "id": "target",
+      "type": "cloud",
+      "label": "qwen3.8 打靶",
+      "sublabel": "逐条 payload",
+      "stage": 2,
+      "row": 1
+    },
+    {
+      "id": "class",
+      "type": "security",
+      "label": "三分类判定",
+      "sublabel": "泄漏 / 拒绝 / 含糊",
+      "stage": 3,
+      "row": 1
+    },
+    {
+      "id": "rate",
+      "type": "database",
+      "label": "拒绝率报告",
+      "sublabel": "results/…rate.json",
+      "stage": 4,
+      "row": 1
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "seeds",
+      "to": "mutator",
+      "label": "扩增",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f2",
+      "from": "mutator",
+      "to": "target",
+      "label": "种子+新变体",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f3",
+      "from": "guard",
+      "to": "target",
+      "label": "目标环境",
+      "labelDy": 30
+    },
+    {
+      "id": "f4",
+      "from": "target",
+      "to": "class",
+      "label": "回答"
+    },
+    {
+      "id": "f5",
+      "from": "class",
+      "to": "rate",
+      "label": "计数"
+    }
+  ]
+}
