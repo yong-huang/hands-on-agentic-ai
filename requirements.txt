@@ -1,12 +1,15 @@
-# 仓库全部实验脚本（agents/ 与 interview/）的第三方依赖，由 AST 扫描 import 得出。
+# 仓库全部实验脚本（agents/、qa/ 与 langchain/）的第三方依赖，由 AST 扫描 import 得出。
 # scripts/load_resources.sh 会自动幂等安装本文件；手动安装：pip install -r requirements.txt
 
 requests                      # 裸 HTTP 调 LLM：01-08, 16-19, 21-31 等
 prompt_toolkit                # 交互实验的中文输入：修复 macOS input() 删中文留残影
 
-langchain                     # 09 (LangChain Agent)
-langchain-ollama              # 09
-langgraph                     # 24 (StateGraph)
+langchain                     # 09 (LangChain Agent) 与 langchain/ 线
+langchain-ollama              # 09 与 langchain/ 线
+langchain-chroma              # langchain/ 10, 12 (向量检索)
+langchain-text-splitters      # langchain/ 10, 12 (文档切分)
+langgraph                     # 24 (StateGraph) 与 langchain/ 线
+langgraph-checkpoint-sqlite   # langchain/ 06 (SqliteSaver, langgraph 0.2 起独立发包)
 
 pypdf                         # 20 (文档切分)
 chromadb                      # 21-23 (向量库 / RAG)
