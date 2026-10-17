@@ -30,7 +30,7 @@ agents/*/memory_store.json
 agents/*/MEMORY.md
 agents/*/_demo_store.json
 chroma_db*/
-agents/30_observability_eval/traces/
+agents/*/traces/
 qa/**/checkpoint.json
 
 # qa 真机运行产物

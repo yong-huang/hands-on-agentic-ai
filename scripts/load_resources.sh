@@ -87,4 +87,4 @@ embed_ok="$(curl -s --max-time 60 "$API/api/embeddings" -d \
     | grep -c '"embedding"' || true)"
 echo "  chat 接口: $([ "$qwen_ok" -ge 1 ] && echo 可用 || echo 异常)"
 echo "  embeddings 接口: $([ "$embed_ok" -ge 1 ] && echo 可用 || echo 异常)"
-echo "=====> 完成。可以开始学习: 从 agents/01_call_llm/ 开始。"
+echo "=====> 完成。可以开始学习: 从 agents/01_call_llm_basics/ 开始。"

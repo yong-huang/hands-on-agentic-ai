@@ -498,7 +498,7 @@ curl -sf http://localhost:11434/v1/models >/dev/null || echo "⚠️ Ollama 未�
 | 已有清单 | 关系 |
 |:---|:---|
 | docs/qa.md（31/31） | qa/24_injection_range、25_guardrails 是**演示级**攻防，本清单项目 10/11/13 升级为「ASR 度量 + payload 库 + 统一安全门」；qa/27_eval_judge 只做 judge 实现，项目 7 补**校准与人工对齐**；qa/28_rag_quality 已覆盖 RAG 质量，本清单**不开 RAG 线**（项目 6 幻觉检测承接事实性角度）；qa/30_mini_agent 是纯模板引擎（无 LLM 调用），在本清单被包成**离线辅助 SUT**（MOCK 冒烟/CI 快速档） |
-| docs/agent.md（30/30） | agents/30_observability_eval、34_rag_quality 是「评测初步」，本清单把评测做成**带门禁的平台**；不重复 LangChain 技能线内容 |
+| docs/agent.md（28/28） | agents/28_observability_eval、32_rag_quality 是「评测初步」，本清单把评测做成**带门禁的平台**；不重复 LangChain 技能线内容 |
 | docs/harness.md（17/18） | harness/mh 被本清单选为**主 SUT**——它每轮真调 LLM 且自带 permissions/sandbox/budget，注入对照与预算门禁有真实开关；harness/eval/ 的任务集与 baseline/full 两配置方法论被项目 1/10/15 直接复用；本清单不重复造 harness 组件，专注测试台与度量 |
 
 ## ⚠️ 能力/探活速查表
