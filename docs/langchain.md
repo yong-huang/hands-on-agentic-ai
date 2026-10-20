@@ -1,7 +1,7 @@
 # 🔗 LangChain / LangGraph 框架深度 12 小项目学习清单 · Todo List
 
 > 通过 12 个框架深度实验（每项目 80-250 行代码）吃透 LangChain 1.x / LangGraph 1.x 内核：LCEL 原语、结构化输出、`create_agent`、Middleware、状态图与 Reducer、持久化、中断、流式、Send 子图、多智能体路由、回调追踪与本地服务化
-> 与 [docs/agent.md](agent.md)（28/28，入门级）互补：不重复基础用法，直击框架内部机制与 1.x 新范式（分工见文末关系表）
+> 与 [docs/agent.md](agent.md)（24/24，入门级）互补：不重复基础用法，直击框架内部机制与 1.x 新范式（分工见文末关系表）
 > 纯本机零云：Ollama 本地模型 + SQLite checkpointer + `langgraph dev` 本地服务，零 LangSmith / 云依赖 / API Key
 > 串联机制：知识体系型——阶段即能力等级；项目 12 🏁 把前 11 项关键能力组装进一个本地部署的迷你研究助手
 > 预计周期：3-4 周（每天 2-3 小时）
@@ -315,7 +315,7 @@ curl -sf http://localhost:11434/v1/models >/dev/null || echo "⚠️ Ollama 未�
 
 | 已有清单 | 关系 |
 |:---|:---|
-| [docs/agent.md](agent.md)（28/28 ✅） | **互补分工，不重复**：agent.md 是入门用法视角（agents/07 首次用 `create_agent`、agents/22 StateGraph 入门、agents/18-21 RAG 基础、agents/28 评测初步），本清单从项目 3/4 起是其**内核进阶**（middleware 定制、checkpointer、interrupt、stream_mode、Send/Command），RAG 只在项目 10/12 以"评分回炉 + 总装"形态出现，入门步骤**跳过** |
+| [docs/agent.md](agent.md)（24/24 ✅） | **互补分工，不重复**：agent.md 是入门用法视角（agents/07 首次用 `create_agent`、agents/20 StateGraph 入门、RAG 基础见同级 [hands-on-rag](../hands-on-rag/) 系列 01-07、agents/24 评测初步），本清单从项目 3/4 起是其**内核进阶**（middleware 定制、checkpointer、interrupt、stream_mode、Send/Command），RAG 只在项目 10/12 以"评分回炉 + 总装"形态出现，入门步骤**跳过** |
 | [docs/qa.md](qa.md)（31/31 ✅） | qa/31 是**手写**检查点管线，本项目 6 是框架 checkpointer 的对等能力；qa/15 HITL 与 qa/21-27 多 Agent 是"能讲清"级，项目 7/9 是"用框架原语实现"级；本题单不重复面试考点梳理 |
 | [docs/harness.md](harness.md)（17/18 ✅） | mh 是自研运行时（确定性规则管控），本清单是框架层（概率编排 + 官方运行时）；视角不同、无重叠项目 |
 | [docs/aitest.md](aitest.md)（9/21） | 测试台视角在 aitest 线（断言/回归/红队/门禁）；项目 11 只做框架回调视角的 trace 与轻评测，**不建测试台**，测试 AI 系统方法论以 aitest 为准 |

@@ -1,10 +1,11 @@
 # hands-on-agentic-ai · 亲手构建 AI Agent（三条学习线）
 
-> 一个仓库，三条线，**81 个可跑项目**：
+> 一个仓库，三条线，**76 个可跑项目**
+> （RAG 检索增强方向已独立为同级仓库 [hands-on-rag](../hands-on-rag/)，15 项渐进实验）：
 >
 > | 线 | 目录 | 定位 | 项目数 |
 > |:--|:--|:--|:--:|
-> | 🛠️ **技能主线** | [agents/](agents/README.md) | LangChain 视角，从裸调 API 到服务化的 32 项渐进实验 | 32 |
+> | 🛠️ **技能主线** | [agents/](agents/README.md) | LangChain 视角，从裸调 API 到服务化的 27 项渐进实验 | 27 |
 > | 🎯 **问题实证** | [qa/](qa/README.md) | 31 个高频问题一问一项目，含攻防对照与真机反常数据 | 31 |
 > | 🎛️ **Harness 攻坚** | [harness/](harness/README.md) | 自研 mh/ mini-harness，18 项运行时实验 | 18 |
 >
@@ -16,8 +17,8 @@
 
 ```
 hands-on-agentic-ai/
-├── agents/              # 🛠️ 技能主线: 8 阶段 32 实验 (索引见 agents/README.md)
-│   └── 01_call_llm_basics ... 32_rag_quality
+├── agents/              # 🛠️ 技能主线: 7 阶段 27 实验 (索引见 agents/README.md)
+│   └── 01_call_llm_basics ... 27_skills_disclosure
 │       每个实验四件套: README 教程 + 主脚本 + 架构图三件套
 ├── qa/                  # 🎯 问题实证: 8 阶段 31 项目 (索引见 qa/README.md)
 │   ├── 01_cot_compare ... 31_checkpoint_resume
@@ -25,7 +26,7 @@ hands-on-agentic-ai/
 │   └── llm.py           # 两线共用的 OpenAI 兼容客户端 (本地 Ollama)
 ├── harness/             # 🎛️ Harness 攻坚: 18 实验 (自研 mh/ 包, 清单见 docs/harness.md)
 ├── docs/                # 各线的题单/清单文档
-│   ├── agent.md             # agents 线学习清单 (28/28 完成, 29-32 为后续前沿补充)
+│   ├── agent.md             # agents 线学习清单 (24/24 完成, 25-27 为后续前沿补充)
 │   ├── qa.md                # qa 线题单 (31/31 完成, 含全部踩坑记录)
 │   └── harness.md           # harness 线学习清单 (18/18 完成, 含 Harness vs Agentic AI 速览)
 └── scripts/             # 公共脚本 (模型预载等)
@@ -37,7 +38,7 @@ hands-on-agentic-ai/
 
 ```bash
 ollama pull qwen3.8:latest           # 默认对话模型（约 17GB）
-ollama pull nomic-embed-text:latest  # 向量嵌入（agents 15-17 / qa 08-10-28）
+ollama pull nomic-embed-text:latest  # 向量嵌入（agents 15-17 / rag 系列 / qa 08-10-28）
 ollama serve                         # http://localhost:11434
 ```
 
@@ -69,6 +70,8 @@ bash harness/run_all.sh mock
 
 - **想系统学 Agent 开发** → 从 [agents/01](agents/01_call_llm_basics/README.md)
   按编号顺序推进，每步只引入一个新概念。
+- **想做 RAG 检索增强** → 从同级仓库 [hands-on-rag](../hands-on-rag/README.md)
+  的 labs/01_doc_splitting 开始，15 项覆盖索引到评估门禁全链路。
 - **想按问题深入** → 直接看
   [qa/README.md](qa/README.md) 的问题→项目速查表，
   按三条问题主线（ReAct 手写 / 记忆+RAG / 系统设计）切入。

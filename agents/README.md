@@ -1,9 +1,11 @@
-# agents · LangChain 视角 Agent 开发 32 项渐进实验
+# agents · LangChain 视角 Agent 开发 27 项渐进实验
 
-> 通过 32 个小项目（每个 100-500 行 Python）系统掌握 AI Agent 开发：
+> 通过 27 个小项目（每个 100-500 行 Python）系统掌握 AI Agent 开发：
 > 从裸 HTTP 调用 LLM，到手写 ReAct 循环、Function Calling、MCP、HITL 审批，
-> 再到记忆系统、RAG、多 Agent 协同与可观测性。
-> 每个实验：**README 教程 + 主脚本 + 真实可跑**（01-29 另配交互架构图）。
+> 再到记忆系统、多 Agent 协同与可观测性。
+> 每个实验：**README 教程 + 主脚本 + 真实可跑**（01-25 另配交互架构图）。
+> RAG 检索增强方向已独立为 [hands-on-rag](../hands-on-rag/README.md) 系列
+> （本仓库 qa 线另有 28_rag_quality 问题实证）。
 > 完整学习清单与 AI 提示词见 [../docs/agent.md](../docs/agent.md)。
 > 问题实证的 31 个项目见 [../qa/](../qa/README.md)。
 
@@ -77,40 +79,30 @@ pip install -r requirements.txt
 | ✅ 16 | [context_compression](16_context_compression/README.md) | 截断 vs 摘要 vs 不压缩对照实验 |
 | ✅ 17 | [memory_update](17_memory_update/README.md) | 重要性判定 + 查重 + LLM 融合 |
 
-### 第五阶段 · RAG 检索增强生成
+### 第五阶段 · 多 Agent 协同
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
-| ✅ 18 | [doc_splitting](18_doc_splitting/README.md) | 加载器 + 递归字符切分 |
-| ✅ 19 | [vector_store](19_vector_store/README.md) | Chroma 向量索引 + 语义检索 |
-| ✅ 20 | [agentic_rag](20_agentic_rag/README.md) | 检索工具 + 自主决策 + 拒答 |
-| ✅ 21 | [rag_rerank](21_rag_rerank/README.md) | baseline/MMR/LLM 重排对照评估 |
+| ✅ 18 | [langgraph_state](18_langgraph_state/README.md) | StateGraph 条件边 + 修订循环 |
+| ✅ 19 | [manager_worker](19_manager_worker/README.md) | Manager 分解 + Worker 真并行 + 合并 |
+| ✅ 20 | [workflow_orchestration](20_workflow_orchestration/README.md) | 扇出评审 + 反思修订循环 |
+| ✅ 21 | [agent_debate](21_agent_debate/README.md) | 三专家两轮辩论 + 投票共识 |
 
-### 第六阶段 · 多 Agent 协同
-
-| 编号 | 实验 | 一句话主题 |
-| :--- | :--- | :--- |
-| ✅ 22 | [langgraph_state](22_langgraph_state/README.md) | StateGraph 条件边 + 修订循环 |
-| ✅ 23 | [manager_worker](23_manager_worker/README.md) | Manager 分解 + Worker 真并行 + 合并 |
-| ✅ 24 | [workflow_orchestration](24_workflow_orchestration/README.md) | 扇出评审 + 反思修订循环 |
-| ✅ 25 | [agent_debate](25_agent_debate/README.md) | 三专家两轮辩论 + 投票共识 |
-
-### 第七阶段 · 工程化、安全与可观测性
+### 第六阶段 · 工程化、安全与可观测性
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
-| ✅ 26 | [agent_server](26_agent_server/README.md) | FastAPI + SSE + 会话管理 |
-| ✅ 27 | [security_guard](27_security_guard/README.md) | 注入检测 + 白名单 + 输出过滤 |
-| ✅ 28 | [observability_eval](28_observability_eval/README.md) | Trace + 评估集 + 优化对比 |
+| ✅ 22 | [agent_server](22_agent_server/README.md) | FastAPI + SSE + 会话管理 |
+| ✅ 23 | [security_guard](23_security_guard/README.md) | 注入检测 + 白名单 + 输出过滤 |
+| ✅ 24 | [observability_eval](24_observability_eval/README.md) | Trace + 评估集 + 优化对比 |
 
-### 第八阶段 · 2025-26 前沿补充
+### 第七阶段 · 2025-26 前沿补充
 
 | 编号 | 实验 | 一句话主题 |
 | :--- | :--- | :--- |
-| ✅ 29 | [code_execution](29_code_execution/README.md) | Code Mode：写代码调工具替代逐个 JSON schema |
-| ✅ 30 | [agent_card](30_agent_card/README.md) | A2A/Agent Card：能力卡片 + 零改动发现 |
-| ✅ 31 | [skills_disclosure](31_skills_disclosure/README.md) | Agent Skills 渐进式披露（按需加载技能） |
-| ✅ 32 | [rag_quality](32_rag_quality/README.md) | RAG 质量量化：Faithfulness/Relevance + chunking 对照 |
+| ✅ 25 | [code_execution](25_code_execution/README.md) | Code Mode：写代码调工具替代逐个 JSON schema |
+| ✅ 26 | [agent_card](26_agent_card/README.md) | A2A/Agent Card：能力卡片 + 零改动发现 |
+| ✅ 27 | [skills_disclosure](27_skills_disclosure/README.md) | Agent Skills 渐进式披露（按需加载技能） |
 
 ## 学习路线
 
@@ -121,15 +113,16 @@ pip install -r requirements.txt
           │
           └─► 工具系统：协议级调用 ──► 注册表 ──► 容错 ──► MCP ──► 安全审批  （09-13）
                  │
-                 └─► 记忆/上下文（14-17）──► RAG（18-21）──► 多 Agent（22-25）
+                 └─► 记忆/上下文（14-17）──► 多 Agent（18-21）
                         │
-                        └─► 工程化收尾：服务化 + 安全 + 可观测/评估（26-28）
+                        └─► 工程化收尾：服务化 + 安全 + 可观测/评估（22-24）
                                │
-                               └─► 前沿补充：Code Mode + A2A 卡片 + Skills 披露 + RAG 量化（29-32）
+                               └─► 前沿补充：Code Mode + A2A 卡片 + Skills 披露（25-27）
 ```
 
 排序原则：最小可运行单元最先；每个实验只引入一个新概念；后面的实验复用
-前面的组件（例如 05 的 `AgentResult` 会被 28 的评估框架直接消费）。
+前面的组件（例如 05 的 `AgentResult` 会被 24 的评估框架直接消费）。
+RAG 方向（检索增强生成）见同仓库群的 hands-on-rag 系列。
 
 ## 每个实验怎么用
 
@@ -139,7 +132,7 @@ pip install -r requirements.txt
 agents/NN_xxx/
 ├── README.md          # 教程：六段式 Background / What / When to Use / Quick Start / How It Works / Pitfalls & Q&A
 ├── xxx.py             # 主脚本 = 学习重点，逐行读脚本就是在学这个主题
-└── images/            # 交互架构图三件套（01-29 各配，01 含 3 组）
+└── images/            # 交互架构图三件套（01-25 各配，01 含 3 组）
     ├── xxx.<type>.json  # 图源（Typed JSON，可 diff、可复现）
     ├── xxx.html         # 交互版（自包含单文件：缩放/聚焦/路径追踪）
     └── xxx.svg          # 双主题矢量图（跟随系统深浅色）
@@ -151,12 +144,12 @@ agents/NN_xxx/
 
 ## 已在真实环境验证过的事
 
-- 32 个实验全部在本机（Ollama + qwen3.8:latest）跑通，
+- 27 个实验全部在本机（Ollama + qwen3.8:latest）跑通，
   交互脚本以管道输入方式回归验证；
 - 修复过的真实 bug：项目 03 的 EOF 死循环、项目 07 的推理模型空答案
   （`reasoning=False`）、项目 12 的 MCP 废弃包名与裸 sleep、项目 13 的
   交互模式缺入口；
-- 全部交互架构图（31 组，覆盖 01-29；30-32 待补）通过 showcase 级九项
+- 全部交互架构图（27 组，覆盖 01-25；26-27 待补）通过 showcase 级九项
   质量校验与多视口（1440/1600/1920/2048）浏览器零溢出检查；SVG 画布按
   内容实测边界紧裁（四周 24px 均匀留白，Chrome getBBox 实测 + 像素级
   背景覆盖验证），HTML 交互版 viewBox 同步收紧并保持最小宽高比 1.6

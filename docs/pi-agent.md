@@ -414,7 +414,7 @@ pi --version && echo "env ok"
 | 已有清单 | 关系 |
 |:---|:---|
 | docs/harness.md（自研 mh/，18/18 完成） | **最强相关·互补印证**：harness 线「亲手造」，本线「读懂生产级 + 学会扩」。项目 10 显式对比 pi 4 工具与 mh/ 工具层；项目 6/8/9 的 loop/管道/session 概念在 mh/ 里都有自己造过的对应物，读 pi 时可「对照复习」 |
-| docs/agent.md（LangChain 视角，28/28 完成） | 视角互补：agent.md 回答「从零会做」，本线回答「真实产品怎么实现」。agents/05_agent_loop、08_session_persist、11_error_handling 与 pi 的 agentLoop/session/tool pipeline 一一对应，可跳过本线中已熟概念的通识部分 |
+| docs/agent.md（LangChain 视角，24/24 完成） | 视角互补：agent.md 回答「从零会做」，本线回答「真实产品怎么实现」。agents/05_agent_loop、08_session_persist、11_error_handling 与 pi 的 agentLoop/session/tool pipeline 一一对应，可跳过本线中已熟概念的通识部分 |
 | docs/aitest.md / langchain.md / qa.md | 无直接重叠，无需衔接 |
 
 ## 📚 来源（2026-10-16 调研）

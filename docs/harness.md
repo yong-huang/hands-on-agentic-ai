@@ -470,7 +470,7 @@ python3 harness/NN_xxx/xxx.py --selftest 2>/dev/null || echo "本项目无 selft
 
 | 已有清单 | 关系 |
 |:---|:---|
-| `docs/agent.md`（agents 线，28/28 ✅） | **互补视角**：agents 线 = LangChain framework 视角（设计时怎么组合出 agent 能力），本线 = harness 视角（运行时怎么管控 agent 行为）。正是 winder.ai 说的 "Frameworks compose agents, harnesses run them"。项目 5（工具契约）是 agents 线项目 13-16 的运行时进阶 |
+| `docs/agent.md`（agents 线，24/24 ✅） | **互补视角**：agents 线 = LangChain framework 视角（设计时怎么组合出 agent 能力），本线 = harness 视角（运行时怎么管控 agent 行为）。正是 winder.ai 说的 "Frameworks compose agents, harnesses run them"。项目 5（工具契约）是 agents 线项目 13-16 的运行时进阶 |
 | `docs/qa.md`（qa 线，31/31 ✅） | **互补+进阶**：qa 线解决"能讲清"，本线解决"能造出"。明确进阶项：项目 11 ≙ qa/31 进阶（恢复工具副作用而非问答记录）、项目 15 ≙ qa/19-20 进阶（MCP 工具过权限门）、项目 16 ≙ qa/27-28 评测的 harness 专项化；项目 8（Hook）两线均未覆盖，属全新 |
 | 重叠规避 | agents/qa 线已完成的基础项（裸调 API、CoT/ReAct 推理、RAG、多 agent 协作框架对比）本清单**不再重复**，只在与 harness 交界处引用 |
 
