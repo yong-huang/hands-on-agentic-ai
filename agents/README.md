@@ -8,6 +8,9 @@
 > （本仓库 qa 线另有 28_rag_quality 问题实证）。
 > 完整学习清单与 AI 提示词见 [../docs/agent.md](../docs/agent.md)。
 > 问题实证的 31 个项目见 [../qa/](../qa/README.md)。
+> 其他线：[harness/](../harness/README.md)（运行时视角）·
+> [aitest/](../aitest/README.md)（测试视角，被测对象即 harness 的 mh）·
+> [langchain/](../langchain/README.md)（LangChain 框架内核视角）。
 
 ## 环境要求
 

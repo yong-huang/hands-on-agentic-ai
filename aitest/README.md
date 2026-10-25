@@ -9,8 +9,9 @@
 > 当前进度：**21/21 全部完成**（2026-10-09）；pytest 套件离线全绿，图三件套 21 张。
 > 完整学习清单（含与 qa/agent/harness 三线的关系表）见
 > [../docs/aitest.md](../docs/aitest.md)。
-> 另三条线：[agents/](../agents/README.md)（framework 视角）·
-> [qa/](../qa/README.md)（问题实证视角）· [harness/](../harness/README.md)（运行时视角）。
+> 另四条线：[agents/](../agents/README.md)（framework 视角）·
+> [qa/](../qa/README.md)（问题实证视角）· [harness/](../harness/README.md)（运行时视角）·
+> [langchain/](../langchain/README.md)（LangChain 框架内核视角）。
 
 ## 环境要求
 
@@ -81,6 +82,7 @@ curl -sf http://localhost:11434/v1/models >/dev/null && echo OK
 ## 与 harness 线的分工
 
 `harness/` 造被管控的运行时（被测方），`aitest/` 造测它的测试台（测的一方）；
-`harness/eval/` 是 mh 专属评测台，`aitest/testbench/` 是通用测试台——
+`harness/eval/` 是 mh 专属评测台，`aitest/testbench/` 是通用测试台。
+
 任务集与 baseline/full 方法论两边复用，测试台代码不依赖 mh 内部实现，
 只经 `testbench/suts.py` 适配层接入。

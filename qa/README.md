@@ -7,6 +7,9 @@
 > 支持 `MOCK=1` 离线模式。完整题单、AI 提示词与踩坑日志见
 > [../docs/qa.md](../docs/qa.md)。
 > 工程化渐进学习路线（LangChain 视角）见 [../agents/](../agents/README.md)。
+> 相关线：[harness/](../harness/README.md)（运行时视角）·
+> [aitest/](../aitest/README.md)（测试视角，辅助 SUT 用本线 30_mini_agent）·
+> [langchain/](../langchain/README.md)（LangChain 框架内核视角）。
 
 ## 运行方式
 
@@ -125,7 +128,7 @@ export LLM_API_KEY="ollama"
 
 ## 与 agents/ 系列的关系
 
-`agents/`（LangChain 视角，34 项渐进实验）是**技能主线**：怎么一步步把
+`agents/`（LangChain 视角，27 项渐进实验）是**技能主线**：怎么一步步把
 Agent 做出来。本目录是**问题深化**：每个高频问题一个最小可跑实证，含
 攻防对照与真机反常数据。两边问题重叠的项目（记忆/RAG/多 Agent/安全）
 互为印证，README 互相链接。

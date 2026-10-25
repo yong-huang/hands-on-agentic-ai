@@ -7,12 +7,14 @@
 > 每个实验四件套：**README 教程 + 主脚本 + 真实可跑 + 架构图三件套**。
 > 完整学习清单（含 Harness AI vs Agentic AI 区别速览与来源）见
 > [../docs/harness.md](../docs/harness.md)。
-> 另两条线：[agents/](../agents/README.md)（framework 视角）·
-> [qa/](../qa/README.md)（问题实证视角）。
+> 其他线：[agents/](../agents/README.md)（framework 视角）·
+> [qa/](../qa/README.md)（问题实证视角）·
+> [aitest/](../aitest/README.md)（测试视角，被测对象即本线 mh/）·
+> [langchain/](../langchain/README.md)（LangChain 框架内核视角）。
 
 ## 环境要求
 
-与前两条线完全共用，零新增依赖：
+与其他线完全共用，零新增依赖：
 
 ```bash
 # Ollama + 本地模型（免 Key）
